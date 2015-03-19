@@ -1,0 +1,52 @@
+### Apache2 & Python
+
+## installation
+
+# install apache2
+apt-get install apache2
+
+# install python web module and websockets
+apt-get install python-mod-pywebsocket
+
+## apache configuration
+edit file /etc/apache2/sites-available/default
+
+# set www root
+set document root to /home/pi/www/ #(or other)
+
+# set python handlers on sub-directories
+insert this block:
+        <Directory /home/pi/www/scripts>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+                AddHandler mod_python .py
+                PythonHandler mod_python.publisher
+                PythonDebug On
+        </Directory>
+	    <Directory /home/pi/www/psp>
+   		        AddHandler mod_python .psp .psp_
+   		        PythonHandler mod_python.psp
+   		        PythonDebug On
+	    </Directory>         
+
+# apache python configuration
+edit file /etc/apache2/apache2.conf and insert before 'include conf.d':
+
+PythonPath "sys.path+['/usr/share/pyshared/mod_pywebsocket']"
+PythonOption mod_pywebsocket.handler_root /home/pi/www/scripts #(or other directory)
+PythonHeaderParserHandler mod_pywebsocket.headerparserhandler
+
+# special settings for python web-sockets
+change these lines:
+KeepAlive Off (statt On)
+KeepAliveTimeout 10
+
+edit file /etc/apache2/mods-available/reqtimeout.conf and change these lines:
+RequestReadTimeout header=30-40,minrate=5
+RequestReadTimeout body=10,minrate=5
+
+# restart apache2
+/etc/init.d/apache2 restart
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      WebService Test
+    </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script src="js/jquery-1.10.2.js" type=""></script>  
+    <style>	
+        td {padding:0.2em 0.5em;border:1px solid black;}
+        table {border-collapse:collapse;}
+    </style>
+    <script>
+    	function WS_Call() 
+    	{      
+		input = document.all.inputfield.value.toString();
+    	$.ajax({
+    		type: "POST",
+    		url: 'scripts/webservice.py',
+    		dataType: 'json',
+    		data: {argument: input},
+    		success: function (response, textStatus) {
+    			if(response['ws_code'] == 'success'){
+    				str = "<table>";
+					str += "<tr><td> textStatus </td><td>" + textStatus + "</td></tr>";
+    				str += "<tr><td> ws_code </td><td>" + response['ws_code'] + "</td></tr>";
+    				str += "<tr><td> number </td><td>" + response['number'].toString() + "</td></tr>";
+    				str += "<tr><td> bool </td><td>" + response['bool'].toString() + "</td></tr>";
+					str += "<tr><td> string </td><td>" + response['string'] + "</td></tr>";
+    				str += "</table>";
+    				document.all.output.innerHTML = str;
+    			}else{
+					alert("ws_code: " + response['ws_code']);
+			}
+    		},
+    		error: function (response, textStatus){
+    			alert(textStatus);
+    		}
+    	});        
+    	}
+    </script> 
+  </head>
+  <body>
+    <h2>
+      WebService Test
+    </h2>
+    <p>
+    	<input type="text" id="inputfield"></input>
+    </p>
+    <p>
+      <input type="submit" value="ajax call" onclick="WS_Call()">
+    </p>
+    <div id="output"></div>
+  </body>
+</html>

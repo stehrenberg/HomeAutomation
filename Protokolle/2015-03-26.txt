@@ -1,0 +1,10 @@
+Daily Scrum:
+Simon: Socketrecherche abgeschlossen, Webserver liefert statische Ressourcen aus, APP läuft clientseitig und verbindet sich mit Sockets
+Max: Hotspot funktioniert
+Stephanie: SQLite eignet sich optimal zum Einsatz im Projekt
+Luis: Erste Recherche zu Sound/Lampen abgeschlossen
+Markus: Möglichkeiten zu IPK recherchiert, Sockets und Pipes kommen in Frage -> Named Pipes ideal
+
+Verteilung neuer Aufgaben
+Kein Einsatz von Maven-ähnlichem Programm zur Verwaltung von Dependencies
+DB Anforderungen geklärt

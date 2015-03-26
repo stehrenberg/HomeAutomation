@@ -1,0 +1,3 @@
+Konzeption Architektur
+Verteilung Aufgaben
+Recherche/Einrichtung Aufgabenverwaltung (Kanbanery)

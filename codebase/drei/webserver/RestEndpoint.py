@@ -62,4 +62,6 @@ def start_rest_endpoint():
     log.setLevel(logging.ERROR)
 
     # Initialize the rest endpoint
-    app.run()
+    app.run(
+        port=8080
+    )

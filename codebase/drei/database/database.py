@@ -39,18 +39,27 @@ class MockDatabase(Database):
         self.users = []
         self.setup_mock()
 
-    def add_user(self, user):
-        self.users.append(user)
-
     def retrieve_users(self):
         return self.users
 
+    def add_user(self, user):
+        self.users.append(user)
+        return True
+
     def update_user(self, user_mac, user):
-        original_user = [4 if x==1 else x for x in self.users]
-        original_user = user
+        index = self.get_index(user_mac)
+        self.users[index] = user
+        return True
 
     def delete_user(self, user_mac):
-        self.users = (user for user in self.users if user.user_mac != user_mac)
+        index = self.get_index(user_mac)
+        self.users.pop(index)
+        return True
+
+    def get_index(self, user_mac):
+        original_user = next(user for user in self.users if user.mac == user_mac)
+        return self.users.index(original_user)
+
 
     def setup_mock(self):
         markus = User('a1', 'Markus', 'beep', 'test.mp3')

@@ -56,4 +56,6 @@ def start_rest_endpoint():
     # Change log level for flask to print only errors.
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
+
+    # Initialize the rest endpoint
     socket.run(app)

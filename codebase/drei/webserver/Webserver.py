@@ -6,7 +6,7 @@ from webserver.RestEndpoint import start_rest_endpoint
 __author__ = 's.jahreiss'
 
 
-class Server(multiprocessing.Process):
+class Webserver(multiprocessing.Process):
     def __init__(self, manager_queue):
         multiprocessing.Process.__init__(self)
         self.manager_queue = manager_queue

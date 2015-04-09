@@ -6,6 +6,7 @@ __author__ = 's.jahreiss'
 class Database:
     """ Simple interface for the database.
     """
+
     def add_user(self, user):
         """
         Adds a user to the database.
@@ -15,7 +16,14 @@ class Database:
 
     def retrieve_users(self):
         """
+        Returns a list with all users.
+        :return: A list containing all users.
+        """
+        raise NotImplementedError()
 
+    def update_user(self, user_id, user):
+        """
+        Updates the user with specified user_id
         :return: A list containing all users.
         """
         raise NotImplementedError()
@@ -24,10 +32,12 @@ class Database:
 class MockDatabase(Database):
     """ Implements the database interface and serves mock data.
     """
+
     def __init__(self):
         """
         """
         self.users = []
+        self.setup_mock()
 
     def add_user(self, user):
         self.users.append(user)
@@ -35,10 +45,17 @@ class MockDatabase(Database):
     def retrieve_users(self):
         return self.users
 
+    def update_user(self, user_mac, user):
+        original_user = [4 if x==1 else x for x in self.users]
+        original_user = user
+
+    def delete_user(self, user_mac):
+        self.users = (user for user in self.users if user.user_mac != user_mac)
+
     def setup_mock(self):
-        markus = User(1, 'Markus', 'beep', 'a1')
+        markus = User('a1', 'Markus', 'beep', 'test.mp3')
         self.add_user(markus)
-        simon = User(2, 'Simon', 'juhu', 'b2')
+        simon = User('b2', 'Simon', 'juhu', 'test.mp3')
         self.add_user(simon)
-        peter = User(3, 'Peter', 'hay hay', 'a3')
+        peter = User('a3', 'Peter', 'hay', 'test.mp3')
         self.add_user(peter)

@@ -2,7 +2,6 @@ import json
 import logging
 
 from flask import Flask, request, abort
-from flask.ext.socketio import SocketIO
 
 from database.database import MockDatabase
 from dto.user import User
@@ -11,7 +10,6 @@ from dto.user import User
 __author__ = 's.jahreiss'
 
 app = Flask("Drei Webserver")
-socket = SocketIO(app)
 db = MockDatabase()
 
 
@@ -64,4 +62,4 @@ def start_rest_endpoint():
     log.setLevel(logging.ERROR)
 
     # Initialize the rest endpoint
-    socket.run(app)
+    app.run()

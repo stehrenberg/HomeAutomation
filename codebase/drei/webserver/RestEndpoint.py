@@ -1,29 +1,19 @@
-# coding=utf-8
 import json
+import logging
 
 from flask import Flask, request, abort, jsonify
-from flask.ext.socketio import SocketIO, emit
+
+from flask.ext.socketio import SocketIO
 
 from database.database import MockDatabase
 from dto.user import User
 
+__author__ = 's.jahreiss'
 
-""" Setup
-"""
-app = Flask(__name__)
+app = Flask("Drei Webserver")
 socket = SocketIO(app)
 db = MockDatabase()
 
-""" Websockets
-"""
-
-
-def broadcast_change():
-    emit('change', {})
-
-
-""" REST-Endpoints
-"""
 
 @app.route('/api/users', methods=['GET'])
 def get_users():
@@ -54,14 +44,16 @@ def delete_user(user_id):
     return {'Result': True}
 
 
-""" Helper functions
-"""
 def parse_user(user_json):
-    user_name = user_json["name"]
-    user_mac = user_json["mac"]
-    user_sound = user_json["sound"]
-    return User(user_mac, user_name, user_sound)
+    name = user_json["name"]
+    mac = user_json["mac"]
+    sound = user_json["sound"]
+    light = user_json["light"]
+    return User(mac, name, sound, light)
 
 
-if __name__ == '__main__':
+def start_rest_endpoint():
+    # Change log level for flask to print only errors.
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
     socket.run(app)

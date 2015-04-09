@@ -17,6 +17,7 @@ class TubeController(object):
                 self.knightrider()
 
         except KeyboardInterrupt:
+	    print "tube: KeyboardInterrupt"
             self.clear()
 
     def setrgb(self, pixel, r, g, b):

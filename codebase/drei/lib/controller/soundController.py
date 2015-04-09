@@ -12,12 +12,17 @@ class SoundController(object):
         self.song = pygame.mixer.music.load(songTitle)
 
     def play(self):
-        clock = pygame.time.Clock()
+	try:
+	        clock = pygame.time.Clock()
 
-        pygame.mixer.music.play()
+        	pygame.mixer.music.play()
 
-        while True:
-            clock.tick(60)
+	        while True:
+        	    clock.tick(60)
+
+	except KeyboardInterrupt:
+		print "sound: KeyboardInterrupt"
+		self.stop()
 
     def stop(self):
         pygame.quit()

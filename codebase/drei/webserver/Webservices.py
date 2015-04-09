@@ -2,6 +2,7 @@ import json
 import logging
 
 from flask import Flask, request, abort
+from flask.ext.socketio import SocketIO, emit
 
 from database.database import MockDatabase
 from dto.user import User
@@ -9,10 +10,18 @@ from dto.user import User
 
 __author__ = 's.jahreiss'
 
+# Create the webserver with rest services
 app = Flask("Drei Webserver")
+app.config['SECRET_KEY'] = 'secret!'
+
+# Create socket extension
+socket = SocketIO(app)
+
+# Create the database connection
 db = MockDatabase()
 
 
+# ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])
 def get_users():
     # Serialize users
@@ -44,6 +53,19 @@ def delete_user(user_id):
     return serialize_boolean_response('deleted', deleted), 200
 
 
+# ----------- Websocket definitions -----------
+def notify_clients(event):
+    socket.emit('notification', event)
+
+
+# This function is necessary otherwise the clients
+# cannot be addressed by an broadcast
+@socket.on('connect')
+def welcome_client():
+    emit('welcome')
+
+
+# ----------- Helpers -----------
 def parse_user(user_json):
     name = user_json["name"]
     mac = user_json["mac"]
@@ -56,12 +78,13 @@ def serialize_boolean_response(key, value):
     return json.dumps({key: value})
 
 
-def start_rest_endpoint():
+def start():
     # Change log level for flask to print only errors.
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
 
-    # Initialize the rest endpoint
-    app.run(
+    # Return the configured flask app
+    socket.run(
+        app,
         port=8080
     )

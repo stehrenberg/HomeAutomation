@@ -1,6 +1,9 @@
 import multiprocessing
+from thread import start_new_thread
+import time
 
-from webserver.RestEndpoint import start_rest_endpoint
+from webserver import Webservices
+from webserver.Webservices import notify_clients
 
 
 __author__ = 's.jahreiss'
@@ -12,7 +15,15 @@ class Webserver(multiprocessing.Process):
         self.manager_queue = manager_queue
 
     def run(self):
-        print("Webserver: Running at http://127.0.0.1:5000")
+        print("Webserver: Running on http://127.0.0.1:8080")
 
-        # Initialize the RESTful webservice
-        start_rest_endpoint()
+        start_new_thread(notify, ())
+
+        # Initialize the RESTful and Websocket services.
+        Webservices.start()
+
+
+def notify():
+    while True:
+        time.sleep(5)
+        notify_clients('Juhu!')

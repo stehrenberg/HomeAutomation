@@ -2,6 +2,7 @@ import json
 import logging
 
 from flask import Flask, request, abort
+from flask.ext.cors import CORS
 from flask.ext.socketio import SocketIO, emit
 
 from database.database import MockDatabase
@@ -13,6 +14,9 @@ __author__ = 's.jahreiss'
 # Create the webserver with rest services
 app = Flask("Drei Webserver")
 app.config['SECRET_KEY'] = 'secret!'
+
+# Create cors extension - it allows every request
+cors = CORS(app)
 
 # Create socket extension
 socket = SocketIO(app)

@@ -15,6 +15,10 @@ class Crawler(multiprocessing.Process):
         # TODO: add logic
 
         while True:
-            time.sleep(1)
-            self.manager_queue.put(['a1', 'b2', 'c3'])
+            time.sleep(2)
+            self.manager_queue.put(['a1', 'a2'])
+            time.sleep(2)
+            self.manager_queue.put(['a1', 'b2'])
+            time.sleep(2)
+            self.manager_queue.put(['b2', 'a3'])
             print("Crawler: Sent some addresses")

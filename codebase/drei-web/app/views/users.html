@@ -1,0 +1,31 @@
+<div class="col-md-12">
+    <button class="btn btn-success" ng-click="saveUser()">Neuen Benutzer anlegen</button>
+</div>
+<div class="col-md-12">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Mac</th>
+            <th>Name</th>
+            <th>Song</th>
+            <th>Licht</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{user.mac}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.sound}}</td>
+            <td>{{user.light}}</td>
+            <td>
+                <button class="btn btn-default" ng-click="saveUser(user)">Bearbeiten</button>
+            </td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteUser(user)">Löschen</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

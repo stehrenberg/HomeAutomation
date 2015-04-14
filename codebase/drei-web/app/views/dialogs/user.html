@@ -1,0 +1,24 @@
+<div style="margin: 50px">
+    <form>
+        <div class="form-group">
+            <label for="mac">Mac</label>
+            <input type="text" class="form-control" id="mac" placeholder="Mac" ng-model="user.mac">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name">
+        </div>
+        <div class="form-group">
+            <label for="sound">Sound</label>
+            <input type="text" class="form-control" id="sound" placeholder="Mac" ng-model="user.sound">
+        </div>
+        <div class="form-group">
+            <label for="light">Light</label>
+            <input type="text" class="form-control" id="light" placeholder="Light" ng-model="user.light">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success" ng-click="save()">Speichern</button>
+            <button class="btn btn-danger" ng-click="cancel()">Abbrechen</button>
+        </div>
+    </form>
+</div>

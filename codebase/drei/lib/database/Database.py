@@ -62,9 +62,9 @@ class MockDatabase(Database):
 
 
     def setup_mock(self):
-        markus = User('a1', 'Markus', 'beep', 'test.mp3')
+        markus = User('a1', 'Markus', '/sounds/beep', 'lamp 1')
         self.add_user(markus)
-        simon = User('b2', 'Simon', 'juhu', 'test.mp3')
+        simon = User('b2', 'Simon', '/sounds/juhu', 'lamp 2')
         self.add_user(simon)
-        peter = User('a3', 'Peter', 'hay', 'test.mp3')
+        peter = User('a3', 'Peter', '/sounds/hay', 'lamp 3')
         self.add_user(peter)

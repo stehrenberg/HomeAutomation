@@ -1,7 +1,8 @@
 import multiprocessing
 import numpy as np
 
-from lib.database.database import MockDatabase
+from lib.database.Database import MockDatabase
+from lib.periphery.Periphery import Periphery
 
 __author__ = 'm.hornung'
 
@@ -11,6 +12,9 @@ class Manager(multiprocessing.Process):
         multiprocessing.Process.__init__(self)
         self.crawler_queue = crawler_queue
         self.webserver_queue = webserver_queue
+
+        # Control for sound and light
+        self.per = Periphery()
 
         # Create the database connection
         self.db = MockDatabase()
@@ -28,9 +32,8 @@ class Manager(multiprocessing.Process):
                     user_sound = user.sound
                     user_light = user.light
                     print("user " + add_address + " added")
-                    print("sound " + user_sound + " played")
-                    print("light " + user_light + " on")
-                    #TODO: lichter an, sound abspielen
+                    self.per.play_sound(user_sound)
+                    self.per.light_on(user_light)
                     break
 
         self.webserver_queue.put(current_addresses)
@@ -56,8 +59,7 @@ class Manager(multiprocessing.Process):
                         if user.mac == del_address:
                             user_light = user.light
                             print("user " + del_address + " deleted")
-                            print("light " + user_light + " off")
-                            #TODO: lichter aus
+                            self.per.light_off(user_light)
                             break
 
                 # Add new addresses, turn on corresponding lights and play sound if in db
@@ -68,9 +70,8 @@ class Manager(multiprocessing.Process):
                             user_sound = user.sound
                             user_light = user.light
                             print("user " + add_address + " added")
-                            print("sound " + user_sound + " played")
-                            print("light " + user_light + " on")
-                            #TODO: lichter an, sound abspielen
+                            self.per.play_sound(user_sound)
+                            self.per.light_on(user_light)
                             break
 
             self.webserver_queue.put(current_addresses)

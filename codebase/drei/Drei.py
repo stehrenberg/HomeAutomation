@@ -3,7 +3,7 @@ import multiprocessing
 from manager.Manager import Manager
 
 from crawler.Crawler import Crawler
-#from webserver.Webserver import Webserver
+from webserver.Webserver import Webserver
 
 
 __author__ = 's.jahreiss'
@@ -26,12 +26,12 @@ if __name__ == '__main__':
     manager.start()
 
     # Start the webserver
-   # webserver = Webserver(manager_webserver_queue)
-   # webserver.start()
+    webserver = Webserver(manager_webserver_queue)
+    webserver.start()
 
     # Wait until both processes end
     crawler_manager_queue.close()
     crawler_manager_queue.join_thread()
     crawler.join()
     manager.join()
-   # webserver.join()
+    webserver.join()

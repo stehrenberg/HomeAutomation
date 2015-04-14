@@ -8,16 +8,16 @@ song = 'soundFiles/Knight-Rider-Theme-Song.mp3'
 # song = 'soundFiles/Windows Error.wav'
 
 try:
-	sound = soundController.SoundController()
-	sound.load(song)
+    sound = soundController.SoundController()
+    sound.load(song)
 
-	tube = tubeController.TubeController()
-	tube.start()
+    tube = tubeController.TubeController()
+    tube.start()
 
-	sound.play()
-	sleep(60)
+    sound.play()
+    sleep(60)
 
 except KeyboardInterrupt:
-	print "main: KeyboardInterrupt"
-	sound.stop()
-	tube.clear()
+    print "main: KeyboardInterrupt"
+    sound.stop()
+    tube.clear()

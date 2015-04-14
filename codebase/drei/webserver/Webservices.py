@@ -6,7 +6,7 @@ from flask.ext.cors import CORS
 from flask.ext.socketio import SocketIO, emit
 
 from dto.user import User
-from lib.database.database import MockDatabase
+from lib.database.Database import MockDatabase
 
 
 __author__ = 's.jahreiss'

@@ -1,17 +1,17 @@
 __author__ = 'Uni'
 
-import soundController
-import tubeController
+import SoundController
+import TubeController
 from time import sleep
 
 song = 'soundFiles/Knight-Rider-Theme-Song.mp3'
 # song = 'soundFiles/Windows Error.wav'
 
 try:
-    sound = soundController.SoundController()
+    sound = SoundController.SoundController()
     sound.load(song)
 
-    tube = tubeController.TubeController()
+    tube = TubeController.TubeController()
     tube.start()
 
     sound.play()

@@ -1,6 +1,6 @@
 __author__ = 'Luis'
 
-import dmxConnection as dmxConn
+import DmxConnection as dmxConn
 from time import sleep
 
 

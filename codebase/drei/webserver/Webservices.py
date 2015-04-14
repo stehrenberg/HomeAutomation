@@ -5,8 +5,8 @@ from flask import Flask, request, abort
 from flask.ext.cors import CORS
 from flask.ext.socketio import SocketIO, emit
 
-from database.database import MockDatabase
 from dto.user import User
+from lib.database.database import MockDatabase
 
 
 __author__ = 's.jahreiss'

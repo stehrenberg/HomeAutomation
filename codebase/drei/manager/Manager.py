@@ -75,4 +75,4 @@ class Manager(multiprocessing.Process):
 
             self.webserver_queue.put(current_addresses)
 
-            print("Manager: Retrieved addresses")
+            # print("Manager: Retrieved addresses")

@@ -1,0 +1,65 @@
+- download https://github.com/jenssegers/RTL8188-hostapd/archive/v2.0.tar.gz
+
+- compile hostapd:
+	$: cd hostapd
+	$: make
+
+- install hostapd:
+	$: make install
+
+- configure hostapd
+	/etc/hostapd/hostapd.conf
+
+	# Basic configuration
+	interface=wlan0
+	ssid=wifi
+	channel=1
+	#bridge=br0
+
+	# WPA and WPA2 configuration
+
+	macaddr_acl=0
+	auth_algs=1
+	ignore_broadcast_ssid=0
+	wpa=3
+	wpa_passphrase=YourPassPhrase
+	wpa_key_mgmt=WPA-PSK
+	wpa_pairwise=TKIP
+	rsn_pairwise=CCMP
+
+	# Hardware configuration
+
+	driver=rtl871xdrv
+	ieee80211n=1
+	hw_mode=g
+	device_name=RTL8192CU
+	manufacturer=Realtek
+
+- install udhcp and iw
+	$: apt-get install udhcpd iw
+
+- configure udhcpt
+	/etc/udhcpd.conf
+
+	start 192.168.42.2 # This is the range of IPs that the hostspot will give to client devices.
+	end 192.168.42.20
+	interface wlan0 # The device uDHCP listens on.
+	remaining yes
+	opt dns 8.8.8.8 4.2.2.2 # The DNS servers client devices will use.
+	opt subnet 255.255.255.0
+	opt router 192.168.42.1 # The Pi's IP address on wlan0 which we will set up shortly.
+	opt lease 864000 # 10 day DHCP lease time in seconds
+
+- configure wifi interface
+	/etc/network/interfaces
+
+	#allow-hotplug wlan0
+	#iface wlan0 inet manual
+	#wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+	#iface default inet dhcp
+
+	iface wlan0 inet static
+  	address 192.168.42.1
+ 	netmask 255.255.255.0
+
+- enable autostart of udhcpd and hostapd

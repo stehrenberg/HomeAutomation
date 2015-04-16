@@ -23,8 +23,14 @@ class Crawler(multiprocessing.Process):
                 self.manager_queue.put(['1', '00:80:41:ae:fd:7e'])
                 print("New peer connected: ", '00:80:41:ae:fd:7e')
                 time.sleep(2)
+                self.manager_queue.put(['1', '00:80:41:ae:fd:7d'])
+                print("New peer connected: ", '00:80:41:ae:fd:7d')
+                time.sleep(2)
                 self.manager_queue.put(['0', '00:80:41:ae:fd:7e'])
                 print("Peer disconnected: ", '00:80:41:ae:fd:7e')
+                time.sleep(2)
+                self.manager_queue.put(['0', '00:80:41:ae:fd:7d'])
+                print("Peer disconnected: ", '00:80:41:ae:fd:7d')
 
         # listen of events from WIFI interface
         else:

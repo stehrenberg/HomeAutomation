@@ -22,58 +22,33 @@ class Manager(multiprocessing.Process):
     def run(self):
         print("Manager: Running")
 
-        users = self.db.retrieve_users()
-        current_addresses = np.array(self.crawler_queue.get())
-
-        # Initialise users
-        for add_address in current_addresses:
-            for user in users:
-                if user.mac == add_address:
-                    user_sound = user.sound
-                    user_light = user.light
-                    print("user " + add_address + " added")
-                    self.per.play_sound(user_sound)
-                    self.per.light_on(user_light)
-                    break
-
-        self.webserver_queue.put(current_addresses)
+        current_addresses = np.array([])
 
         while True:
-            new_addresses = np.array(self.crawler_queue.get())
+            # Update users
+            users = self.db.retrieve_users()
 
-            # Any changes?
-            if not np.array_equal(current_addresses, new_addresses):
-                # Update users
-                users = self.db.retrieve_users()
+            changes = np.array(self.crawler_queue.get())
 
-                # Which addresses are new?
-                add_addresses = np.setdiff1d(new_addresses, current_addresses)
-                # Which addresses are gone?
-                del_addresses = np.setdiff1d(current_addresses, new_addresses)
-
-                # Delete gone addresses and turn off corresponding lights
-                del_indexes = np.searchsorted(current_addresses, del_addresses)
-                current_addresses = np.delete(current_addresses, del_indexes)
-                for del_address in del_addresses:
+            for i in range(0, changes.size-1):
+                if changes[0] == "1":
+                    current_addresses = np.append(current_addresses, changes[1])
                     for user in users:
-                        if user.mac == del_address:
-                            user_light = user.light
-                            print("user " + del_address + " deleted")
-                            self.per.light_off(user_light)
+                        if user.mac == changes[1]:
+                            light_id = user.light_id
+                            light_color = user.light_color
+                            sound = user.sound
+                            print("user " + changes[1] + " added")
+                            self.per.light_on(light_id)
+                            self.per.play_sound(sound)
                             break
-
-                # Add new addresses, turn on corresponding lights and play sound if in db
-                current_addresses = np.append(current_addresses, add_addresses)
-                for add_address in add_addresses:
+                else:
+                    del_index = np.where(current_addresses == changes[1])[0][0]
+                    current_addresses = np.delete(current_addresses, del_index)
                     for user in users:
-                        if user.mac == add_address:
-                            user_sound = user.sound
-                            user_light = user.light
-                            print("user " + add_address + " added")
-                            self.per.play_sound(user_sound)
-                            self.per.light_on(user_light)
-                            break
+                        if user.mac == changes[1]:
+                            light_id = user.light_id
+                            print("user " + changes[1] + " deleted")
+                            self.per.light_off(light_id)
 
             self.webserver_queue.put(current_addresses)
-
-            # print("Manager: Retrieved addresses")

@@ -28,7 +28,7 @@
                                     mac: user.mac,
                                     name: user.name,
                                     sound: user.sound,
-                                    light: user.light
+                                    light_color: user.light_color
                                 });
                             });
                             return mappedUsers;

@@ -1,0 +1,15 @@
+Daily Scrum
+Max: Access Point ausgecheckt, Crawler gebaut
+Stephanie: DB: user adden gemacht, SVN kommt bald
+Luis: Farben etc in Klasse, Ansteuerung incl hexadezimal etc., Anbindung Mockup Manager kommt
+Simon: Webinterface weiter gemacht, Dependencies
+Markus: Manager fertig, Dependencies
+
+TODO:
+Luis+Markus: Controller Steuerung Peripherie (Manager)
+Steph: DB fertig, ins SVN
+Max: Hybrid-Crawler (Mockup+Normal) + Kommunikation Manager
+Simon: Webinterface weiter machen
+Simon+Markus: Dependencies aufm Raspi auschecken
+
+Antrag gestellt auf: "Markus ist hässlich"

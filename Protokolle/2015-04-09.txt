@@ -1,0 +1,25 @@
+Daily Scrum:
+Max: NIX
+Luis: Lampen läuft, Sound läuft
+Simon: bisschen rest angeschaut wegen Schwachsinn, IPC helfen
+Stephanie: SQLite ausgecheckt
+Markus: IPC
+
+TODO:
+Max: Bau den Crawler zefix
+Luis: Lampe testen, pybuilder anschaun
+Simon: Rest weiter machen
+Stephanie: DB weitermachen
+Markus: IPC (JSON parser)
+
+Themen Referate:
+Markus: IPK
+Simon: Sockets
+Max: Unit Tests
+Stephanie: DB
+Luis: DMX
+
+Planung sprints:
+1. Bis 23.04.15 08:15: MockUp Crawler, Manager (evtl mit anbindung controler), DB, rudimentäres Webinterface (Liste von User anzeigen, neuer User hinzufügen)
+2. Crawler, Webinterface (Onlinestatus)
+3. Webinterface (User löschen, ändern)

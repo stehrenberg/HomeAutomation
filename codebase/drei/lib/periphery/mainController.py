@@ -1,23 +1,25 @@
-__author__ = 'Uni'
+__author__ = 'Luis'
 
-import SoundController
-import TubeController
+
+import soundController
+import tubeController
 from time import sleep
 
-song = 'soundFiles/Knight-Rider-Theme-Song.mp3'
-# song = 'soundFiles/Windows Error.wav'
+
+SONG = 'soundFiles/Knight-Rider-Theme-Song.mp3'
 
 try:
-    sound = SoundController.SoundController()
-    sound.load(song)
+    sound = soundController.SoundController()
+    sound.load(SONG)
+    sound.play()
 
-    tube = TubeController.TubeController()
+    tube = tubeController.TubeController()
     tube.start()
 
-    sound.play()
-    sleep(60)
+    sleep(20)
+    sound.stop()
+    tube.stop()
 
 except KeyboardInterrupt:
-    print "main: KeyboardInterrupt"
     sound.stop()
-    tube.clear()
+    tube.stop()

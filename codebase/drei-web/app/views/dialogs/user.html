@@ -1,4 +1,4 @@
-<div style="margin: 50px">
+<div class="user">
     <form>
         <div class="form-group">
             <label for="mac">Mac</label>
@@ -9,12 +9,12 @@
             <input type="text" class="form-control" id="name" placeholder="Name" ng-model="user.name">
         </div>
         <div class="form-group">
-            <label for="sound">Sound</label>
-            <input type="text" class="form-control" id="sound" placeholder="Mac" ng-model="user.sound">
+            <label for="sound">Song</label>
+            <input type="text" name="sound" class="form-control" id="sound" placeholder="Song" ng-model="user.sound">
         </div>
         <div class="form-group">
-            <label for="light">Light</label>
-            <input type="text" class="form-control" id="light" placeholder="Light" ng-model="user.light">
+            <label for="light">Licht</label>
+            <input type="text" class="form-control" id="light" placeholder="Licht" ng-model="user.light">
         </div>
         <div class="form-group">
             <button class="btn btn-success" ng-click="save()">Speichern</button>

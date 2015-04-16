@@ -31,13 +31,23 @@ angular.module('DreiWebApp')
                 });
             };
 
-            $scope.saveUser = function (user) {
+            $scope.createUser = function () {
                 var dialogScope = $scope.$new(true);
-                if (user) {
-                    dialogScope.user = user;
-                } else {
-                    dialogScope.user = {};
-                }
+                dialogService.open({
+                    template: 'views/dialogs/user.html',
+                    controller: 'CreateUserCtrl',
+                    scope: dialogScope,
+                    preCloseCallback: function (created) {
+                        if (created) {
+                            bindUsers();
+                        }
+                    }
+                });
+            };
+
+            $scope.updateUser = function (user) {
+                var dialogScope = $scope.$new(true);
+                dialogScope.user = angular.copy(user);
                 dialogService.open({
                     template: 'views/dialogs/user.html',
                     controller: 'UpdateUserCtrl',

@@ -35,7 +35,9 @@
                         });
                     },
                     createUser: function (user) {
-                        return $resource(serverAddress + '/api/users', {}, {}).post(user).$promise;
+                        return $resource(serverAddress + '/api/users', {}, {
+                            post: {method: 'POST'}
+                        }).post(user).$promise;
                     },
                     deleteUser: function (user) {
                         return $resource(serverAddress + '/api/users/' + user.mac, {}, {}).delete().$promise;

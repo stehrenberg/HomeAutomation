@@ -11,5 +11,4 @@ Steph: DB fertig, ins SVN
 Max: Hybrid-Crawler (Mockup+Normal) + Kommunikation Manager
 Simon: Webinterface weiter machen
 Simon+Markus: Dependencies aufm Raspi auschecken
-
-Antrag gestellt auf: "Markus ist hässlich"
+Markus: Manager umbaun

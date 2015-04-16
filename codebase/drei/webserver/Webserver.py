@@ -37,5 +37,5 @@ class Webserver(multiprocessing.Process):
 
 def notify():
     while True:
-        time.sleep(5)
+        time.sleep(15)
         notify_active_users('Juhu!')

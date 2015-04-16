@@ -10,12 +10,20 @@
 angular.module('DreiWebApp')
     .controller('DashboardCtrl', [
         '$scope',
-        'DataService',
-        function ($scope, dataService) {
+        'WebsocketService',
+        function ($scope, websocketService) {
 
-            $scope.$on('ActiveUsersNotification', function (event, data) {
-                $scope.activeUsers = data;
+            /**
+             * Listens for refresh messages.
+             */
+            $scope.$on('ActiveUsersNotification', function (event, activeUsers) {
+                $scope.activeUsers = activeUsers;
+                $scope.lastUpdated = Date.now();
+                $scope.$digest();
             });
+
+            // Force a refresh.
+            websocketService.refreshActiveUsers();
         }
     ]
 );

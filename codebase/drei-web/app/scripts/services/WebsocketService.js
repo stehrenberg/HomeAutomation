@@ -14,26 +14,28 @@
             'AppConfig',
             function ($rootScope, appConfig) {
 
+                var socket;
+
                 function broadcastNotification(data) {
-                    $rootScope.$broadcast('ActiveUsersNotification', data);
+                    $rootScope.$broadcast('ActiveUsersNotification', JSON.parse(data));
                 }
 
                 function initWebsocket() {
-                    var socket = io.connect(appConfig.serverAddress);
-                    socket.on('connect', function () {
-                        socket.emit('ConnectEvent');
-                    });
+                    socket = io.connect(appConfig.serverAddress);
                     socket.on('ActiveUsersNotification', broadcastNotification);
+                    socket.on('connect', function () {
+                        socket.emit('Connected');
+                    });
                 }
 
                 // Initialize the websocket
                 initWebsocket();
+
+                return {
+                  refreshActiveUsers: function () {
+                      socket.emit('GetActiveUsersEvent');
+                  }
+                };
             }
         ]);
-
-    /**
-     * Initializes the WebsocketService on startup.
-     */
-    angular.module('DreiWebApp').run(['WebsocketService', function () {
-    }]);
 }());

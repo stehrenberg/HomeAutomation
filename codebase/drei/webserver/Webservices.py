@@ -59,14 +59,19 @@ def delete_user(user_id):
 
 # ----------- Websocket definitions -----------
 def notify_active_users(event):
-    socket.emit('ActiveUsersNotification', event)
+    socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in db.retrieve_users()]))
 
 
 # This function is necessary otherwise the clients
 # cannot be addressed by an broadcast
 @socket.on('connect')
 def welcome_client():
-    emit('welcome')
+    emit('Connected')
+
+
+@socket.on('GetActiveUsersEvent')
+def get_active_users():
+    emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in db.retrieve_users()]))
 
 
 # ----------- Helpers -----------

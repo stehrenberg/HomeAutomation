@@ -1,14 +1,13 @@
 __author__ = 's.jahreiss'
 
 
-""" User DTO.
-"""
 class User:
-
-    """ Creates  a user.
+    """ User DTO.
     """
-    def __init__(self, user_mac, user_name, user_sound, user_light):
+
+    def __init__(self, user_mac, user_name, user_sound, user_light_id, user_light_color):
         self.name = user_name
         self.sound = user_sound
         self.mac = user_mac
-        self.light = user_light
+        self.light_id = user_light_id
+        self.light_color = user_light_color

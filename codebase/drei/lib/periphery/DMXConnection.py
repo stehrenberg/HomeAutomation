@@ -3,9 +3,9 @@ __author__ = 'Luis'
 import serial
 
 
-#############################
-#  Protocol configurations  #
-#############################
+###########################
+# Protocol configurations #
+###########################
 
 START_VAL = 0x7E
 END_VAL = 0xE7
@@ -20,16 +20,17 @@ COM_BAUD = 57600
 COM_TIMEOUT = 1
 COM_PORT = 7
 
-LABELS = {'GET_WIDGET_PARAMETERS': 3,   # unused
-          'SET_WIDGET_PARAMETERS': 4,   # unused
-          'RX_DMX_PACKET': 5,           # unused
+LABELS = {'GET_WIDGET_PARAMETERS': 3,
+          'SET_WIDGET_PARAMETERS': 4,
+          'RX_DMX_PACKET': 5,
           'TX_DMX_PACKET': 6,
-          'TX_RDM_PACKET_REQUEST': 7,   # unused
-          'RX_DMX_ON_CHANGE': 8,        # unused
+          'TX_RDM_PACKET_REQUEST': 7,
+          'RX_DMX_ON_CHANGE': 8
           }
 
 
-class DMXConnection(object):            # Could be replaced with a singleton
+# TODO Could be replaced with a singleton
+class DMXConnection(object):
     """DMXConnection represents the connection to a single DMX device.
         The DMX address can be set."""
 
@@ -81,6 +82,8 @@ class DMXConnection(object):            # Could be replaced with a singleton
                 self.dmx_frame[i] = MIN_VAL
         else:
             self.dmx_frame[channel] = MIN_VAL
+
+        self.render()
 
     def render(self):
         """Set all the pixel that were set before."""

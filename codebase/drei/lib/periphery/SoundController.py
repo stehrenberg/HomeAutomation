@@ -4,6 +4,7 @@ import pygame
 from threading import Thread
 
 
+# TODO Test!!!
 class SoundController(Thread):
     """The sound controller handle the"""
 

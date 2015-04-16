@@ -1,6 +1,7 @@
 __author__ = 'Luis'
 
 from RGBColor import RGBColor
+import random
 
 
 def create_rgb(r=RGBColor.MIN_DIM, g=RGBColor.MIN_DIM, b=RGBColor.MIN_DIM):
@@ -49,6 +50,14 @@ def create_inverse(color):
     # return RGBColor.sub_color(RGBColor.White, color)
 
 
+def random_color():
+    """Create a random color."""
+
+    return RGBColor(red=random.randint(RGBColor.MIN_DIM, RGBColor.MAX_DIM),
+                    green=random.randint(RGBColor.MIN_DIM, RGBColor.MAX_DIM),
+                    blue=random.randint(RGBColor.MIN_DIM, RGBColor.MAX_DIM))
+
+
 def add_color(color, other):
     """Add the colors by value."""
 
@@ -85,18 +94,18 @@ def sub_color(color, other):
         return RGBColor(red=red, green=green, blue=blue)
 
 
-def brighter_color(color):
+def brighter_color(color, dim=1):
     """Increase the brightness of the color."""
 
     if isinstance(color, RGBColor):
-        return add_color(color, create_brightness(1))
+        return add_color(color, create_brightness(dim))
 
 
-def darker_color(color):
+def darker_color(color, dim=1):
     """Decrease the brightness of the color."""
 
     if isinstance(color, RGBColor):
-        return sub_color(color, create_brightness(1))
+        return sub_color(color, create_brightness(dim))
 
 
 # Create one channels pure

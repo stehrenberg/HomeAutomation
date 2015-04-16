@@ -1,20 +1,22 @@
 __author__ = 'Luis'
 
 
-import soundController
-import tubeController
+import SoundController
+import TubeController
 from time import sleep
 
 
 SONG = 'soundFiles/Knight-Rider-Theme-Song.mp3'
 
+sound = SoundController.SoundController()
+tube = TubeController.TubeController()
+
 try:
-    sound = soundController.SoundController()
     sound.load(SONG)
     sound.play()
 
-    tube = tubeController.TubeController()
-    tube.start()
+    # TODO Don't call the run() method directly!!
+    tube.run()
 
     sleep(20)
     sound.stop()

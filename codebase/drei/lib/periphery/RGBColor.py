@@ -1,7 +1,8 @@
 __author__ = 'Luis'
 
-from dmxConnection import MIN_VAL
-from dmxConnection import MAX_VAL
+
+from DMXConnection import MIN_VAL
+from DMXConnection import MAX_VAL
 
 
 class RGBColor(object):
@@ -14,16 +15,27 @@ class RGBColor(object):
         """Initialize the color. You can set a value for every channel (i.e. red, green and blue).
             The default color is black."""
 
+        # Check the red channel
         if red > RGBColor.MAX_DIM:
             self._red = RGBColor.MAX_DIM
+        elif red < RGBColor.MIN_DIM:
+            self._red = RGBColor.MIN_DIM
         else:
             self._red = red
+
+        # Check the green channel
         if green > RGBColor.MAX_DIM:
             self._green = RGBColor.MAX_DIM
+        elif green < RGBColor.MIN_DIM:
+            self._green = RGBColor.MIN_DIM
         else:
             self._green = green
+
+        # Check the blue channel
         if blue > RGBColor.MAX_DIM:
             self._blue = RGBColor.MAX_DIM
+        elif blue < RGBColor.MIN_DIM:
+            self._blue = RGBColor.MIN_DIM
         else:
             self._blue = blue
 

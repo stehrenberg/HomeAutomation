@@ -1,7 +1,8 @@
 __author__ = 'Luis'
 
-import dmxConnection
 from time import sleep
+
+import DMXConnection
 import ColorFactory
 
 
@@ -39,19 +40,19 @@ class TubeController(object):
         for i in range(NR_USB_PORTS):
             try:
                 device = DEV_TTY_USB_D % i
-                self.tube = dmxConnection.DMXConnection(device=device, dmx_address=dmx_address)
+                self.tube = DMXConnection.DMXConnection(device=device, dmx_address=dmx_address)
 
                 self.connected = 1
                 break
 
-            except dmxConnection.PortNotOpenException:
+            except DMXConnection.PortNotOpenException:
                 pass
 
         if not self.is_connected():
-            raise dmxConnection.NoConnectionException('The device is not plugged in.')
+            raise DMXConnection.NoConnectionException('The device is not plugged in.')
 
     def __del__(self):
-        self.clear()
+        self.stop()
 
     def run(self):
         """The thread shows the KnightRider ..."""
@@ -76,25 +77,21 @@ class TubeController(object):
         """Darken the PixelTube."""
 
         self.tube.clear()
-        self.render()
-
-    def render(self):
-        """Render the actual view."""
-
-        self.tube.render()
 
     def is_connected(self):
         """Check the status if the device is connected."""
 
         return self.connected
 
-    def set_pixel_color(self, pixel, color=ColorFactory.WHITE, auto_render=False):
+    def set_pixel_color(self, pixel, color=ColorFactory.WHITE):
         """Set the color with red, green and blue values for a specific pixel.
-            You can select if the status change should be rendered immediately."""
+            It is rendered immediately."""
 
-        self.tube.set_channel((NR_CHANNELS * pixel) + RED_CHANNEL,   color.get_red(),   auto_render)
-        self.tube.set_channel((NR_CHANNELS * pixel) + GREEN_CHANNEL, color.get_green(), auto_render)
-        self.tube.set_channel((NR_CHANNELS * pixel) + BLUE_CHANNEL,  color.get_blue(),  auto_render)
+        self.tube.set_channel((NR_CHANNELS * pixel) + RED_CHANNEL,   color.get_red())
+        self.tube.set_channel((NR_CHANNELS * pixel) + GREEN_CHANNEL, color.get_green())
+
+        # It needs to be rendered after the last pixel
+        self.tube.set_channel((NR_CHANNELS * pixel) + BLUE_CHANNEL,  color.get_blue(), True)
 
     def move_pixel_left(self, pixel, color, old_color=ColorFactory.BLACK):
         """Moves the specified pixel to the left hand-side with the selected color.
@@ -104,8 +101,6 @@ class TubeController(object):
             self.set_pixel_color((pixel + 1) % NR_PIXELS, color)
         self.set_pixel_color(pixel, old_color)
 
-        self.render()
-
     def move_pixel_right(self, pixel, color, old_color=ColorFactory.BLACK):
         """Moves the specified pixel to the right hand-side with the selected color.
             You can select the color of the old pixel position as well."""
@@ -114,25 +109,20 @@ class TubeController(object):
             self.set_pixel_color((pixel - 1) % NR_PIXELS, color)
         self.set_pixel_color(pixel, old_color)
 
-        self.render()
-
     def user_add(self, nr, color):
         """For every user a new light is added in the selected color."""
 
         self.set_pixel_color(nr, color)
-        self.render()
 
     def user_rem(self, nr):
 
         self.set_pixel_color(nr, ColorFactory.BLACK)
-        self.render()
 
     def test(self):
         while True:
             for i in range(16):
                 for j in range(0, 256/4, 16):
                     self.user_add(i, ColorFactory.RGBColor(red=j, green=j, blue=j))
-                self.render()
                 sleep(1)
             self.clear()
 
@@ -160,7 +150,7 @@ class TubeController(object):
 
                 # If it's the first pixel you set it
                 if j == 0:
-                    self.set_pixel_color(j, color, auto_render=True)
+                    self.set_pixel_color(j, color)
                 else:
 
                     # Then you move it right, till you cant push it further
@@ -173,7 +163,7 @@ class TubeController(object):
 
                 # If it is the most left pixel
                 if j == i:
-                    self.set_pixel_color(j - 1, ColorFactory.BLACK, auto_render=True)
+                    self.set_pixel_color(j - 1, ColorFactory.BLACK)
                 else:
 
                     # Its pushed till the end
@@ -201,7 +191,6 @@ class TubeController(object):
             if j == NR_PIXELS/2:
                 self.set_pixel_color(j - 1,         color)
                 self.set_pixel_color(NR_PIXELS - j, color)
-                self.render()
             else:
                 self.move_pixel_right(j - 1,        color, old_color)
                 self.move_pixel_left(NR_PIXELS - j, color, old_color)
@@ -211,4 +200,4 @@ class TubeController(object):
 
 if __name__ == '__main__':
     tube = TubeController()
-    # tube.test()
+    tube.test()

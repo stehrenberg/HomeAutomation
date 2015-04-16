@@ -58,8 +58,8 @@ def delete_user(user_id):
 
 
 # ----------- Websocket definitions -----------
-def notify_clients(event):
-    socket.emit('notification', event)
+def notify_active_users(event):
+    socket.emit('ActiveUsersNotification', event)
 
 
 # This function is necessary otherwise the clients

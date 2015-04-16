@@ -13,6 +13,9 @@ angular.module('DreiWebApp')
         'DataService',
         function ($scope, dataService) {
 
+            $scope.$on('ActiveUsersNotification', function (event, data) {
+                $scope.activeUsers = data;
+            });
         }
     ]
 );

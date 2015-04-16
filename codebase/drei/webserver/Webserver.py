@@ -3,7 +3,7 @@ from thread import start_new_thread
 import time
 
 from webserver import Webservices
-from webserver.Webservices import notify_clients
+from webserver.Webservices import notify_active_users
 
 
 __author__ = 's.jahreiss'
@@ -38,4 +38,4 @@ class Webserver(multiprocessing.Process):
 def notify():
     while True:
         time.sleep(5)
-        notify_clients('Juhu!')
+        notify_active_users('Juhu!')

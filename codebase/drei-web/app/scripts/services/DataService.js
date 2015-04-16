@@ -5,7 +5,7 @@
      * @ngdoc function
      * @name DreiWebApp.service:DataService
      * @description
-     * # AboutCtrl
+     * # DataService
      * Service that retrieves and sends data to the backend
      */
     angular.module('DreiWebApp')

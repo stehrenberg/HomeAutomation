@@ -14,6 +14,9 @@ angular
         'ngRoute',
         'ngDialog'
     ])
+    .constant('AppConfig', {
+        serverAddress: 'http://localhost:8080'
+    })
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {

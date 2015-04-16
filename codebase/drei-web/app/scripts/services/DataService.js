@@ -11,16 +11,15 @@
     angular.module('DreiWebApp')
         .service('DataService', [
             '$resource',
-            function ($resource) {
-
-                var serverAddress = 'http://localhost:8080';
+            'AppConfig',
+            function ($resource, appConfig) {
 
                 /**
                  * Create the service with the specified url and parameters.
                  */
                 return {
                     getUsers: function () {
-                        return $resource(serverAddress + '/api/users', {}, {}).query().$promise.then(function (users) {
+                        return $resource(appConfig.serverAddress + '/api/users', {}, {}).query().$promise.then(function (users) {
                             // Transform the user objects in simple user objects.
                             var mappedUsers = [];
                             users.forEach(function (user) {
@@ -35,15 +34,15 @@
                         });
                     },
                     createUser: function (user) {
-                        return $resource(serverAddress + '/api/users', {}, {
+                        return $resource(appConfig.serverAddress + '/api/users', {}, {
                             post: {method: 'POST'}
                         }).post(user).$promise;
                     },
                     deleteUser: function (user) {
-                        return $resource(serverAddress + '/api/users/' + user.mac, {}, {}).delete().$promise;
+                        return $resource(appConfig.serverAddress + '/api/users/' + user.mac, {}, {}).delete().$promise;
                     },
                     updateUser: function (user) {
-                        return $resource(serverAddress + '/api/users/' + user.mac, {}, {
+                        return $resource(appConfig.serverAddress + '/api/users/' + user.mac, {}, {
                             put: {method: 'PUT'}
                         }).put(user).$promise;
                     }

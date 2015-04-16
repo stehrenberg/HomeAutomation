@@ -74,9 +74,8 @@ def parse_user(user_json):
     name = user_json["name"]
     mac = user_json["mac"]
     sound = user_json["sound"]
-    light_id = user_json["light_id"]
     light_color = user_json["light_color"]
-    return User(mac, name, sound, light_id, light_color)
+    return User(mac, name, sound, None, light_color)
 
 
 def serialize_boolean_response(key, value):

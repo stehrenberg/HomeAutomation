@@ -1,9 +1,6 @@
-#!/usr/bin/python
 from __future__ import print_function
 import sqlite3 as sql
 import sys, signal
-
-
 
 def sig_int_handler(signum, stack):
     sys.exit()

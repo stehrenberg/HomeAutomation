@@ -13,9 +13,11 @@ class Periphery:
         self.sound = SoundController.SoundController()
 
     # Turn on light number index
-    def light_on(self, index, color=ColorFactory.random_color()):
+    def light_on(self, index, color_str):
         print("light " + index + " turned on")
         # TODO: turn corresponding light on
+
+        color = ColorFactory.create_from_hex(color_str)
 
         self.light.user_add(nr=index, color=color)
 

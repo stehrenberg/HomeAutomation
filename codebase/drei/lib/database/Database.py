@@ -1,7 +1,6 @@
 from __future__ import print_function
 import sqlite3 as sql
 from dto.user import User
-from codebase.drei.dto.user import User
 
 __author__ = 's.ehrenberg'
 __author__ = 's.jahreiss'

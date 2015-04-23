@@ -1,8 +1,10 @@
 import multiprocessing
+
 import numpy as np
 
-from lib.database.Database import MockDatabase
+from lib.database.MockDatabase import MockDatabase
 from lib.periphery.Periphery import Periphery
+
 
 __author__ = 'm.hornung'
 
@@ -30,7 +32,7 @@ class Manager(multiprocessing.Process):
 
             changes = np.array(self.crawler_queue.get())
 
-            for i in range(0, changes.size-1):
+            for i in range(0, changes.size - 1):
                 if changes[0] == "1":
                     current_addresses = np.append(current_addresses, changes[1])
                     for user in users:

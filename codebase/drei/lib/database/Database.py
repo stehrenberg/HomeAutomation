@@ -16,6 +16,7 @@ class Database:
         """
         Adds a user to the database.
         :param user: The user who will be added.
+        :return: True, if user was added, otherwise false.
         """
         raise NotImplementedError()
 
@@ -36,15 +37,19 @@ class Database:
         raise NotImplementedError()
 
 
-
     def update_user(self, user_id, user):
         """
         Updates the user with specified user_id
+        :return: True, if update was performed, otherwise false.
         """
         raise NotImplementedError()
 
 
     def delete_user(self, user_mac):
+        """
+        Deletes the user with specified user_id
+        :return: True, if removal was successful, otherwise false.
+        """
         raise NotImplementedError()
 
 

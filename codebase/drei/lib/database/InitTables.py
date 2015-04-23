@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 from __future__ import print_function
 import sqlite3 as sql
 import sys, signal
@@ -41,5 +40,3 @@ def main():
             );""")
         data = cursor.fetchall()
         print(data)
-
-main()

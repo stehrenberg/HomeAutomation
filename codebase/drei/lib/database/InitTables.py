@@ -24,16 +24,12 @@ def main():
             title TEXT,
             filepath TEXT UNIQUE
             );""")
-        cursor.execute("""CREATE TABLE IF NOT EXISTS Lights(
-            light_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            light_address TEXT UNIQUE,
-            light_color TEXT
-            );""")
-        cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
             mac_address TEXT PRIMARY KEY NOT NULL,
             username TEXT,
-            sound INTEGER REFERENCES Sounds(sound_ID),
-            light INTEGER REFERENCES Lights(light_ID)
+            light_ID INTEGER AUTOINCREMENT,
+            light_color TEXT,
+            sound INTEGER REFERENCES Sounds(sound_ID)
             );""")
-        data = cursor.fetchall()
-        print(data)
+    data = cursor.fetchall()
+    print(data)

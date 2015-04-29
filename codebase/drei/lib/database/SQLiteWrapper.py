@@ -9,6 +9,7 @@ __author__ = 's.ehrenberg'
 class SQLiteWrapper(Database):
     """ Simple interface for the database.
     """
+
     def __init__(self, db="test.db"):
         self.db = db
 
@@ -27,7 +28,7 @@ class SQLiteWrapper(Database):
                 cursor.execute("""SELECT light_ID FROM Lights WHERE rowid=?;""", cursor.lastrowid)
                 light_ID = cursor.fetchone()
                 path_chunks = user.sound.split('/')
-                sound_title = path_chunks[len(path_chunks)-1]
+                sound_title = path_chunks[len(path_chunks) - 1]
                 cursor.execute("""
                     INSERT INTO Sounds(title, filepath)
                     VALUES(?, ?);""", (sound_title, user.sound))
@@ -52,11 +53,11 @@ class SQLiteWrapper(Database):
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("SELECT * FROM Users WHERE mac_address=?", user_mac)
-            mac_add, name, sound, light  = cursor.fetchall()
+            mac_add, name, sound, light = cursor.fetchall()
             cursor.execute("SELECT * FROM Sounds WHERE sound_ID=?", sound)
             sound_ID, title, filepath = cursor.fetchone()
             cursor.execute("SELECT * FROM Lights WHERE light_ID=?", light)
-            light_ID, light_address, light_color  = cursor.fetchone()
+            light_ID, light_address, light_color = cursor.fetchone()
             return User(mac_add, name, filepath, light_ID, light_color)
 
 
@@ -69,7 +70,7 @@ class SQLiteWrapper(Database):
             cursor = db_con.cursor()
             cursor.execute("SELECT mac_address, username FROM Users")
             data = cursor.fetchall()
-            #create_user_list(data)
+            # create_user_list(data)
 
 
     def update_user(self, user_id, user):

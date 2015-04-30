@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import multiprocessing
-import lib.database as db
+
 
 from manager.Manager import Manager
-
+from lib.database import InitTables
 from crawler.Crawler import Crawler
 from webserver.Webserver import Webserver
 
@@ -13,8 +13,8 @@ __author__ = 's.jahreiss'
 if __name__ == '__main__':
     print("Starting Drei")
 
-    # Initializing database with tables (if neccessary)
-#    db.InitTables.main()
+    # Initializing database with tables (if necessary)
+    # InitTables.main()
 
     # Initialize the message queue for crawler and manager
     crawler_manager_queue = multiprocessing.Queue()

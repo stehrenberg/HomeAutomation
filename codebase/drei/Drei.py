@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import multiprocessing
 import lib.database as db
 

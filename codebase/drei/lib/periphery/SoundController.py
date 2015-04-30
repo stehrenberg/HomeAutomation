@@ -1,51 +1,71 @@
 __author__ = 'Luis'
+import platform
 
-import pygame
+if platform.machine() == "armv7l":
+    import pygame
+
 from threading import Thread
 
 
 # TODO Test!!!
-class SoundController(Thread):
-    """The sound controller handle the"""
+# real impelementation on respberrypi
+if platform.machine() == "armv7l":
+    class SoundController(Thread):
+        """The sound controller handle the"""
 
-    def __init__(self):
-        Thread.__init__(self)
-        self.running = 0
-        pygame.init()
+        def __init__(self):
+            Thread.__init__(self)
+            self.running = 0
+            pygame.init()
 
-    def load(self, song_title):
-        """Load a new song.
-            If a new song is loaded, the actual is stopped."""
+        def load(self, song_title):
+            """Load a new song.
+                If a new song is loaded, the actual is stopped."""
 
-        self.running = 0
-        pygame.mixer.music.load(song_title)
+            self.running = 0
+            pygame.mixer.music.load(song_title)
 
-    def play(self):
-        """Play the song, as long as its not stopped."""
+        def play(self):
+            """Play the song, as long as its not stopped."""
 
-        self.start()
+            self.start()
 
-    def run(self):
-        self.running = 1
+        def run(self):
+            self.running = 1
 
-        clock = pygame.time.Clock()
+            clock = pygame.time.Clock()
 
-        pygame.mixer.music.play()
+            pygame.mixer.music.play()
 
-        while self.running:
-            clock.tick(60)
+            while self.running:
+                clock.tick(60)
 
-    def pause(self):
-        """Pause the actual song."""
+        def pause(self):
+            """Pause the actual song."""
 
-        self.running = 0
+            self.running = 0
 
-    def stop(self):
-        """Stop the song and close the instance."""
+        def stop(self):
+            """Stop the song and close the instance."""
 
-        self.pause()
-        pygame.quit()
-        self.join(2)
+            self.pause()
+            pygame.quit()
+            self.join(2)
+else:
+        class SoundController(Thread):
+
+
+            def load(self, song_title):
+                print "SoundController: Loading file " + song_title
+
+            def play(self):
+                print "SoundController: Playing"
+
+            def pause(self):
+                print("SoundController: Pausing")
+
+            def stop(self):
+                print("SoundController: Stopping")
 
 
 if __name__ == '__main__':

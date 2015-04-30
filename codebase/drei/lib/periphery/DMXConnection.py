@@ -1,6 +1,7 @@
 __author__ = 'Luis'
 
 import serial
+import platform
 
 
 ###########################
@@ -44,13 +45,14 @@ class DMXConnection(object):
         for i in xrange(MAX_CHANNELS + 1):
             self.dmx_frame.append(MIN_VAL)
 
-        try:
-            self.com = serial.Serial(device, baudrate=COM_BAUD, timeout=COM_TIMEOUT)
-        except:
-            print "Could not open %s, quitting application" % device
-            raise PortNotOpenException
+        if platform.machine() == "armv7l":
+            try:
+                self.com = serial.Serial(device, baudrate=COM_BAUD, timeout=COM_TIMEOUT)
+            except:
+                print "Could not open %s, quitting application" % device
+                raise PortNotOpenException
 
-        print "Opened %s" % self.com.portstr
+            print "Opened %s" % self.com.portstr
 
     def set_channel(self, channel, val, auto_render=False):
         """Set the channel to a specified value.
@@ -100,12 +102,14 @@ class DMXConnection(object):
 
         packet.append(chr(END_VAL))
 
-        self.com.write(''.join(packet))
+        if platform.machine() == "armv7l":
+            self.com.write(''.join(packet))
 
     def close(self):
         """Close the port."""
 
-        self.com.close()
+        if platform.machine() == "armv7l":
+            self.com.close()
 
 
 class PortNotOpenException(Exception):

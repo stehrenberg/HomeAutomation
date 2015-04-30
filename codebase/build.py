@@ -19,4 +19,5 @@ def init_dependencies(project):
     project.build_depends_on('Flask-Cors', version="2.0.0")
     project.build_depends_on('Flask-RESTful', version="0.3.2")
     project.build_depends_on('Flask-SocketIO', version="0.6.0")
-    project.build_depends_on('pygame', version="1.9.1release")
+    project.build_depends_on('pyserial')
+#    project.build_depends_on('pygame', version="1.9.1release")

@@ -1,10 +1,8 @@
 import multiprocessing
-
 import numpy as np
 
 from lib.database.MockDatabase import MockDatabase
 from lib.periphery.Periphery import Periphery
-
 
 __author__ = 'm.hornung'
 
@@ -47,7 +45,8 @@ class Manager(multiprocessing.Process):
                             light_color = user.light_color
                             sound = user.sound
                             print("user " + changes[1] + " added")
-                            self.per.light_on(light_id)
+                            # TODO: use real colorstring
+                            self.per.light_on(light_id, '')
                             self.per.play_sound(sound)
                             break
                 else:

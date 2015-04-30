@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os
 import time
+import platform
 
 
 class GPIO(object):
@@ -13,9 +14,10 @@ class GPIO(object):
 
     @staticmethod
     def _write(file, content):
-        f = open("/sys/class/gpio/" + file, "w")
-        f.write(content)
-        f.close()
+        if platform.machine() == "armv7l":
+            f = open("/sys/class/gpio/" + file, "w")
+            f.write(content)
+            f.close()
 
     @staticmethod
     def export(gpionum):

@@ -3,7 +3,7 @@ import os
 import time
 import platform
 
-import Drei
+import Const
 
 
 class GPIO(object):
@@ -16,7 +16,7 @@ class GPIO(object):
 
     @staticmethod
     def _write(file, content):
-        if platform.machine() == Drei.PI_PLATFORM:
+        if platform.machine() == Const.PI_PLATFORM:
             f = open("/sys/class/gpio/" + file, "w")
             f.write(content)
             f.close()

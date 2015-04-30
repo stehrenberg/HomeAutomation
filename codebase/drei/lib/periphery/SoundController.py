@@ -1,8 +1,8 @@
 __author__ = 'Luis'
 import platform
-import Drei
+import Const
 
-if platform.machine() == Drei.PI_PLATFORM:
+if platform.machine() == Const.PI_PLATFORM:
     import pygame
 
 from threading import Thread
@@ -10,7 +10,7 @@ from threading import Thread
 
 # TODO Test!!!
 # real impelementation on respberrypi
-if platform.machine() == Drei.PI_PLATFORM:
+if platform.machine() == Const.PI_PLATFORM:
     class SoundController(Thread):
         """The sound controller handle the"""
 

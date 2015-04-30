@@ -2,7 +2,7 @@ __author__ = 'Luis'
 
 import serial
 import platform
-import Drei
+import Const
 
 ###########################
 # Protocol configurations #
@@ -45,7 +45,7 @@ class DMXConnection(object):
         for i in xrange(MAX_CHANNELS + 1):
             self.dmx_frame.append(MIN_VAL)
 
-        if platform.machine() == Drei.PI_PLATFORM:
+        if platform.machine() == Const.PI_PLATFORM:
             try:
                 self.com = serial.Serial(device, baudrate=COM_BAUD, timeout=COM_TIMEOUT)
             except:
@@ -102,13 +102,13 @@ class DMXConnection(object):
 
         packet.append(chr(END_VAL))
 
-        if platform.machine() == Drei.PI_PLATFORM:
+        if platform.machine() == Const.PI_PLATFORM:
             self.com.write(''.join(packet))
 
     def close(self):
         """Close the port."""
 
-        if platform.machine() == Drei.PI_PLATFORM:
+        if platform.machine() == Const.PI_PLATFORM:
             self.com.close()
 
 

@@ -42,7 +42,7 @@
                         return $resource(appConfig.serverAddress + '/api/users/' + user.mac, {}, {}).delete().$promise;
                     },
                     updateUser: function (user) {
-                        return $resource(appConfig.serverAddress + '/api/users/' + user.mac, {}, {
+                        return $resource(appConfig.serverAddress + '/api/users/' + escape(user.mac), {}, {
                             put: {method: 'PUT'}
                         }).put(user).$promise;
                     }

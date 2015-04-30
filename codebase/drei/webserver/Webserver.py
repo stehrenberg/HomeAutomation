@@ -29,13 +29,12 @@ class Webserver(multiprocessing.Process):
         """
         print("Webserver: Running on http://127.0.0.1:8080")
 
-        start_new_thread(notify, ())
+        start_new_thread(self.notify, ())
 
         # Initialize the RESTful and Websocket services.
         Webservices.start()
 
-
-def notify():
-    while True:
-        time.sleep(15)
-        notify_active_users('Juhu!')
+    def notify(self):
+        while True:
+            user_list = self.manager_queue.get()
+            notify_active_users(user_list)

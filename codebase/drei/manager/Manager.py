@@ -24,7 +24,10 @@ class Manager(multiprocessing.Process):
     def run(self):
         print("Manager: Running")
 
-        current_addresses = np.array([])
+        current_users = np.array([])
+
+        # Boolean if the list was altered
+        altered = False
 
         while True:
             # Update users
@@ -32,11 +35,14 @@ class Manager(multiprocessing.Process):
 
             changes = np.array(self.crawler_queue.get())
 
+            old_users = current_users
+
             for i in range(0, changes.size - 1):
                 if changes[0] == "1":
-                    current_addresses = np.append(current_addresses, changes[1])
                     for user in users:
                         if user.mac == changes[1]:
+                            altered = True
+                            current_users = np.append(current_users, user)
                             light_id = user.light_id
                             light_color = user.light_color
                             sound = user.sound
@@ -45,12 +51,19 @@ class Manager(multiprocessing.Process):
                             self.per.play_sound(sound)
                             break
                 else:
-                    del_index = np.where(current_addresses == changes[1])[0][0]
-                    current_addresses = np.delete(current_addresses, del_index)
                     for user in users:
                         if user.mac == changes[1]:
+                            # Catch deletion of just added users
+                            try:
+                                del_index = np.where(current_users == user)[0][0]
+                            except IndexError:
+                                break
+                            altered = True
+                            current_users = np.delete(current_users, del_index)
                             light_id = user.light_id
                             print("user " + changes[1] + " deleted")
                             self.per.light_off(light_id)
 
-            self.webserver_queue.put(current_addresses)
+            if(altered):
+                altered = False
+                self.webserver_queue.put(current_users.tolist())

@@ -58,8 +58,8 @@ def delete_user(user_id):
 
 
 # ----------- Websocket definitions -----------
-def notify_active_users(event):
-    socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in db.retrieve_users()]))
+def notify_active_users(users_list):
+    socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in users_list]))
 
 
 # This function is necessary otherwise the clients
@@ -95,6 +95,6 @@ def start():
     # Return the configured flask app
     socket.run(
         app,
-        host="192.168.188.26",
+        host="127.0.0.1",
         port=8080
     )

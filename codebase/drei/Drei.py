@@ -13,7 +13,7 @@ if __name__ == '__main__':
     print("Starting Drei")
 
     # Initializing database with tables (if neccessary)
-    db.InitTables.main()
+#    db.InitTables.main()
 
     # Initialize the message queue for crawler and manager
     crawler_manager_queue = multiprocessing.Queue()

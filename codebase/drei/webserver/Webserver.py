@@ -1,6 +1,5 @@
 import multiprocessing
 from thread import start_new_thread
-import time
 
 from webserver import Webservices
 from webserver.Webservices import notify_active_users

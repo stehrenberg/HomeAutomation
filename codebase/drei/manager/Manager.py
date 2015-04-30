@@ -45,8 +45,7 @@ class Manager(multiprocessing.Process):
                             light_color = user.light_color
                             sound = user.sound
                             print("user " + changes[1] + " added")
-                            # TODO: use real colorstring
-                            self.per.light_on(light_id, '')
+                            self.per.light_on(int(light_id), light_color)
                             self.per.play_sound(sound)
                             break
                 else:
@@ -61,8 +60,8 @@ class Manager(multiprocessing.Process):
                             current_users = np.delete(current_users, del_index)
                             light_id = user.light_id
                             print("user " + changes[1] + " deleted")
-                            self.per.light_off(light_id)
+                            self.per.light_off(int(light_id))
 
-            if(altered):
+            if altered:
                 altered = False
                 self.webserver_queue.put(current_users.tolist())

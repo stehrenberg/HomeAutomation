@@ -14,7 +14,7 @@ class Periphery:
 
     # Turn on light number index
     def light_on(self, index, color_str):
-        print("light " + index + " turned on")
+        print("light " + str(index) + " turned on")
         # TODO: turn corresponding light on
 
         color = ColorFactory.create_from_hex(color_str)
@@ -23,7 +23,7 @@ class Periphery:
 
     # Turn off light number index
     def light_off(self, index):
-        print("light " + index + " turned off")
+        print("light " + str(index) + " turned off")
         # TODO: turn corresponding light off
 
         self.light.user_rem(nr=index)

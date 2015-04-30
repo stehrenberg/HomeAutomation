@@ -34,7 +34,7 @@ def create_from_hex(hex_code):
         return RGBColor(red=red, green=green, blue=blue)
 
     else:
-        exit(1)
+        return BLACK
 
 
 def create_inverse(color):

@@ -1,5 +1,7 @@
 from __future__ import print_function
 import sqlite3 as sql
+from itertools_recipes import flatten
+
 from dto.user import User
 from lib.database.Database import Database
 
@@ -88,14 +90,14 @@ class SQLiteWrapper(Database):
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("SELECT mac_address FROM Users")
-            mac_addresses = cursor.fetchall()
+            mac_addresses = flatten(cursor.fetchall())
 
         for mac_add in mac_addresses:
             user = self.get_user(mac_add)
             users.append(user)
 
 
-    def update_user(self, user_id, user):
+    def update_user(self, user_mac, user):
         """
         Updates the user with specified user_id
         """
@@ -103,15 +105,27 @@ class SQLiteWrapper(Database):
 
 
     def delete_user(self, user_mac):
-        raise NotImplementedError()
+        """
+        Deletes the user with the specified user_mac.
+        :returns True, if user was successfully deleted, otherwise false.
+        """
+
+        with sql.connect(self.db) as db_con:
+            cursor = db_con.cursor()
+            cursor.execute("DELETE FROM Users WHERE mac_address='%s';""" % user_mac)
+            deleting_successful = cursor.rowcount > 0
+
+        return deleting_successful
 
 
-    def user_exists(self, cursor, user_id):
+
+
+    def user_exists(self, cursor, user_mac):
         """
         Checks if a given user already exists.
         :return: True, if user exists, otherwise false.
         """
-        cursor.execute("""SELECT * FROM Users WHERE mac_address='%s';""" % user_id)
+        cursor.execute("""SELECT * FROM Users WHERE mac_address='%s';""" % user_mac)
         data = cursor.fetchall()
         if not data:
             return False
@@ -127,8 +141,8 @@ class SQLiteWrapper(Database):
         sound_list = []
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
-            cursor.execute("SELECT * FROM Sounds")
-            sound_list = cursor.fetchall()
+            cursor.execute("SELECT title FROM Sounds")
+            sound_list = flatten(cursor.fetchall())
 
         return sound_list
 

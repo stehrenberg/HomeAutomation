@@ -13,15 +13,7 @@ class User:
         self.light_color = user_light_color
 
     def __str__(self):
-        """
-        Python's toString equivalent.
-        :return: String representation of User object.
-        """
-        return self.name, self.sound, self.mac, self.light_id, self.light_color
+        return "%s, %s, %s, %s, %s" % (self.name, self.sound, self.mac, self.light_id, self.light_color)
 
     def __repr__(self):
-        """
-        If within a list, __repr__ is called.
-        :return: String representation of User object.
-        """
         return self.__str__()

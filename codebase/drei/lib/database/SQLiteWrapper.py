@@ -22,25 +22,10 @@ class SQLiteWrapper(Database):
         :returns true, if adding was successful, otherwise false.
         """
         was_added_successful = False
-
         with sql.connect(self.db) as db_con:
-
             cursor = db_con.cursor()
-
             if not self.user_exists(cursor, user.mac):
-
-                path_chunks = user.sound.split('/')
-                sound_title = path_chunks[len(path_chunks) - 1]
                 sound_ID = self.get_song_ID(cursor, user.sound)
-
-                if not sound_ID:
-                    cursor.execute("""
-                        INSERT INTO Sounds(title, filepath)
-                        VALUES(?, ?);""", (sound_title, user.sound))
-                    last_row_id = cursor.lastrowid
-                    cursor.execute("""SELECT sound_ID FROM Sounds WHERE rowid='%s';""" % last_row_id)
-                    sound_ID = cursor.fetchone()[0]
-
                 cursor.execute("""
                     INSERT INTO Users(mac_address, username, sound, light_color)
                     VALUES('%s', '%s', '%s', '%s');""" % (
@@ -49,11 +34,15 @@ class SQLiteWrapper(Database):
                     sound_ID,
                     user.light_color))
                 was_added_successful = True
-
             else:
                 print("User already exists. Nothing inserted.")
-
         return was_added_successful
+
+    def create_sound_title(self, filepath):
+        path_chunks = filepath.split('/')
+        title = path_chunks[len(path_chunks) - 1]
+        print("title created: ", title)
+        return title
 
     def user_exists(self, cursor, user_mac):
         """
@@ -77,16 +66,23 @@ class SQLiteWrapper(Database):
         if data:
             return data[0]
         else:
-            return None
+            return self.create_sound_ID(cursor, filepath)
+
+    def create_sound_ID(self, cursor, filepath):
+        title = self.create_sound_title(filepath)
+        cursor.execute("""
+            INSERT INTO Sounds(title, filepath)
+            VALUES(?, ?);""", (title, filepath))
+        last_row_id = cursor.lastrowid
+        cursor.execute("""SELECT sound_ID FROM Sounds WHERE rowid='%s';""" % last_row_id)
+        return cursor.fetchone()[0]
 
     def get_user(self, user_mac):
         """
         Returns the user with a given MAC address.
         :return: A user object.
         """
-
         user = None
-
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("SELECT *, rowid FROM Users WHERE mac_address='%s'" % user_mac)
@@ -96,10 +92,8 @@ class SQLiteWrapper(Database):
                 cursor.execute("SELECT * FROM Sounds WHERE sound_ID='%s'" % sound)
                 sound_ID, title, filepath = cursor.fetchone()
                 user = User(mac_add, name, filepath, light_ID, light_color)
-
             else:
                 print("User with MAC %s could not be found." % user_mac)
-
         return user
 
     def retrieve_users(self):
@@ -108,16 +102,13 @@ class SQLiteWrapper(Database):
         :return: A list containing all users.
         """
         users = []
-
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("SELECT mac_address FROM Users")
             mac_addresses = flatten(cursor.fetchall())
-
         for mac_add in mac_addresses:
             user = self.get_user(mac_add)
             users.append(user)
-
         return users
 
     def update_user(self, user_mac, user):
@@ -126,16 +117,18 @@ class SQLiteWrapper(Database):
         """
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
+            sound_ID = self.get_song_ID(cursor, user.sound)
+            if not sound_ID:
+                sound_ID = self.create_sound_ID(cursor, user.sound)
             cursor.execute("""
-                UPDATE OR REPLACE Users
+                UPDATE Users
                 SET light_color=?, sound=?
                 WHERE mac_address=?
                 ;""", (
                 user.light_color,
-                user.sound,
-                user.mac))
+                sound_ID,
+                user_mac))
             was_update_successful = cursor.rowcount > 0
-
         return was_update_successful
 
     def delete_user(self, user_mac):
@@ -143,12 +136,10 @@ class SQLiteWrapper(Database):
         Deletes the user with the specified user_mac.
         :returns True, if user was successfully deleted, otherwise false.
         """
-
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("DELETE FROM Users WHERE mac_address='%s';""" % user_mac)
             deleting_successful = cursor.rowcount > 0
-
         return deleting_successful
 
     def list_sounds(self):
@@ -156,11 +147,10 @@ class SQLiteWrapper(Database):
         Provides a list of all sounds.
         :return: A list, containing the tuples (title, path).
         """
-        sound_list = []
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             cursor.execute("SELECT title FROM Sounds")
             sound_list = flatten(cursor.fetchall())
-
         return sound_list
+
 

@@ -89,7 +89,6 @@ class SQLiteWrapper(Database):
 
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
-
             cursor.execute("SELECT *, rowid FROM Users WHERE mac_address='%s'" % user_mac)
             data = cursor.fetchone()
             if data:
@@ -108,7 +107,6 @@ class SQLiteWrapper(Database):
         Returns a list with all users.
         :return: A list containing all users.
         """
-        mac_addresses = []
         users = []
 
         with sql.connect(self.db) as db_con:
@@ -119,6 +117,8 @@ class SQLiteWrapper(Database):
         for mac_add in mac_addresses:
             user = self.get_user(mac_add)
             users.append(user)
+
+        return users
 
     def update_user(self, user_mac, user):
         """

@@ -40,7 +40,7 @@ class Manager(multiprocessing.Process):
                     for user in users:
                         if user.mac == changes[1]:
                             altered = True
-                            current_users = np.append(current_users, user)
+                            current_users = np.append(current_users, changes[1])
                             light_id = user.light_id
                             light_color = user.light_color
                             sound = user.sound
@@ -53,7 +53,7 @@ class Manager(multiprocessing.Process):
                         if user.mac == changes[1]:
                             # Catch deletion of just added users
                             try:
-                                del_index = np.where(current_users == user)[0][0]
+                                del_index = np.where(current_users == changes[1])[0][0]
                             except IndexError:
                                 break
                             altered = True

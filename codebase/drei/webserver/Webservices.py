@@ -24,6 +24,9 @@ socket = SocketIO(app)
 # Create the database connection
 db = MockDatabase()
 
+# List containing online users
+user_list = []
+
 
 # ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])
@@ -58,8 +61,10 @@ def delete_user(user_id):
 
 
 # ----------- Websocket definitions -----------
-def notify_active_users(users_list):
-    socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in users_list]))
+def notify_active_users(user_list_new):
+    global user_list
+    user_list = macs_to_users(user_list_new)
+    socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in user_list]))
 
 
 # This function is necessary otherwise the clients
@@ -71,7 +76,8 @@ def welcome_client():
 
 @socket.on('GetActiveUsersEvent')
 def get_active_users():
-    emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in db.retrieve_users()]))
+    global user_list
+    emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in user_list]))
 
 
 # ----------- Helpers -----------
@@ -81,6 +87,18 @@ def parse_user(user_json):
     sound = user_json["sound"]
     light_color = user_json["light_color"]
     return User(mac, name, sound, None, light_color)
+
+
+def macs_to_users(macs):
+    result_list = []
+    users = db.retrieve_users()
+    for mac in macs:
+        result_list.append(get_user(users, mac))
+    return result_list
+
+
+def get_user(users, user_mac):
+        return next(user for user in users if user.mac == user_mac)
 
 
 def serialize_boolean_response(key, value):

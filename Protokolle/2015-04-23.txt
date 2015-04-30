@@ -1,0 +1,14 @@
+Erster sprint erfolgreich abgeschlossen, alle geplanten Arbeiten abgeschlossen, DB noch nicht 100%ig fertig, webinterface quasi schon fertig
+
+TODO:
+Max: LEDs für Komponenten einbauen (status) -> Library
+Steph: DB: 	Skript einbinden -> Tabellen anlegen
+		Rechte management
+Simon+Markus: Raspi pybuilder
+Luis: Objektorientierung in periphery
+Simon: Manager in webserver anbinden
+Max: möglichkeiten webserver -> lokal starten?! (Flask)
+
+Planung sprints:
+2. Bis 07.05.15 8:15: des was da oben steht
+3. ???

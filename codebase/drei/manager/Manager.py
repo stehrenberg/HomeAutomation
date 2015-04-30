@@ -13,14 +13,14 @@ class Manager(multiprocessing.Process):
         self.crawler_queue = crawler_queue
         self.webserver_queue = webserver_queue
 
+    def run(self):
+        print("Manager: Running")
+
         # Control for sound and light
         self.per = Periphery()
 
         # Create the database connection
         self.db = MockDatabase()
-
-    def run(self):
-        print("Manager: Running")
 
         current_users = np.array([])
 

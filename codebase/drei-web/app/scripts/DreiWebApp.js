@@ -15,7 +15,7 @@ angular
         'ngDialog'
     ])
     .constant('AppConfig', {
-        serverAddress: 'http://localhost:8080'
+        serverAddress: ''//configured auto
     })
     .config(function ($routeProvider) {
         $routeProvider

@@ -1,5 +1,4 @@
 from __future__ import print_function
-from dto.user import User
 
 __author__ = 's.ehrenberg'
 __author__ = 's.jahreiss'

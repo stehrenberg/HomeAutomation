@@ -2,6 +2,8 @@ import multiprocessing
 import time
 import re
 import subprocess
+from lib.led.led import LED
+
 
 __author__ = 's.jahreiss'
 
@@ -12,25 +14,38 @@ class Crawler(multiprocessing.Process):
         multiprocessing.Process.__init__(self)
         self.manager_queue = manager_queue
         self.dummy = dummy
+        self.led = LED(LED.CRAWLER)
+
+    def _notify(self, state, mac):
+        # print a pretty message
+        if state == '1':
+            print("New peer connected: ", mac)
+        elif state == '0':
+            print("New peer disconnected: ", mac)
+
+        # send new mac to manager
+        self.manager_queue.put([state, mac])
+
+        # toggle the status led for 100ms
+        self.led.toggle()
+        time.sleep(0.1)
+        self.led.toggle()
 
     def run(self):
         print("Crawler: Running")
+        self.led.on()
 
         # dummy mode, send addresses in random time slices
         if self.dummy:
             while True:
                 time.sleep(2)
-                self.manager_queue.put(['1', '00:80:41:ae:fd:7e'])
-                print("New peer connected: ", '00:80:41:ae:fd:7e')
+                self._notify('1', '00:80:41:ae:fd:7e')
                 time.sleep(2)
-                self.manager_queue.put(['1', '00:80:41:ae:fd:7d'])
-                print("New peer connected: ", '00:80:41:ae:fd:7d')
+                self._notify('1', '00:80:41:ae:fd:7d')
                 time.sleep(2)
-                self.manager_queue.put(['0', '00:80:41:ae:fd:7e'])
-                print("Peer disconnected: ", '00:80:41:ae:fd:7e')
+                self._notify('0', '00:80:41:ae:fd:7e')
                 time.sleep(2)
-                self.manager_queue.put(['0', '00:80:41:ae:fd:7d'])
-                print("Peer disconnected: ", '00:80:41:ae:fd:7d')
+                self._notify('0', '00:80:41:ae:fd:7d')
 
         # listen of events from WIFI interface
         else:
@@ -55,3 +70,4 @@ class Crawler(multiprocessing.Process):
                         self.manager_queue.put(['0', matcher.group(4)])
 
         print("Crawler exited")
+        self.led.off()

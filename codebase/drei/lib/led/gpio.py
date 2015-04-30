@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from __future__ import print_function
 import os
 import time
@@ -12,28 +11,30 @@ class GPIO(object):
     VAL_HIGH = "1"
     VAL_LOW = "0"
 
-    def _write(self, file, content):
+    @staticmethod
+    def _write(file, content):
         f = open("/sys/class/gpio/" + file, "w")
         f.write(content)
         f.close()
 
-    def export(self, gpionum):
+    @staticmethod
+    def export(gpionum):
         if not os.path.isdir("/sys/class/gpio/gpio" + str(gpionum)):
-            self._write("export", str(gpionum))
+            GPIO._write("export", str(gpionum))
 
-    def unexport(self, gpionum):
-        self._write("unexport", str(gpionum))
-
-    def direction(self, gpionum, direction):
-        self._write("gpio" + str(gpionum) + "/direction", direction)
-
-    def value(self, gpionum, value):
-        self._write("gpio" + str(gpionum) + "/value", "1")
+        # give the kernel module some time
+        # to setup the sysfs interface
+        time.sleep(0.08)
 
 
+    @staticmethod
+    def unexport(gpionum):
+        GPIO._write("unexport", str(gpionum))
 
-g = GPIO()
-g.export(18)
-time.sleep(0.05)
-g.direction(18, GPIO.DIR_OUT)
-g.value(18, GPIO.VAL_HIGH)
+    @staticmethod
+    def direction(gpionum, direction):
+        GPIO._write("gpio" + str(gpionum) + "/direction", direction)
+
+    @staticmethod
+    def value(gpionum, value):
+        GPIO._write("gpio" + str(gpionum) + "/value", value)

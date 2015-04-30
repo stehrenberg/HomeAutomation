@@ -3,6 +3,8 @@ import os
 import time
 import platform
 
+import Drei
+
 
 class GPIO(object):
 
@@ -14,7 +16,7 @@ class GPIO(object):
 
     @staticmethod
     def _write(file, content):
-        if platform.machine() == "armv7l":
+        if platform.machine() == Drei.PI_PLATFORM:
             f = open("/sys/class/gpio/" + file, "w")
             f.write(content)
             f.close()

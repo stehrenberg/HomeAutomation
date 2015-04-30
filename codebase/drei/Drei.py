@@ -10,6 +10,8 @@ from webserver.Webserver import Webserver
 
 __author__ = 's.jahreiss'
 
+PI_PLATFORM = 'armv7l'
+
 if __name__ == '__main__':
     print("Starting Drei")
 

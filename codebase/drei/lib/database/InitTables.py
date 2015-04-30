@@ -1,4 +1,5 @@
 from __future__ import print_function
+from itertools_recipes import flatten
 import sqlite3 as sql
 import sys, signal
 
@@ -18,18 +19,20 @@ def main():
         db_connect.execute("""PRAGMA foreign_keys = ON;""")
         cursor = db_connect.cursor()
         cursor.execute("""PRAGMA foreign_keys;""")
-        print(cursor.fetchone())
+        print("Creating table Sounds...")
         cursor.execute("""CREATE TABLE IF NOT EXISTS Sounds(
             sound_ID INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
             filepath TEXT UNIQUE
             );""")
-    cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
+        print("Creating table Users...")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
             mac_address TEXT PRIMARY KEY NOT NULL,
             username TEXT,
-            light_ID INTEGER AUTOINCREMENT,
             light_color TEXT,
             sound INTEGER REFERENCES Sounds(sound_ID)
             );""")
-    data = cursor.fetchall()
-    print(data)
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Sounds' OR name='Users';")
+        created_tables = flatten(cursor.fetchall())
+        if len(created_tables) == 2:
+            print("Tables successfully created.")

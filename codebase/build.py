@@ -15,6 +15,7 @@ def initialize(project):
 
 def init_dependencies(project):
     project.build_depends_on('numpy', version="1.8.2")
+    project.build_depends_on('itertools-recipes')
     project.build_depends_on('Flask', version="0.10.1")
     project.build_depends_on('Flask-Cors', version="2.0.0")
     project.build_depends_on('Flask-RESTful', version="0.3.2")

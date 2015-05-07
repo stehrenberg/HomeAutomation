@@ -38,7 +38,9 @@ class Periphery:
     def light_off(self, pixel):
         print("light " + str(pixel) + " turned off")
 
-        self.light.set_pixel_color(pixel=pixel)
+        self.light.set_pixel_color(pixel=pixel*4)
+        self.light.set_pixel_color(pixel=pixel*4+1)
+        self.light.set_pixel_color(pixel=pixel*4+2)
 
     # Play sound at given directory
     def play_sound(self, file):

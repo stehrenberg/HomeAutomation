@@ -1,5 +1,7 @@
 import multiprocessing
 import numpy as np
+from lib.led.led import LED
+
 
 from lib.database.MockDatabase import MockDatabase
 from lib.periphery.Periphery import Periphery
@@ -12,9 +14,11 @@ class Manager(multiprocessing.Process):
         multiprocessing.Process.__init__(self)
         self.crawler_queue = crawler_queue
         self.webserver_queue = webserver_queue
+        self.led = LED(LED.MANAGER)
 
     def run(self):
         print("Manager: Running")
+        self.led.on()
 
         # Control for sound and light
         self.per = Periphery()
@@ -65,3 +69,5 @@ class Manager(multiprocessing.Process):
             if altered:
                 altered = False
                 self.webserver_queue.put(current_users.tolist())
+
+        self.led.off()

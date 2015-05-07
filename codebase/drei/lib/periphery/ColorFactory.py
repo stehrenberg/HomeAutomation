@@ -20,16 +20,16 @@ def create_from_hex(hex_code):
     """Create a color from the hex_code. You can call it with 6 or 3 hexadecimal digits."""
 
     if len(hex_code) == 6:
-        red = int(hex_code[0:2])
-        green = int(hex_code[2:4])
-        blue = int(hex_code[4:6])
+        red = int(hex_code[0:2], 16)
+        green = int(hex_code[2:4], 16)
+        blue = int(hex_code[4:6], 16)
 
         return RGBColor(red=red, green=green, blue=blue)
 
     elif len(hex_code) == 3:
-        red = int(hex_code[0]) * 16
-        green = int(hex_code[1]) * 16
-        blue = int(hex_code[2]) * 16
+        red = int(hex_code[0], 16) * 16
+        green = int(hex_code[1], 16) * 16
+        blue = int(hex_code[2], 16) * 16
 
         return RGBColor(red=red, green=green, blue=blue)
 

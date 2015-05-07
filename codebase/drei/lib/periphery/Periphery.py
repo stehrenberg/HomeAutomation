@@ -1,7 +1,9 @@
 __author__ = 'luis'
 
 
-import TubeController
+import DMXHandler
+import PixelTubeDevice
+import LEDBarDevice
 import SoundController
 import ColorFactory
 
@@ -9,24 +11,32 @@ import ColorFactory
 class Periphery:
 
     def __init__(self):
-        self.light = TubeController.TubeController()
         self.sound = SoundController.SoundController()
 
+        self.light = DMXHandler.DMXHandler()
+
+        tube = PixelTubeDevice.PixelTubeDevice(0)
+        bar = LEDBarDevice.LEDBarDevice(48)
+
+        if self.light.is_connected():
+            print "Is connected"
+
+            self.light.add_device(tube)
+            self.light.add_device(bar)
+
     # Turn on light number index
-    def light_on(self, index, color_str):
-        print("light " + str(index) + " turned on")
-        # TODO: turn corresponding light on
+    def light_on(self, pixel, color_str):
+        print("light " + str(pixel) + " turned on")
 
         color = ColorFactory.create_from_hex(color_str)
 
-        self.light.user_add(nr=index, color=color)
+        self.light.set_pixel_color(pixel=pixel, color=color)
 
     # Turn off light number index
-    def light_off(self, index):
-        print("light " + str(index) + " turned off")
-        # TODO: turn corresponding light off
+    def light_off(self, pixel):
+        print("light " + str(pixel) + " turned off")
 
-        self.light.user_rem(nr=index)
+        self.light.set_pixel_color(pixel=pixel)
 
     # Play sound at given directory
     def play_sound(self, directory):

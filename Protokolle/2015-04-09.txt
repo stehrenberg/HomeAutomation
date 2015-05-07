@@ -1,7 +1,7 @@
 Daily Scrum:
 Max: NIX
 Luis: Lampen läuft, Sound läuft
-Simon: bisschen rest angeschaut wegen Schwachsinn, IPC helfen
+Simon: bisschen REST angeschaut, IPC helfen
 Stephanie: SQLite ausgecheckt
 Markus: IPC
 

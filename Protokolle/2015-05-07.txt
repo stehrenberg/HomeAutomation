@@ -1,0 +1,4 @@
+1. Systemtest: läuft bei uns
+Erfolgreiches Beenden des 2. Sprints
+3. Sprint: Fertig stellen (Wireless Accesspoint, Sound Wiedergabe, Anzeige Sounds Webservice, Rechte abchecken) bis: 21.05.15
+

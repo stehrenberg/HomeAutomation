@@ -36,6 +36,13 @@ def get_users():
     return users, 200
 
 
+@app.route('/api/sounds', methods=['GET'])
+def get_sounds():
+    # Serialize sounds
+    sounds = json.dumps(db.list_sounds())
+    return sounds, 200
+
+
 @app.route('/api/users', methods=['POST'])
 def add_user():
     if not request.json:

@@ -51,4 +51,10 @@ class Database:
         """
         raise NotImplementedError()
 
+    def list_sounds(self):
+        """
+        Lists all available sounds.
+        :return: A list of all available sounds.
+        """
+        raise NotImplementedError()
 

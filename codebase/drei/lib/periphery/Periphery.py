@@ -24,6 +24,8 @@ class Periphery:
             self.light.add_device(tube)
             self.light.add_device(bar)
 
+            self.light.test()
+
     # Turn on light number index
     def light_on(self, pixel, color_str):
         print("light " + str(pixel) + " turned on")

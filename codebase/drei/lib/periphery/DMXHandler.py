@@ -99,6 +99,19 @@ class DMXHandler:
         for pixel in range(self.get_available_pixels()):
             self.set_pixel_color(pixel, color)
 
+    def test(self):
+        from time import sleep
+
+        color_list = [ColorFactory.RED,
+                      ColorFactory.GREEN,
+                      ColorFactory.BLUE]
+
+        for color in color_list:
+            for i in range(self.get_available_pixels()):
+                self.set_pixel_color(i, color)
+                sleep(0.03)
+                self.set_pixel_color(i)
+
     def clear(self):
         """Reset the color of all devices."""
 
@@ -119,24 +132,24 @@ if __name__ == '__main__':
 
         from time import sleep
 
-        colorList = [ColorFactory.RED,
-                     ColorFactory.GREEN,
-                     ColorFactory.BLUE,
-                     ColorFactory.YELLOW,
-                     ColorFactory.MAGENTA,
-                     ColorFactory.CYAN,
-                     ColorFactory.ORANGE,
-                     ColorFactory.PURPLE,
-                     ColorFactory.LIME,
-                     ColorFactory.ROYAL,
-                     ColorFactory.PINK,
-                     ColorFactory.AZURE]
+        colours = [ColorFactory.RED,
+                   ColorFactory.GREEN,
+                   ColorFactory.BLUE,
+                   ColorFactory.YELLOW,
+                   ColorFactory.MAGENTA,
+                   ColorFactory.CYAN,
+                   ColorFactory.ORANGE,
+                   ColorFactory.PURPLE,
+                   ColorFactory.LIME,
+                   ColorFactory.ROYAL,
+                   ColorFactory.PINK,
+                   ColorFactory.AZURE]
 
         while True:
             try:
-                for colour in colorList:
-                    for i in range(handler.get_available_pixels()):
-                        handler.set_pixel_color(i, colour)
+                for colour in colours:
+                    for k in range(handler.get_available_pixels()):
+                        handler.set_pixel_color(k, colour)
                         sleep(.1)
                     handler.clear()
             except KeyboardInterrupt:

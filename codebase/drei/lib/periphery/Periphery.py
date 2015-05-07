@@ -39,9 +39,9 @@ class Periphery:
         self.light.set_pixel_color(pixel=pixel)
 
     # Play sound at given directory
-    def play_sound(self, directory):
-        print("sound at " + directory + " played")
+    def play_sound(self, file):
+        print("sound at " + file + " played")
         # TODO: play corresponding sound
 
-        self.sound.load(song_title=directory)
-        self.sound.play()
+        self.sound.load(song_title='lib/periphery/soundFiles/' + file)
+        # TODO: FIX: self.sound.play()

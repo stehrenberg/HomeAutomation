@@ -6,7 +6,7 @@ from flask.ext.cors import CORS
 from flask.ext.socketio import SocketIO, emit
 
 from dto.user import User
-from lib.database.MockDatabase import MockDatabase
+from lib.database.SQLiteWrapper import SQLiteWrapper
 
 
 __author__ = 's.jahreiss'
@@ -22,7 +22,7 @@ cors = CORS(app)
 socket = SocketIO(app)
 
 # Create the database connection
-db = MockDatabase()
+db = SQLiteWrapper()
 
 # List containing online users
 user_list = []

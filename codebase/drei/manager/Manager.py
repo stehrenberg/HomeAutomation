@@ -3,7 +3,7 @@ import numpy as np
 from lib.led.led import LED
 
 
-from lib.database.MockDatabase import MockDatabase
+from lib.database.SQLiteWrapper import SQLiteWrapper
 from lib.periphery.Periphery import Periphery
 
 __author__ = 'm.hornung'
@@ -24,7 +24,7 @@ class Manager(multiprocessing.Process):
         self.per = Periphery()
 
         # Create the database connection
-        self.db = MockDatabase()
+        self.db = SQLiteWrapper()
 
         current_users = np.array([])
 

@@ -113,6 +113,6 @@ def start():
     # Return the configured flask app
     socket.run(
         app,
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=8080
     )

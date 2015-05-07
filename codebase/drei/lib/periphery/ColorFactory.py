@@ -33,6 +33,20 @@ def create_from_hex(hex_code):
 
         return RGBColor(red=red, green=green, blue=blue)
 
+    elif len(hex_code) == 7:
+        red = int(hex_code[1:3], 16)
+        green = int(hex_code[3:5], 16)
+        blue = int(hex_code[5:7], 16)
+
+        return RGBColor(red=red, green=green, blue=blue)
+
+    elif len(hex_code) == 4:
+        red = int(hex_code[1], 16) * 16
+        green = int(hex_code[2], 16) * 16
+        blue = int(hex_code[3], 16) * 16
+
+        return RGBColor(red=red, green=green, blue=blue)
+
     else:
         return BLACK
 

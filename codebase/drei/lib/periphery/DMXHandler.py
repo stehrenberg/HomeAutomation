@@ -109,7 +109,7 @@ class DMXHandler:
         for color in color_list:
             for i in range(self.get_available_pixels()):
                 self.set_pixel_color(i, color)
-                sleep(0.03)
+                sleep(0.06)
                 self.set_pixel_color(i)
 
     def clear(self):

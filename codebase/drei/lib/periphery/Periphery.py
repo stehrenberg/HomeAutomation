@@ -16,13 +16,13 @@ class Periphery:
         self.light = DMXHandler.DMXHandler()
 
         tube = PixelTubeDevice.PixelTubeDevice(0)
-        bar = LEDBarDevice.LEDBarDevice(48)
+        # bar = LEDBarDevice.LEDBarDevice(48)
 
         if self.light.is_connected():
             print "Is connected"
 
             self.light.add_device(tube)
-            self.light.add_device(bar)
+            # self.light.add_device(bar)
 
             self.light.test()
 

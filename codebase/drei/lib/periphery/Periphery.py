@@ -3,7 +3,6 @@ __author__ = 'luis'
 
 import DMXHandler
 import PixelTubeDevice
-import LEDBarDevice
 import SoundController
 import ColorFactory
 

@@ -4,6 +4,9 @@ from RGBColor import RGBColor
 import random
 
 
+_hex_base = 16
+
+
 def create_rgb(r=RGBColor.MIN_DIM, g=RGBColor.MIN_DIM, b=RGBColor.MIN_DIM):
     """Create the color in the RGB color space, with a value for every channel."""
 
@@ -20,30 +23,30 @@ def create_from_hex(hex_code):
     """Create a color from the hex_code. You can call it with 6 or 3 hexadecimal digits."""
 
     if len(hex_code) == 6:
-        red = int(hex_code[0:2], 16)
-        green = int(hex_code[2:4], 16)
-        blue = int(hex_code[4:6], 16)
+        red = int(hex_code[0:2], _hex_base)
+        green = int(hex_code[2:4], _hex_base)
+        blue = int(hex_code[4:6], _hex_base)
 
         return RGBColor(red=red, green=green, blue=blue)
 
     elif len(hex_code) == 3:
-        red = int(hex_code[0], 16) * 16
-        green = int(hex_code[1], 16) * 16
-        blue = int(hex_code[2], 16) * 16
+        red = int(hex_code[0], _hex_base) * _hex_base
+        green = int(hex_code[1], _hex_base) * _hex_base
+        blue = int(hex_code[2], _hex_base) * _hex_base
 
         return RGBColor(red=red, green=green, blue=blue)
 
     elif len(hex_code) == 7:
-        red = int(hex_code[1:3], 16)
-        green = int(hex_code[3:5], 16)
-        blue = int(hex_code[5:7], 16)
+        red = int(hex_code[1:3], _hex_base)
+        green = int(hex_code[3:5], _hex_base)
+        blue = int(hex_code[5:7], _hex_base)
 
         return RGBColor(red=red, green=green, blue=blue)
 
     elif len(hex_code) == 4:
-        red = int(hex_code[1], 16) * 16
-        green = int(hex_code[2], 16) * 16
-        blue = int(hex_code[3], 16) * 16
+        red = int(hex_code[1], _hex_base) * _hex_base
+        green = int(hex_code[2], _hex_base) * _hex_base
+        blue = int(hex_code[3], _hex_base) * _hex_base
 
         return RGBColor(red=red, green=green, blue=blue)
 

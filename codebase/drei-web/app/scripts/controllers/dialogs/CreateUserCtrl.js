@@ -13,6 +13,15 @@ angular.module('DreiWebApp')
         'DataService',
         function ($scope, dataService) {
 
+            $scope.updating = false;
+
+            $scope.user = {};
+
+            dataService.getSounds().then(function (sounds) {
+                $scope.sounds = sounds;
+                $scope.user.sound = sounds[0];
+            });
+
             $scope.cancel = function () {
                 $scope.closeThisDialog(false);
             };

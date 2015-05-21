@@ -2,18 +2,17 @@
     <form name="userForm" novalidate role="form">
         <div class="form-group has-feedback">
             <label for="mac">Mac</label>
-            <input type="text" class="form-control" name="mac" id="mac" placeholder="Mac" ng-model="user.mac" required>
+            <input type="text" class="form-control" name="mac" id="mac" placeholder="Mac" ng-model="user.mac" required ng-disabled="updating">
             <span ng-show="userForm.mac.$error.required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
         </div>
         <div class="form-group has-feedback">
             <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Name" ng-model="user.name" required>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" ng-model="user.name" required ng-disabled="updating">
             <span ng-show="userForm.name.$error.required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
         </div>
         <div class="form-group has-feedback">
             <label for="sound">Song</label>
-            <input type="text" class="form-control" name="sound" id="sound" placeholder="Song" ng-model="user.sound" required>
-            <span ng-show="userForm.sound.$error.required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <select class="form-control" name="sound" id="sound" data-ng-options="sound for sound in sounds track by sound" data-ng-model="user.sound" required></select>
         </div>
         <div class="form-group has-feedback">
             <label for="light">Licht</label>

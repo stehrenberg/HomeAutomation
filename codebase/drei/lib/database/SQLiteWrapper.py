@@ -4,7 +4,6 @@ from itertools_recipes import flatten
 from dto.user import User
 from lib.database.Database import Database
 
-
 __author__ = 's.ehrenberg'
 
 
@@ -39,6 +38,12 @@ class SQLiteWrapper(Database):
         return was_added_successful
 
     def create_sound_title(self, filepath):
+        """
+        Generates a sound title from a given filepath.
+        :param filepath:
+        :return: Filename as title
+        """
+        # TODO Testen, dass es auch bei Pfad 'bla.wav' funzt!
         path_chunks = filepath.split('/')
         title = path_chunks[len(path_chunks) - 1]
         print("title created: ", title)
@@ -152,5 +157,3 @@ class SQLiteWrapper(Database):
             cursor.execute("SELECT title FROM Sounds")
             sound_list = flatten(cursor.fetchall())
         return sound_list
-
-

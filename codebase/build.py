@@ -5,7 +5,7 @@ from pybuilder.core import init, use_plugin
 use_plugin("python.core")
 use_plugin("python.install_dependencies")
 
-default_task = ['install_dependencies','publish']
+default_task = ['install_dependencies']
 
 @init
 def initialize(project):

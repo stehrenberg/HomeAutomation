@@ -25,6 +25,9 @@ class Periphery:
 
             self.light.test()
 
+    def __del__(self):
+        self.light.clear()
+
     # Turn on light number index
     def light_on(self, pixel, color_str):
         print("light " + str(pixel) + " turned on")

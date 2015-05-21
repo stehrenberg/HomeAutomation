@@ -53,10 +53,15 @@ class Crawler(multiprocessing.Process):
             pattern = re.compile('(.*?)\s+(.*?)\s+([\w|\s]+):(.*)$')
 
             # spaw new iwevent process and capture output
-            result = subprocess.Popen("iwevent", shell=True, stdout=subprocess.PIPE)
+            result = subprocess.Popen("/sbin/iwevent", shell=False, stdout=subprocess.PIPE)
 
             # each line is a new event
-            for line in result.stdout:
+            while True:
+		line = result.stdout.readline()
+		if line == '':
+			break
+
+		# parse output
                 matcher = pattern.search(line.decode("utf-8"))
                 if matcher:
                     # new peer connected
@@ -68,6 +73,11 @@ class Crawler(multiprocessing.Process):
                     elif "Expired" in matcher.group(3):
                         print("Peer disconnected: " + matcher.group(4))
                         self.manager_queue.put(['0', matcher.group(4)])
+
+		    # toggle the status led for 100ms
+                    self.led.toggle()
+                    time.sleep(0.1)
+                    self.led.toggle()
 
         print("Crawler exited")
         self.led.off()

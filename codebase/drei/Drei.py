@@ -23,7 +23,7 @@ if __name__ == '__main__':
     manager_webserver_queue = multiprocessing.Queue()
 
     # Start the crawler
-    crawler = Crawler(crawler_manager_queue)
+    crawler = Crawler(crawler_manager_queue, False)
     crawler.start()
 
     # Start the manager

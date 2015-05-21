@@ -1,5 +1,7 @@
 import json
 import logging
+from string import split
+from glob import glob
 
 from flask import Flask, request, abort
 from flask.ext.cors import CORS
@@ -39,7 +41,8 @@ def get_users():
 @app.route('/api/sounds', methods=['GET'])
 def get_sounds():
     # Serialize sounds
-    sounds = json.dumps(db.list_sounds())
+    test = get_sound_list()
+    sounds = json.dumps(test)
     return sounds, 200
 
 
@@ -111,6 +114,15 @@ def get_user(users, user_mac):
 def serialize_boolean_response(key, value):
     return json.dumps({key: value})
 
+
+def get_sound_list():
+    sound_list = glob('./lib/periphery/soundFiles/*')
+    i = 0
+    for sound in sound_list:
+        split_list = split(sound, '/')
+        sound_list[i] = split_list[len(split_list)-1]
+        i += 1
+    return sound_list
 
 def start():
     # Change log level for flask to print only errors.

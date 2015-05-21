@@ -117,12 +117,8 @@ def serialize_boolean_response(key, value):
 
 def get_sound_list():
     sound_list = glob('./lib/periphery/soundFiles/*')
-    i = 0
-    for sound in sound_list:
-        split_list = split(sound, '/')
-        sound_list[i] = split_list[len(split_list)-1]
-        i += 1
-    return sound_list
+    return map(lambda s: s.rsplit("/")[-1], sound_list)
+
 
 def start():
     # Change log level for flask to print only errors.

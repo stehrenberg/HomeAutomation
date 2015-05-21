@@ -117,7 +117,8 @@ def serialize_boolean_response(key, value):
 
 def get_sound_list():
     sound_list = glob('./lib/periphery/soundFiles/*')
-    return map(lambda s: s.rsplit("/")[-1], sound_list)
+    temp_list = map(lambda s: s.rsplit("/")[-1], sound_list)
+    return  map(lambda s: s.rsplit("\\")[-1], temp_list)
 
 
 def start():

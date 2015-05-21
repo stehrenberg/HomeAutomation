@@ -1,8 +1,11 @@
 __author__ = 'Luis'
 
-import serial
 import platform
 import Const
+
+if platform.machine() == Const.PI_PLATFORM:
+    import serial
+
 
 ###########################
 # Protocol configurations #

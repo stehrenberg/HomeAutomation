@@ -9,7 +9,7 @@ from threading import Thread
 
 
 # TODO Test!!!
-# real impelementation on respberrypi
+# real implementation on raspberry pi
 if platform.machine() == Const.PI_PLATFORM:
     class SoundController(Thread):
         """The sound controller handle the"""
@@ -54,7 +54,6 @@ if platform.machine() == Const.PI_PLATFORM:
             self.join(2)
 else:
         class SoundController(Thread):
-
 
             def load(self, song_title):
                 print "SoundController: Loading file " + song_title

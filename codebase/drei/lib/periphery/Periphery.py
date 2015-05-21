@@ -10,7 +10,7 @@ import ColorFactory
 class Periphery:
 
     def __init__(self):
-        self.sound = SoundController.SoundController()
+        self.sound = SoundController
 
         self.light = DMXHandler.DMXHandler()
 
@@ -18,12 +18,14 @@ class Periphery:
         # bar = LEDBarDevice.LEDBarDevice(48)
 
         if self.light.is_connected():
-            print "Is connected"
+            print "LightController is connected"
 
             self.light.add_device(tube)
             # self.light.add_device(bar)
 
             self.light.test()
+        else:
+            print "LightController is not connected"
 
     def __del__(self):
         self.light.clear()
@@ -49,7 +51,5 @@ class Periphery:
     # Play sound at given directory
     def play_sound(self, file):
         print("sound at " + file + " played")
-        # TODO: play corresponding sound
 
-        self.sound.load(song_title='lib/periphery/soundFiles/' + file)
-        # TODO: FIX: self.sound.play()
+        self.sound.play(song_title='lib/periphery/soundFiles/' + file)

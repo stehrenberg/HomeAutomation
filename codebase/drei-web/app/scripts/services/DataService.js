@@ -45,6 +45,9 @@
                         return $resource(appConfig.serverAddress + '/api/users/' + escape(user.mac), {}, {
                             put: {method: 'PUT'}
                         }).put(user).$promise;
+                    },
+                    getSounds: function () {
+                        return $resource(appConfig.serverAddress + '/api/sounds', {}, {}).query().$promise;
                     }
                 };
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import multiprocessing
-
+import Const
+import platform
 
 from manager.Manager import Manager
 from lib.database import InitTables
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     manager_webserver_queue = multiprocessing.Queue()
 
     # Start the crawler
-    crawler = Crawler(crawler_manager_queue, False)
+    crawler = Crawler(crawler_manager_queue, platform.machine() != Const.PI_PLATFORM)
     crawler.start()
 
     # Start the manager

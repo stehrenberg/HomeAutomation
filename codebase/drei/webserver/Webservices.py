@@ -1,6 +1,5 @@
 import json
 import logging
-from string import split
 from glob import glob
 
 from flask import Flask, request, abort

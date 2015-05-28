@@ -94,7 +94,6 @@ class SQLiteWrapper(Database):
             data = cursor.fetchone()
             if data:
                 mac_add, name, light_color, sound, light_ID = data
-                light_ID += 1
                 cursor.execute("SELECT * FROM Sounds WHERE sound_ID='%s'" % sound)
                 sound_ID, title, filepath = cursor.fetchone()
                 user = User(mac_add, name, filepath, light_ID, light_color)

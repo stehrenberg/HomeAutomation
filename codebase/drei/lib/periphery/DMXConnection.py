@@ -2,6 +2,7 @@ __author__ = 'Luis'
 
 import platform
 import Const
+from lib.logger.Logger import Logger
 
 if platform.machine() == Const.PI_PLATFORM:
     import serial
@@ -40,6 +41,8 @@ class DMXConnection(object):
 
     def __init__(self, device, dmx_address=0):
 
+        self.logger = Logger()
+
         self.com = 0
         self.dmx_frame = list()
         self.dmx_address = dmx_address
@@ -52,10 +55,10 @@ class DMXConnection(object):
             try:
                 self.com = serial.Serial(device, baudrate=COM_BAUD, timeout=COM_TIMEOUT)
             except:
-                print "Could not open %s, quitting application" % device
+                self.logger.log(Logger.INFO, "Could not open %s, quitting application" % device)
                 raise PortNotOpenException
 
-            print "Opened %s" % self.com.portstr
+            self.logger.log(Logger.INFO, "Opened %s" % self.com.portstr)
 
     def set_channel(self, channel, val, auto_render=False):
         """Set the channel to a specified value.
@@ -64,7 +67,7 @@ class DMXConnection(object):
         #  takes channel and value arguments to set a channel level in the local
         #  dmx frame, to be rendered the next time the render() method is called
         if (channel > MAX_CHANNELS) or (channel < MIN_CHANNELS):
-            print "Invalid channel"
+            self.logger.log(Logger.INFO, "Invalid channel")
             raise InvalidChannelException
 
         if val > MAX_VAL:

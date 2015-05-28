@@ -7,12 +7,14 @@ from manager.Manager import Manager
 from lib.database import InitTables
 from crawler.Crawler import Crawler
 from webserver.Webserver import Webserver
+from lib.logger.Logger import Logger
 
 
 __author__ = 's.jahreiss'
 
 if __name__ == '__main__':
-    print("Starting Drei")
+    logger = Logger()
+    logger.log(Logger.INFO, "Starting Drei")
 
     # Initializing database with tables (if necessary)
     InitTables.main()

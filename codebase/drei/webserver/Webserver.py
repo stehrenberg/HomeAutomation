@@ -3,6 +3,7 @@ from thread import start_new_thread
 
 from webserver import Webservices
 from webserver.Webservices import notify_active_users
+from lib.logger.Logger import Logger
 
 
 __author__ = 's.jahreiss'
@@ -21,12 +22,13 @@ class Webserver(multiprocessing.Process):
         """
         multiprocessing.Process.__init__(self)
         self.manager_queue = manager_queue
+        self.logger = Logger()
 
     def run(self):
         """
         Starts the webserver in a own thread.
         """
-        print("Webserver: Running on http://127.0.0.1:8080")
+        self.logger.log(Logger.INFO, "Webserver: Running on http://127.0.0.1:8080")
 
         start_new_thread(self.notify, ())
 

@@ -6,6 +6,7 @@ import ColorFactory
 import PixelTubeDevice
 import LEDBarDevice
 from DMXDevice import DMXDevice
+from lib.logger.Logger import Logger
 
 
 class DMXHandler:
@@ -125,7 +126,8 @@ if __name__ == '__main__':
     bar = LEDBarDevice.LEDBarDevice(48)
 
     if handler.is_connected():
-        print "Is connected"
+        logger = Logger()
+        logger.log(Logger.INFO, "Is connected")
 
         handler.add_device(tube)
         handler.add_device(bar)

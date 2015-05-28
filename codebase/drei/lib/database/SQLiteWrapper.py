@@ -3,6 +3,7 @@ import sqlite3 as sql
 from itertools_recipes import flatten
 from dto.user import User
 from lib.database.Database import Database
+from lib.logger.Logger import Logger
 
 __author__ = 's.ehrenberg'
 
@@ -13,6 +14,7 @@ class SQLiteWrapper(Database):
 
     def __init__(self, db="test.db"):
         Database.__init__(self, db)
+        self.logger = Logger()
 
     def add_user(self, user):
         """
@@ -34,7 +36,7 @@ class SQLiteWrapper(Database):
                     user.light_color))
                 was_added_successful = True
             else:
-                print("User already exists. Nothing inserted.")
+                self.logger.log(Logger.INFO, "User already exists. Nothing inserted.")
         return was_added_successful
 
     def create_sound_title(self, filepath):
@@ -46,7 +48,7 @@ class SQLiteWrapper(Database):
         # TODO Testen, dass es auch bei Pfad 'bla.wav' funzt!
         path_chunks = filepath.split('/')
         title = path_chunks[len(path_chunks) - 1]
-        print("title created: ", title)
+        self.logger.log(Logger.INFO, "title created: ", title)
         return title
 
     def user_exists(self, cursor, user_mac):
@@ -98,7 +100,7 @@ class SQLiteWrapper(Database):
                 sound_ID, title, filepath = cursor.fetchone()
                 user = User(mac_add, name, filepath, light_ID, light_color)
             else:
-                print("User with MAC %s could not be found." % user_mac)
+                self.logger.log(Logger.INFO, "User with MAC %s could not be found." % user_mac)
         return user
 
     def retrieve_users(self):

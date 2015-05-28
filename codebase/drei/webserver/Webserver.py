@@ -24,7 +24,7 @@ class Webserver(multiprocessing.Process):
 
     def run(self):
         """
-        Starts the webserver.
+        Starts the webserver in a own thread.
         """
         print("Webserver: Running on http://127.0.0.1:8080")
 
@@ -34,6 +34,11 @@ class Webserver(multiprocessing.Process):
         Webservices.start()
 
     def notify(self):
+        """
+        Blocks until the manager adds new user list to the queue and afterwards notifies all clients.
+        """
         while True:
+            # Retrieve user list.
             user_list = self.manager_queue.get()
+            # Notify clients.
             notify_active_users(user_list)

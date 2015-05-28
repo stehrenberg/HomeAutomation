@@ -107,7 +107,7 @@ def macs_to_users(macs):
 
 
 def get_user(users, user_mac):
-        return next(user for user in users if user.mac == user_mac)
+    return next(user for user in users if user.mac == user_mac)
 
 
 def serialize_boolean_response(key, value):
@@ -117,7 +117,7 @@ def serialize_boolean_response(key, value):
 def get_sound_list():
     sound_list = glob('./lib/periphery/soundFiles/*')
     temp_list = map(lambda s: s.rsplit("/")[-1], sound_list)
-    return  map(lambda s: s.rsplit("\\")[-1], temp_list)
+    return map(lambda s: s.rsplit("\\")[-1], temp_list)
 
 
 def start():

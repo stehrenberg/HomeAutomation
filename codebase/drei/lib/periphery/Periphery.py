@@ -32,21 +32,23 @@ class Periphery:
 
     # Turn on light number index
     def light_on(self, pixel, color_str):
-        print("light " + str(pixel) + " turned on")
+        pixel -= 1
+	print("light " + str(pixel) + " turned on")
 
         color = ColorFactory.create_from_hex(color_str)
 
-        self.light.set_pixel_color(pixel=pixel*4, color=color)
         self.light.set_pixel_color(pixel=pixel*4+1, color=color)
         self.light.set_pixel_color(pixel=pixel*4+2, color=color)
+        self.light.set_pixel_color(pixel=pixel*4+3, color=color)
 
     # Turn off light number index
     def light_off(self, pixel):
+	pixel -= 1
         print("light " + str(pixel) + " turned off")
 
-        self.light.set_pixel_color(pixel=pixel*4)
         self.light.set_pixel_color(pixel=pixel*4+1)
         self.light.set_pixel_color(pixel=pixel*4+2)
+        self.light.set_pixel_color(pixel=pixel*4+3)
 
     # Play sound at given directory
     def play_sound(self, file):

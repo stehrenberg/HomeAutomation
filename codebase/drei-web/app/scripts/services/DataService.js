@@ -39,7 +39,7 @@
                         }).post(user).$promise;
                     },
                     deleteUser: function (user) {
-                        return $resource(appConfig.serverAddress + '/api/users/' + user.mac, {}, {}).delete().$promise;
+                        return $resource(appConfig.serverAddress + '/api/users/' + escape(user.mac), {}, {}).delete().$promise;
                     },
                     updateUser: function (user) {
                         return $resource(appConfig.serverAddress + '/api/users/' + escape(user.mac), {}, {

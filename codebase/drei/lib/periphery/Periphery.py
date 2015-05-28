@@ -5,12 +5,15 @@ import DMXHandler
 import PixelTubeDevice
 import SoundController
 import ColorFactory
+from lib.logger.Logger import Logger
 
 
 class Periphery:
 
     def __init__(self):
-        self.sound = SoundController
+        self.logger = Logger()
+
+        self.sound = SoundController.SoundController()
 
         self.light = DMXHandler.DMXHandler()
 
@@ -18,14 +21,14 @@ class Periphery:
         # bar = LEDBarDevice.LEDBarDevice(48)
 
         if self.light.is_connected():
-            print "LightController is connected"
+            self.logger.log(Logger.INFO, "LightController is connected")
 
             self.light.add_device(tube)
             # self.light.add_device(bar)
 
             self.light.test()
         else:
-            print "LightController is not connected"
+            self.logger.log(Logger.INFO, "LightController is not connected")
 
     def __del__(self):
         self.light.clear()
@@ -33,7 +36,7 @@ class Periphery:
     # Turn on light number index
     def light_on(self, pixel, color_str):
         pixel -= 1
-	print("light " + str(pixel) + " turned on")
+        self.logger.log(Logger.INFO, "light " + str(pixel) + " turned on")
 
         color = ColorFactory.create_from_hex(color_str)
 
@@ -44,7 +47,7 @@ class Periphery:
     # Turn off light number index
     def light_off(self, pixel):
 	pixel -= 1
-        print("light " + str(pixel) + " turned off")
+        self.logger.log(Logger.INFO, "light " + str(pixel) + " turned off")
 
         self.light.set_pixel_color(pixel=pixel*4+1)
         self.light.set_pixel_color(pixel=pixel*4+2)
@@ -52,6 +55,6 @@ class Periphery:
 
     # Play sound at given directory
     def play_sound(self, file):
-        print("sound at " + file + " played")
+        self.logger.log(Logger.INFO, "sound at " + file + " played")
 
         self.sound.play(song_title='lib/periphery/soundFiles/' + file)

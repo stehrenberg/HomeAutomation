@@ -1,9 +1,8 @@
 import multiprocessing
 import numpy as np
 from lib.led.led import LED
-import logging
 
-
+from lib.logger.Logger import Logger
 from lib.database.SQLiteWrapper import SQLiteWrapper
 from lib.periphery.Periphery import Periphery
 
@@ -16,11 +15,10 @@ class Manager(multiprocessing.Process):
         self.crawler_queue = crawler_queue
         self.webserver_queue = webserver_queue
         self.led = LED(LED.MANAGER)
-        logging.basicConfig(filename='example.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+        self.logger = Logger()
 
     def run(self):
-        logging.info('Manager: Running')
-        print("Manager: Running")
+        self.logger.log(Logger.INFO, 'Running')
         self.led.on()
 
         # Control for sound and light
@@ -51,8 +49,7 @@ class Manager(multiprocessing.Process):
                             light_id = user.light_id
                             light_color = user.light_color
                             sound = user.sound
-                            logging.info("user " + changes[1] + " added")
-                            print("user " + changes[1] + " added")
+                            self.logger.log(Logger.INFO, "user " + changes[1] + " added")
                             self.per.light_on(int(light_id), light_color)
                             self.per.play_sound(sound)
                             break
@@ -67,8 +64,7 @@ class Manager(multiprocessing.Process):
                             altered = True
                             current_users = np.delete(current_users, del_index)
                             light_id = user.light_id
-                            logging.info("user " + changes[1] + " deleted")
-                            print("user " + changes[1] + " deleted")
+                            self.logger.log(Logger.INFO, "user " + changes[1] + " deleted")
                             self.per.light_off(int(light_id))
 
             if altered:

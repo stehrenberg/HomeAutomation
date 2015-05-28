@@ -32,6 +32,10 @@ user_list = []
 # ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])
 def get_users():
+    """
+    Returns the list of users as json string.
+    :return: Users list as json string.
+    """
     # Serialize users
     users = json.dumps([user.__dict__ for user in db.retrieve_users()])
     return users, 200
@@ -39,6 +43,10 @@ def get_users():
 
 @app.route('/api/sounds', methods=['GET'])
 def get_sounds():
+    """
+    Returns the list of available sounds as json string.
+    :return: Songs list as json string.
+    """
     # Serialize sounds
     test = get_sound_list()
     sounds = json.dumps(test)
@@ -47,50 +55,78 @@ def get_sounds():
 
 @app.route('/api/users', methods=['POST'])
 def add_user():
+    """
+    Adds a user to the users list.
+    :return: Json object which contains a boolean which indicates whether the user was created.
+    """
     if not request.json:
         abort(400)
     user = parse_user(request.json)
     created = db.add_user(user)
-    return serialize_boolean_response('created', created), 201
+    return serialize_key_value_response('created', created), 201
 
 
 @app.route('/api/users/<string:user_id>', methods=['PUT'])
 def update_user(user_id):
+    """
+    Updates the user with the specified id.
+    :param user_id: The id of the user who will be updated.
+    :return: Json object which contains a boolean which indicates whether the user was updated.
+    """
     if not request.json:
         abort(400)
     user = parse_user(request.json)
     updated = db.update_user(user_id, user)
-    return serialize_boolean_response('updated', updated), 202
+    return serialize_key_value_response('updated', updated), 202
 
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
+    """
+    Deletes the user with the specified id.
+    :param user_id: The id of the user who will be deleted.
+    :return: Json object which contains a boolean which indicates whether the user was deleted.
+    """
     deleted = db.delete_user(user_id)
-    return serialize_boolean_response('deleted', deleted), 200
+    return serialize_key_value_response('deleted', deleted), 200
 
 
 # ----------- Websocket definitions -----------
 def notify_active_users(user_list_new):
+    """
+    Notifies all clients about changes with the changed user list.
+    :param user_list_new: The changed user list which will be sent to the clients.
+    """
     global user_list
     user_list = macs_to_users(user_list_new)
     socket.emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in user_list]))
 
 
-# This function is necessary otherwise the clients
-# cannot be addressed by an broadcast
 @socket.on('connect')
 def welcome_client():
+    """
+    Welcomes all clients. This function is necessary otherwise the clients cannot be addressed by an broadcast.
+    """
     emit('Connected')
 
 
 @socket.on('GetActiveUsersEvent')
 def get_active_users():
+    """
+    Returns a list with all active users in a json string.
+    :return: Json string with a list of all active users.
+    """
     global user_list
     emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in user_list]))
 
 
 # ----------- Helpers -----------
 def parse_user(user_json):
+    """
+    Parses a user object.
+    :param user_json: The json string.
+    :return: The parsed user object.
+    """
     name = user_json["name"]
     mac = user_json["mac"]
     sound = user_json["sound"]
@@ -99,28 +135,42 @@ def parse_user(user_json):
 
 
 def macs_to_users(macs):
+    """
+    Returns a list of users for the specified mac addresses.
+    :param macs: The list of mac addresses.
+    :return: A list of user objects for the specified mac addresses.
+    """
     result_list = []
-    users = db.retrieve_users()
     for mac in macs:
-        result_list.append(get_user(users, mac))
+        result_list.append(db.get_user(mac))
     return result_list
 
 
-def get_user(users, user_mac):
-    return next(user for user in users if user.mac == user_mac)
-
-
-def serialize_boolean_response(key, value):
+def serialize_key_value_response(key, value):
+    """
+    Serializes a key value pair where value is the bool into json.
+    :param key: The key for the boolean value.
+    :param value: The boolean value.
+    :return: Returns a json string with the specified key value pair.
+    """
     return json.dumps({key: value})
 
 
 def get_sound_list():
+    """
+    Returns a list of all available sounds in the file system.
+    :return: All available sounds in the filesystem.
+    """
     sound_list = glob('./lib/periphery/soundFiles/*')
     temp_list = map(lambda s: s.rsplit("/")[-1], sound_list)
     return map(lambda s: s.rsplit("\\")[-1], temp_list)
 
 
 def start():
+    """
+    Starts the Webservices (REST and Websocket).
+    """
+
     # Change log level for flask to print only errors.
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)

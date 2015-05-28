@@ -17,7 +17,6 @@ angular.module('DreiWebApp')
 
             dataService.getSounds().then(function (sounds) {
                 $scope.sounds = sounds;
-                $scope.user.sound = sounds[0];
             });
 
             $scope.cancel = function () {

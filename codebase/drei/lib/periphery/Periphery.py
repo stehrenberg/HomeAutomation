@@ -10,6 +10,8 @@ from lib.logger.Logger import Logger
 
 class Periphery:
 
+    STATUS_LED = 16
+
     def __init__(self):
         self.logger = Logger()
 
@@ -46,12 +48,15 @@ class Periphery:
 
     # Turn off light number index
     def light_off(self, pixel):
-	pixel -= 1
+        pixel -= 1
         self.logger.log(Logger.INFO, "light " + str(pixel) + " turned off")
 
         self.light.set_pixel_color(pixel=pixel*4+1)
         self.light.set_pixel_color(pixel=pixel*4+2)
         self.light.set_pixel_color(pixel=pixel*4+3)
+
+    def set_status_light(self, color):
+        self.light.set_pixel_color(self.STATUS_LED, color=color)
 
     # Play sound at given directory
     def play_sound(self, file):

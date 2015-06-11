@@ -5,6 +5,8 @@ from dto.user import User
 from lib.database.Database import Database
 from lib.logger.Logger import Logger
 
+DMX_OFFSET = 1
+
 __author__ = 's.ehrenberg'
 
 
@@ -96,6 +98,9 @@ class SQLiteWrapper(Database):
             data = cursor.fetchone()
             if data:
                 mac_add, name, light_color, sound, light_ID = data
+
+                light_ID -= DMX_OFFSET  # Correct the pixel number to zero based index
+
                 cursor.execute("SELECT * FROM Sounds WHERE sound_ID='%s'" % sound)
                 sound_ID, title, filepath = cursor.fetchone()
                 user = User(mac_add, name, filepath, light_ID, light_color)

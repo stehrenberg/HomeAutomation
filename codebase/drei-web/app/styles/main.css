@@ -99,3 +99,8 @@ body {
 #light {
     padding: 0;
 }
+
+.error {
+    width: 100%;
+    word-wrap:break-word;
+}

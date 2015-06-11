@@ -67,7 +67,8 @@ def add_user():
         abort(400)
     user = parse_user(request.json)
     created = db.add_user(user)
-    return serialize_key_value_response('created', created), 201
+    return_code = 201 if created else 409
+    return serialize_key_value_response('created', created), return_code
 
 
 @app.route('/api/users/<string:user_id>', methods=['PUT'])
@@ -81,7 +82,8 @@ def update_user(user_id):
         abort(400)
     user = parse_user(request.json)
     updated = db.update_user(user_id, user)
-    return serialize_key_value_response('updated', updated), 202
+    return_code = 202 if updated else 409
+    return serialize_key_value_response('updated', updated), return_code
 
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
@@ -92,7 +94,8 @@ def delete_user(user_id):
     :return: Json object which contains a boolean which indicates whether the user was deleted.
     """
     deleted = db.delete_user(user_id)
-    return serialize_key_value_response('deleted', deleted), 200
+    return_code = 200 if deleted else 404
+    return serialize_key_value_response('deleted', deleted), return_code
 
 
 # ----------- Websocket definitions -----------

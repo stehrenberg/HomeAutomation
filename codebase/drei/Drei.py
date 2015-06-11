@@ -20,26 +20,26 @@ if __name__ == '__main__':
     InitTables.main()
 
     # Initialize the message queue for crawler and manager
-    crawler_manager_queue = multiprocessing.Queue()
+    manager_queue = multiprocessing.Queue()
 
     # Initialize the message queue for manager and webserver
     manager_webserver_queue = multiprocessing.Queue()
 
     # Start the crawler
-    crawler = Crawler(crawler_manager_queue, platform.machine() != Const.PI_PLATFORM)
+    crawler = Crawler(manager_queue, platform.machine() != Const.PI_PLATFORM)
     crawler.start()
 
     # Start the manager
-    manager = Manager(crawler_manager_queue, manager_webserver_queue)
+    manager = Manager(manager_queue, manager_webserver_queue)
     manager.start()
 
     # Start the webserver
-    webserver = Webserver(manager_webserver_queue)
+    webserver = Webserver(manager_webserver_queue, manager_queue)
     webserver.start()
 
     # Wait until both processes end
-    crawler_manager_queue.close()
-    crawler_manager_queue.join_thread()
+    manager_queue.close()
+    manager_queue.join_thread()
     crawler.join()
     manager.join()
     webserver.join()

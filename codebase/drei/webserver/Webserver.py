@@ -14,14 +14,15 @@ class Webserver(multiprocessing.Process):
     Represents the webserver. It starts a RESTful and a websocket service.
     """
 
-    def __init__(self, manager_queue):
+    def __init__(self, manager_webserver_queue, manager_control_gueue):
         """
-        Constructor of the webserver.
-        :param manager_queue: The queue which will be used to retrieve messages from the manager.
+        Comanager_gueuenstructor of the webserver.
+        :param manager_webserver_queue: The queue which will be used to retrieve messages from the manager.
         :return: A new webserver.
         """
         multiprocessing.Process.__init__(self)
-        self.manager_queue = manager_queue
+        self.manager_webserver_queue = manager_webserver_queue
+        self.manager_control_queue = manager_control_gueue
         self.logger = Logger()
 
     def run(self):
@@ -34,6 +35,7 @@ class Webserver(multiprocessing.Process):
 
         # Initialize the RESTful and Websocket services.
         Webservices.start()
+        Webservices.manager_control_queue = self.manager_control_queue
 
     def notify(self):
         """
@@ -41,6 +43,6 @@ class Webserver(multiprocessing.Process):
         """
         while True:
             # Retrieve user list.
-            user_list = self.manager_queue.get()
+            user_list = self.manager_webserver_queue.get()
             # Notify clients.
             notify_active_users(user_list)

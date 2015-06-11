@@ -31,6 +31,9 @@ user_list = []
 # String containing all available sounds
 sounds = None
 
+# Queue to send colours dynamically
+manager_control_queue = None
+
 
 # ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])

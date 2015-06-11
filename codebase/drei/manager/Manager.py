@@ -53,7 +53,7 @@ class Manager(multiprocessing.Process):
                             self.per.light_on(int(light_id), light_color)
                             self.per.play_sound(sound)
                             break
-                else:
+                elif changes[0] == "0":
                     for user in users:
                         if user.mac.lower() == changes[1].lower():
                             # Catch deletion of just added users
@@ -66,6 +66,8 @@ class Manager(multiprocessing.Process):
                             light_id = user.light_id
                             self.logger.log(Logger.INFO, "user " + changes[1] + " deleted")
                             self.per.light_off(int(light_id))
+                elif changes[0] == "2":
+                    self.per.set_status_light(changes[1])
 
             if altered:
                 altered = False

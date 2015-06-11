@@ -24,6 +24,7 @@ class Periphery:
 
         if self.light.is_connected():
             self.logger.log(Logger.INFO, "LightController is connected")
+            print("Periphery: LightController is connected")
 
             self.light.add_device(tube)
             # self.light.add_device(bar)
@@ -31,6 +32,7 @@ class Periphery:
             self.light.test()
         else:
             self.logger.log(Logger.INFO, "LightController is not connected")
+            print("Periphery: LightController is not connected")
 
     def __del__(self):
         self.light.clear()

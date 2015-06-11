@@ -33,6 +33,7 @@ class Crawler(multiprocessing.Process):
 
     def run(self):
         self.logger.log(Logger.INFO, "Running")
+        print("Logger running")
         self.led.on()
 
         # dummy mode, send addresses in random time slices

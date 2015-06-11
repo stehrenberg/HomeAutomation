@@ -10,6 +10,7 @@ if platform.machine() == Const.PI_PLATFORM:
         def __init__(self):
             self.logger = Logger()
             self.logger.log(Logger.INFO, "Started")
+            print("Soundcontroller started")
 
         def play(self, song_title):
             from thread import start_new_thread

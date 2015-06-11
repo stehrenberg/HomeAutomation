@@ -15,6 +15,7 @@ __author__ = 's.jahreiss'
 if __name__ == '__main__':
     logger = Logger()
     logger.log(Logger.INFO, "Starting Drei")
+    print("Starting Drei")
 
     # Initializing database with tables (if necessary)
     InitTables.main()

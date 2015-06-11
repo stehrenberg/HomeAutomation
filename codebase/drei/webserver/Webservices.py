@@ -165,7 +165,7 @@ def get_sound_list():
     global sounds
 
     sound_extensions = ["mp3", "wav"]
-    sounds = get_file_list("./lib/periphery/soundFiles/", sound_extensions)
+    sounds = get_file_list("./resources/sounds", sound_extensions)
     return json.dumps(sounds)
 
 

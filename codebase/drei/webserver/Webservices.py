@@ -1,6 +1,5 @@
 import json
 import logging
-from glob import glob
 
 from flask import Flask, request, abort
 from flask.ext.cors import CORS
@@ -8,6 +7,7 @@ from flask.ext.socketio import SocketIO, emit
 
 from dto.user import User
 from lib.database.SQLiteWrapper import SQLiteWrapper
+from lib.dir.Directory import get_file_list
 
 
 __author__ = 's.jahreiss'
@@ -28,6 +28,9 @@ db = SQLiteWrapper()
 # List containing online users
 user_list = []
 
+# String containing all available sounds
+sounds = None
+
 
 # ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])
@@ -47,9 +50,7 @@ def get_sounds():
     Returns the list of available sounds as json string.
     :return: Songs list as json string.
     """
-    # Serialize sounds
-    test = get_sound_list()
-    sounds = json.dumps(test)
+    # Return sounds
     return sounds, 200
 
 
@@ -161,15 +162,21 @@ def get_sound_list():
     Returns a list of all available sounds in the file system.
     :return: All available sounds in the filesystem.
     """
-    sound_list = glob('./lib/periphery/soundFiles/*')
-    temp_list = map(lambda s: s.rsplit("/")[-1], sound_list)
-    return map(lambda s: s.rsplit("\\")[-1], temp_list)
+    global sounds
+
+    sound_extensions = ["mp3", "wav"]
+    sounds = get_file_list("./lib/periphery/soundFiles/", sound_extensions)
+    return json.dumps(sounds)
 
 
 def start():
     """
     Starts the Webservices (REST and Websocket).
     """
+    global sounds
+
+    # Retrieve the sound files.
+    sounds = get_sound_list()
 
     # Change log level for flask to print only errors.
     log = logging.getLogger('werkzeug')

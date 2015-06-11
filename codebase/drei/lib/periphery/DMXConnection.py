@@ -34,7 +34,6 @@ LABELS = {'GET_WIDGET_PARAMETERS': 3,
           }
 
 
-# TODO Could be replaced with a singleton
 class DMXConnection(object):
     """DMXConnection represents the connection to a single DMX device.
         The DMX address can be set."""
@@ -55,8 +54,8 @@ class DMXConnection(object):
             try:
                 self.com = serial.Serial(device, baudrate=COM_BAUD, timeout=COM_TIMEOUT)
             except:
-                self.logger.log(Logger.INFO, "Could not open %s, quitting application" % device)
-                raise PortNotOpenException
+                self.logger.log(Logger.ERROR, "Could not open %s" % device)
+                raise PortNotOpenException("Could not open %s" % device)
 
             self.logger.log(Logger.INFO, "Opened %s" % self.com.portstr)
 
@@ -67,8 +66,8 @@ class DMXConnection(object):
         #  takes channel and value arguments to set a channel level in the local
         #  dmx frame, to be rendered the next time the render() method is called
         if (channel > MAX_CHANNELS) or (channel < MIN_CHANNELS):
-            self.logger.log(Logger.INFO, "Invalid channel")
-            raise InvalidChannelException
+            self.logger.log(Logger.WARNING, "Invalid channel %d" % channel)
+            raise InvalidChannelException("Invalid channel %d" % channel)
 
         if val > MAX_VAL:
             val = MAX_VAL

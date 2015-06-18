@@ -39,7 +39,6 @@ class SQLiteWrapper(Database):
                 was_added_successful = True
             else:
                 self.logger.log(Logger.INFO, "User already exists. Nothing inserted.")
-                was_added_successful = False
         return was_added_successful
 
     def create_sound_title(self, filepath):

@@ -27,6 +27,10 @@ angular
                 templateUrl: 'views/users.html',
                 controller: 'UsersCtrl'
             })
+            .when('/latency', {
+                templateUrl: 'views/latency.html',
+                controller: 'LatencyCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

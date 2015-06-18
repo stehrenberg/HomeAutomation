@@ -31,9 +31,6 @@ user_list = []
 # String containing all available sounds
 sounds = None
 
-# Queue to send colours dynamically
-manager_control_queue = None
-
 
 # ----------- REST definitions -----------
 @app.route('/api/users', methods=['GET'])
@@ -125,6 +122,15 @@ def get_active_users():
     """
     global user_list
     emit('ActiveUsersNotification', json.dumps([user.__dict__ for user in user_list]))
+
+
+@socket.on('LatencyColorEvent')
+def get_latency_color_event(color):
+    """
+    Retrieves a latencyColorEvent and sends it to the Manager to turn on the light.
+    """
+    global manager_control_queue
+    manager_control_queue.put(["2", color.decode()])
 
 
 # ----------- Helpers -----------

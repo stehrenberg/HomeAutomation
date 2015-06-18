@@ -32,9 +32,12 @@
                 initWebsocket();
 
                 return {
-                  refreshActiveUsers: function () {
-                      socket.emit('GetActiveUsersEvent');
-                  }
+                    refreshActiveUsers: function () {
+                        socket.emit('GetActiveUsersEvent');
+                    },
+                    sendLatencyColor: function(color) {
+                        socket.emit('LatencyColorEvent', color);
+                    }
                 };
             }
         ]);

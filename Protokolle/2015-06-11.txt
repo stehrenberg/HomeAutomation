@@ -1,12 +1,17 @@
 Done:
-- Sound suche in eigenes Modul abgekapselt
-- Status Licht hinzugefügt
-- Manager-Webserver Queue eingeführt für dynamische Steuerung aus Browser (-> Status Licht)
-- Logging für DMX hinzugefügt
-- Kommentare hinzugefügt
-- Kommandozeilen-Ausgaben hinzugefügt
-- Fehlerdialog in web-ui hinzugefügt
-- Bug in SQLiteWrapper behoben
-- Http Fehler codes hinzugefügt
-- Url korrigiert
-- web-ui aktualisiert
+- Sound Suche in eigenes Modul abgekapselt (Simon)
+- Status Licht hinzugefügt (Luis)
+- Manager-Webserver Queue eingeführt für dynamische Steuerung aus Browser (-> Status Licht) (Markus)
+- Logging für DMX hinzugefügt (Luis)
+- Kommentare hinzugefügt (Simon, Markus)
+- Fehlerdialog in web-ui hinzugefügt (Simon)
+- Bug in SQLiteWrapper behoben (Simon)
+- Http Fehler codes hinzugefügt (Simon)
+- Url korrigiert (Simon)
+- web-ui aktualisiert (Simon)
+
+max 12078
+simon 11030
+markus 11065
+steph 12025
+luis 12385

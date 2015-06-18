@@ -4,8 +4,8 @@ TODO:
 - kommentare
 
 Erledigt:
-- logging
-- Kommentare in Webservices
-- Webservices refactored
-- Light IDs angepasst
-- MAC-Adressen case-insensitive
+- logging (Markus)
+- Kommentare in Webservices (Simon)
+- Webservices refactored (Simon)
+- Light IDs angepasst (Max)
+- MAC-Adressen case-insensitive (Markus

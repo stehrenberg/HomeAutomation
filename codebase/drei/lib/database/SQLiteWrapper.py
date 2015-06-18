@@ -51,7 +51,7 @@ class SQLiteWrapper(Database):
         # TODO Testen, dass es auch bei Pfad 'bla.wav' funzt!
         path_chunks = filepath.split('/')
         title = path_chunks[len(path_chunks) - 1]
-        self.logger.log(Logger.INFO, "title created: ", title)
+        self.logger.log(Logger.INFO, "title created: %s" % title)
         return title
 
     def user_exists(self, cursor, user_mac):

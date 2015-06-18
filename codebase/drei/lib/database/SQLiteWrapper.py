@@ -17,6 +17,7 @@ class SQLiteWrapper(Database):
     def __init__(self, db="test.db"):
         Database.__init__(self, db)
         self.logger = Logger()
+        self.logger.log(Logger.INFO, "DB Wrapper initialized.")
 
     def add_user(self, user):
         """
@@ -25,6 +26,7 @@ class SQLiteWrapper(Database):
         :returns true, if adding was successful, otherwise false.
         """
         was_added_successful = False
+        logger_msg = "nothing happened."
         with sql.connect(self.db) as db_con:
             cursor = db_con.cursor()
             if not self.user_exists(cursor, user.mac):
@@ -37,8 +39,10 @@ class SQLiteWrapper(Database):
                     sound_ID,
                     user.light_color))
                 was_added_successful = True
+                logger_msg = "User %s with MAC-Address %s created." % (user.name, user.mac)
             else:
-                self.logger.log(Logger.INFO, "User already exists. Nothing inserted.")
+                logger_msg = "User already exists. Nothing inserted."
+        self.logger.log(Logger.INFO, logger_msg)
         return was_added_successful
 
     def create_sound_title(self, filepath):
@@ -47,7 +51,6 @@ class SQLiteWrapper(Database):
         :param filepath:
         :return: Filename as title
         """
-        # TODO Testen, dass es auch bei Pfad 'bla.wav' funzt!
         path_chunks = filepath.split('/')
         title = path_chunks[len(path_chunks) - 1]
         self.logger.log(Logger.INFO, "title created: %s" % title)
@@ -99,7 +102,7 @@ class SQLiteWrapper(Database):
             if data:
                 mac_add, name, light_color, sound, light_ID = data
 
-                light_ID -= DMX_OFFSET  # Correct the pixel number to zero based index
+                #light_ID -= DMX_OFFSET  # Correct the pixel number to zero based index
 
                 cursor.execute("SELECT * FROM Sounds WHERE sound_ID='%s'" % sound)
                 sound_ID, title, filepath = cursor.fetchone()

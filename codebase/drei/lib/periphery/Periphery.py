@@ -10,7 +10,7 @@ from lib.logger.Logger import Logger
 
 class Periphery:
 
-    STATUS_LED = 16
+    STATUS_LED = 15
 
     def __init__(self):
         self.logger = Logger()
@@ -65,4 +65,4 @@ class Periphery:
     def play_sound(self, file):
         self.logger.log(Logger.INFO, "sound at " + file + " played")
 
-        self.sound.play(song_title='lib/periphery/soundFiles/' + file)
+        self.sound.play(song_title='resources/sounds/' + file)

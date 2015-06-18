@@ -1,0 +1,12 @@
+Done:
+- Sound suche in eigenes Modul abgekapselt
+- Status Licht hinzugefügt
+- Manager-Webserver Queue eingeführt für dynamische Steuerung aus Browser (-> Status Licht)
+- Logging für DMX hinzugefügt
+- Kommentare hinzugefügt
+- Kommandozeilen-Ausgaben hinzugefügt
+- Fehlerdialog in web-ui hinzugefügt
+- Bug in SQLiteWrapper behoben
+- Http Fehler codes hinzugefügt
+- Url korrigiert
+- web-ui aktualisiert

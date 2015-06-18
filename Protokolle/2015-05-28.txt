@@ -1,0 +1,11 @@
+TODO:
+- logging/error handler
+- tests (wo sinnvoll/möglich)
+- kommentare
+
+Erledigt:
+- logging
+- Kommentare in Webservices
+- Webservices refactored
+- Light IDs angepasst
+- MAC-Adressen case-insensitive

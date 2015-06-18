@@ -57,7 +57,8 @@ class Periphery:
         self.light.set_pixel_color(pixel=pixel*4+2)
         self.light.set_pixel_color(pixel=pixel*4+3)
 
-    def set_status_light(self, color):
+    def set_status_light(self, color_str):
+        color = ColorFactory.create_from_hex(color_str)
         self.light.set_pixel_color(self.STATUS_LED, color=color)
 
     # Play sound at given directory

@@ -155,7 +155,9 @@ def macs_to_users(macs):
     """
     result_list = []
     for mac in macs:
-        result_list.append(db.get_user(mac))
+        user = db.get_user(mac)
+        if user is not None:
+            result_list.append(user)
     return result_list
 
 

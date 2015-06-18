@@ -3,8 +3,8 @@ __author__ = 'Luis'
 
 import DMXConnection
 import ColorFactory
-import PixelTubeDevice
-import LEDBarDevice
+from PixelTubeDevice import PixelTubeDevice
+from LEDBarDevice import LEDBarDevice
 from DMXDevice import DMXDevice
 from lib.logger.Logger import Logger
 
@@ -121,9 +121,9 @@ class DMXHandler:
 
 if __name__ == '__main__':
     handler = DMXHandler()
-    tube = PixelTubeDevice.PixelTubeDevice(0)
+    tube = PixelTubeDevice(0)
 
-    bar = LEDBarDevice.LEDBarDevice(48)
+    bar = LEDBarDevice(48)
 
     if handler.is_connected():
         logger = Logger()

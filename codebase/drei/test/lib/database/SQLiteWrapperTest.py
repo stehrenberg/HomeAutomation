@@ -61,6 +61,9 @@ class DBWrapperTest(unittest.TestCase):
         self.assertEqual(self.testuser.light_color, user.light_color)
         # light_id kann nicht verglichen werden, weil testuser-object noch keine id hat
 
+    def test_get_nonexistent_user(self):
+        self.assertTrue(self.db_wrapper.get_user(self.testuser) == None)
+
     def test_retrieve_users(self):
         self.assertTrue(self.db_wrapper.add_user(self.testuser))
         self.assertTrue(self.db_wrapper.add_user(self.double_sound_testuser))
@@ -70,6 +73,11 @@ class DBWrapperTest(unittest.TestCase):
             mac_addresses.append(user.mac)
         self.assertTrue(mac_addresses.__contains__(self.testuser.mac))
         self.assertTrue(mac_addresses.__contains__(self.double_sound_testuser.mac))
+
+    def test_retrieve_users_from_empty_db(self):
+        users = self.db_wrapper.retrieve_users()
+        self.assertTrue(len(users) == 0)
+        print("users from empty db: ", users)
 
     def test_update_user(self):
         self.assertTrue(self.db_wrapper.add_user(self.testuser))

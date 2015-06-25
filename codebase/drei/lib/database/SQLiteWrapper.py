@@ -101,9 +101,6 @@ class SQLiteWrapper(Database):
             data = cursor.fetchone()
             if data:
                 mac_add, name, light_color, sound, light_ID = data
-
-                #light_ID -= DMX_OFFSET  # Correct the pixel number to zero based index
-
                 cursor.execute("SELECT * FROM Sounds WHERE sound_ID='%s'" % sound)
                 sound_ID, title, filepath = cursor.fetchone()
                 user = User(mac_add, name, filepath, light_ID, light_color)
@@ -144,6 +141,10 @@ class SQLiteWrapper(Database):
                 sound_ID,
                 user_mac))
             was_update_successful = cursor.rowcount > 0
+            logger_msg = "Nothing to update."
+            if was_update_successful:
+                logger_msg = "User data updated - new sound: %s new light color: %s." % (sound_ID, user.light_color)
+        self.logger.log(Logger.INFO, "User with MAC %s could not be found." % user_mac)
         return was_update_successful
 
     def delete_user(self, user_mac):

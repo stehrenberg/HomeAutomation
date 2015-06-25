@@ -5,7 +5,7 @@
  * @name DreiWebApp.directive:isActiveNav
  * @description
  * # isActiveNav
- * Controller of the dreiWebApp
+ * Directive which is responsible for marking menu entries as inactive/active.
  */
 angular.module('DreiWebApp')
     .directive('isActiveNav', ['$location', function ($location) {

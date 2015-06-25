@@ -5,7 +5,7 @@
  * @name DreiWebApp.controller:DashboardCtrl
  * @description
  * # DashboardCtrl
- * Controller of the dreiWebApp
+ * Controller of the dreiWebApp. Responsible for the dashboard view.
  */
 angular.module('DreiWebApp')
     .controller('DashboardCtrl', [
@@ -22,7 +22,7 @@ angular.module('DreiWebApp')
                 $scope.$digest();
             });
 
-            // Force a refresh.
+            // Force a refresh to retrieve the list of active users.
             websocketService.refreshActiveUsers();
         }
     ]

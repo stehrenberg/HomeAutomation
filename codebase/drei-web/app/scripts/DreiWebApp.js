@@ -18,6 +18,9 @@ angular
         serverAddress: ''//configured auto
     })
     .config(function ($routeProvider) {
+        /**
+         * Configure the routs in the app.
+         */
         $routeProvider
             .when('/', {
                 templateUrl: 'views/dashboard.html',

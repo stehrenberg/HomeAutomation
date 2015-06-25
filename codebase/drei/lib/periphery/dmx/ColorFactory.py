@@ -2,7 +2,7 @@ __author__ = 'Luis'
 
 import random
 
-from lib.periphery.dmx import RGBColor
+from lib.periphery.dmx.RGBColor import RGBColor
 
 
 _hex_base = 16

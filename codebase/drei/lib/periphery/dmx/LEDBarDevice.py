@@ -1,6 +1,6 @@
 __author__ = 'Luis'
 
-from lib.periphery.dmx import DMXDevice
+from lib.periphery.dmx.DMXDevice import DMXDevice
 
 
 class LEDBarDevice(DMXDevice):

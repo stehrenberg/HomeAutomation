@@ -6,7 +6,7 @@ Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pa
 
 ## Motivation
 
-Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbrbeiteten, verkarterten Studenten nicht umsonst in die Fachschaft laufen und festestellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektiviere Zeitplanung möglich und die Noten werden automatisch besser.
+Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
 
 
 ## Anforderungen
@@ -14,21 +14,21 @@ Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit d
 * Automatische Präsenzerkennung (ohne Interaktion von Fachschaftsmitglied)
 * Keine zusätzliche Software/Hardware für Fachschaftler von Nöten
 * Webinterface zur Verwaltung
-* Zeitnahe Visualisierung der Präsenz (Webseite wie Leuchtisgnale)
-* Willkommensmelodie
+* Zeitnahe Visualisierung der Präsenz (Webseite wie Leuchtsignale)
+* individuelle Willkommensmelodie
 * Audio-Visuelle Eindeutigkeit der Fachschaftler (Farbe der Leuchtsignale, Melodie beim Eintritt)
 * Systemstatus von Außen ersichtlich
 
 
 ## Idee
 
-Da eigentlich jedes Mitglied der Fachschaft ein Smartphone hat, soll die Präsenzerkennung über die Wifi Schnitstelle realisiert werden. Dazu wird ein dedizierter Hotspot, der nur die Fachschaftsräume abdeckt, installiert. Um zu vermeiden das auf den Smartphones zusätzliche Software installiert werden muss, soll anhand der MAC-Adresse erkannt werden, ob das Telefon in das spezielle Wifi eingebucht ist und somit der Fachschaftler präsent ist.
+Da eigentlich jedes Mitglied der Fachschaft ein Smartphone hat, soll die Präsenzerkennung über die Wifi Schnitstelle realisiert werden. Dazu wird ein dedizierter Hotspot, der nur die Fachschaftsräume abdeckt, installiert. Um zu vermeiden, dass auf den Smartphones zusätzliche Software installiert werden muss, soll anhand der MAC-Adresse erkannt werden, ob das Telefon in das spezielle Wifi eingebucht ist und somit der Fachschaftler präsent ist.
 
 Sobald ein Telefon sich ins Wifi einbucht, soll über die in den Fachschaftsräumen installierte Tonanlage die Willkommenmelodie des jeweiligen Telefoninhabers/Fachschaftlers abgespielt werden.
 
 Zusätzlich wird neben der Fachschaftstür ein Leuchtsignal (PixelTube, ein Pixel) mit der vom User spezifizierten Farbe eingeschaltet. Beim Verlassen der Fachschaftsräume soll dieses Signal ausgeschaltet werden.
 
-Durch eine Websocketverbindung auf der Fachschaftswebseite kann in fast Echtzeit die Präsenz der Mitglieder von überall eingesehen werden.
+Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtzeit die Präsenz der Mitglieder von überall eingesehen werden.
 
 
 ## Hardware Komponenten
@@ -43,23 +43,24 @@ Durch eine Websocketverbindung auf der Fachschaftswebseite kann in fast Echtzeit
 
 ## Software Design
 
-Um möglichst effiziente Softwareentiwcklungszyklen zu realisieren wurde großen Wert drauf gelegt die einzelnen Komponenten soweit wie möglich von einander zu trennen.
-Zum besseren Verständnis wurde die Architektur der Software in einer Grafik zusammen gefasst:
+Um möglichst effiziente Softwareentwicklungszyklen zu realisieren, wurde großer Wert auf eine maximal modulare Entwicklung der einzelnen Komponenten gelegt.
+Die folgende Grafik veranschaulicht den Architekturentwurf:
 
 ![System Overview](overview.png)
 
 Der **Webserver**, der **Manager** und der **Wifi Crawler** kommunizieren mittels bi- und unidirektionaler **Pipes**.
-Die **Peripheriesterung wurde als Library** ausgelegt und wir direkt vom Manager verwendet.     
-Zwischen Client und Webserver besteht eine bidirektionale Websocketverbindung, damit Präsenzänderungen in fast-echtzeit auf der Fachschaftswebseite angezeigt werden können. Zusätzlich verwendet das **Verwaltungsinterface eine REST-Schnittstelle** um User hinzuzufügen und abzuändern.    
+Die **Peripherie-Steuerung wurde als Library** ausgelegt und wird direkt vom Manager verwendet.
+Zwischen Client und Webserver besteht eine bidirektionale Websocketverbindung, damit Präsenzänderungen in Fast-Echtzeit auf der Webseite der Fachschaft angezeigt werden können.
+Zusätzlich verwendet das **Verwaltungsinterface eine REST-Schnittstelle**, um User hinzufügen und abändern zu können.
 Zugriffe auf die **Datenbank wurden ebenfalls über eine Library gekapselt**.
 
 
 ### Wifi Crawler
 
 #### Hotspot
-Die Hotspotfunktionalität wir mit dem Tool **hostapd** und einem zweiten WLAN Stick realisiert. Zusätzlich wurde ein DHCP Server auf dem RaspbberyPi installiert der den Clients eigene IP Adressen gibt.
+Die Hotspotfunktionalität wird mit dem Tool **hostapd** und einem zweiten WLAN Stick realisiert. Zusätzlich wurde ein DHCP Server auf dem RaspbberyPi installiert, der den Clients eigene IP Adressen gibt.
 
-	# Istallation der benötigeten Tools
+	# Installation der benötigten Tools
 	$: apt-get install hostapd dhcpd
 	
 	# Konfiguration von hostapd
@@ -78,13 +79,13 @@ Die Hotspotfunktionalität wir mit dem Tool **hostapd** und einem zweiten WLAN S
 	wpa_pairwise=TKIP
 	rsn_pairwise=CCMP
 	
-Mit der oben angegebenen Konfiguration stellt das RaspberryPi einen Hotspot mit der SSID "Horst" und dem WPA2 Passphrase "goto_fail" zur verfügung.
+Mit der oben angegebenen Konfiguration stellt das RaspberryPi einen Hotspot mit der SSID "Horst" und dem WPA2 Passphrase "goto_fail" zur Verfügung.
 	
-Im Produktivsystem müsste noch eine **Netzwerkbrücke** zwischen dem Wifi- und dem Ethernetinterface erstellt werden, damit Geräte die mit dem Raspberry Hotspot verbunden sind auch weiterhin Internetzugriff haben.
+Im Produktivsystem müsste noch eine **Netzwerkbrücke** zwischen dem Wifi- und dem Ethernetinterface erstellt werden, damit Geräte, die mit dem Raspberry Hotspot verbunden sind, auch weiterhin Internetzugriff haben.
 	
-#### Cralwer
+#### Crawler
 
-Um zu erkennen welcher User sich verbund hat, kommt das Tool **iwevent** zum Einsatz. Dieses Tool zeigt alle Ereignisse, die im Hotspot passieren auf der Kommandozeile an. Diese Ausgaben werden von einem Python Programm **geparsed** und an den Manager weiter gegeben. Beispielhafte Ausgabe von iwevent:
+Um zu erkennen, welcher User sich verbunden hat, kommt das Tool **iwevent** zum Einsatz. Dieses Tool zeigt alle Ereignisse, die im Hotspot passieren auf der Kommandozeile an. Diese Ausgaben werden von einem Python Programm **geparsed** und an den Manager weiter gegeben. Beispielhafte Ausgabe von iwevent:
 
 	pi@192.168.188.26$: iwevent
 	Waiting for Wireless Events from interfaces...
@@ -96,23 +97,10 @@ Glücklicherweise kann iwevent auch als unprevilegierter Benutzer verwendet werd
 
 ### Statusanzeige GPIO
 
-Zur Anzeige des Systemstatusses wurden **zwei LEDs** an das GPIO Interface des Raspberry Pis angeschlossen. Eine der Beiden Leds leuchtet sobald der **Manager gestartet** wurde und und geht wieder aus wenn der Manager beendet wird.    
-Die zweite LED zeigt, wie beim Manager, den Zustand des Wifi Crawlers an. Zusätzlich **blinkt die LED kurz wenn ein User sich ins WLAN eingeloggt** oder es verlassen hat.
+Zur Anzeige des Systemstatuses wurden zwei LEDs an das GPIO Interface des Raspberry Pis angeschlossen. Eine der beiden Leds zeigt den Start des Managers an. Sie erlischt beim Beenden des Managers.
+Die zweite LED visualisiert den Zustand des Wifi Crawlers. Zusätzlich blinkt die LED kurz, wenn ein User sich ins WLAN eingeloggt oder es verlassen hat.
 
-Um zu vermeiden das die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich über simple Dateisystemberechtigungen auch **unpriveligierten  Nutzern** die Verwedung der GPIOs zu erlauben.
-
-Die **Zugriffe auf die GPIO Schnittstelle** und eine objektorientierte Repräsentation einer LED wurden zur besseren Portabilität in **eigenen Bibliotheksfunktionen** gekapselt.
-
-**source sysfs:** drei/lib/led/gpio.py    
-**source led:** drei/lib/led/led.py
-
-### Logging
-
-Um Fehlverhalten der Software erkennen zu können wurde in jedem Modul der Software ein gemeinsamer Logger verwendet. Alle Meldungen werden in einem **zentralen Logfile** abgelegt um eine einfache Durchsicht zu ermöglichen.
-
-Neben Informationen zu **Datum und Uhrzeit** der Meldung wurde auch ein Mechanismuss eingebaut der das **aufrufende Python File** zusammen mit der Logmeldung ausgibt. So kann man sehr Schnell die Stelle identifizieren in der ein Fehler gemeldet wird.
-
-**source:** drei/lib/logger/Logger.py
+Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich, über simple Dateisystemberechtigungen auch unprivilegierten  Nutzern die Verwendung der GPIOs zu erlauben.
 
 
 ### Manager
@@ -128,13 +116,3 @@ Neben Informationen zu **Datum und Uhrzeit** der Meldung wurde auch ein Mechanis
 #### SoundController
 
 #### DMXController
-
-## Integrationstest
-
-Alle Komponenten spielen wie Erwartet zusammen. Der Integrationstest kann als erfolgreich gewertet werden.
-
-## Test unter Last
-
-Um das Verhalten des Systems unter Last zu testen wurde in der Weboberfläche eine Möglichkeit eingebaut 4096 Farbänderungen so schnell wie möglich über die Websocketschnittstelle an das Raspberry Pi zu senden.
-Während die Anfragen geschickt werden kann man auf 3 von 4 CPU Kernen deutliche Last im Bereich von 80% - 100% sehen. Alle Anfragen werden in einer Queue gepuffert und Stück für Stück abgearbeitet. Dann ist nurnoch ein Kern mit knapp 100% ausgelasetet.   
-Dank des Bufferings werden keine Anfragen verworfen.

@@ -143,8 +143,8 @@ class SQLiteWrapper(Database):
             was_update_successful = cursor.rowcount > 0
             logger_msg = "Nothing to update."
             if was_update_successful:
-                logger_msg = "User data updated - new sound: %s new light color: %s." % (sound_ID, user.light_color)
-        self.logger.log(Logger.INFO, "User with MAC %s could not be found." % user_mac)
+                logger_msg = "User data updated - new sound: %s new light color: %s." % (user.sound, user.light_color)
+        self.logger.log(Logger.INFO, logger_msg)
         return was_update_successful
 
     def delete_user(self, user_mac):
@@ -156,6 +156,11 @@ class SQLiteWrapper(Database):
             cursor = db_con.cursor()
             cursor.execute("DELETE FROM Users WHERE mac_address='%s';""" % user_mac)
             deleting_successful = cursor.rowcount > 0
+            logger_msg = "Deleting user failed."
+            if deleting_successful:
+                logger_msg = "Deleted user %s" % user_mac
+            self.logger.log(Logger.INFO, logger_msg)
+
         return deleting_successful
 
     def list_sounds(self):

@@ -62,7 +62,7 @@ class DBWrapperTest(unittest.TestCase):
         # light_id kann nicht verglichen werden, weil testuser-object noch keine id hat
 
     def test_get_nonexistent_user(self):
-        self.assertTrue(self.db_wrapper.get_user(self.testuser) == None)
+        self.assertTrue(self.db_wrapper.get_user(self.testuser.mac) == None)
 
     def test_retrieve_users(self):
         self.assertTrue(self.db_wrapper.add_user(self.testuser))

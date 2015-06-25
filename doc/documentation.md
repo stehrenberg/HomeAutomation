@@ -6,7 +6,7 @@ Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pa
 
 ## Motivation
 
-Viele Studenten haben ein Anleigen an die Fachschaft unserer Faktultät. Damit die überarbrbeiteten, verkarterten Studenten nicht umsonst in die Fachschaft laufen und festestellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektiviere Zeitplanung möglich und die Noten werden automatisch besser.
+Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbrbeiteten, verkarterten Studenten nicht umsonst in die Fachschaft laufen und festestellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektiviere Zeitplanung möglich und die Noten werden automatisch besser.
 
 
 ## Anforderungen
@@ -96,10 +96,23 @@ Glücklicherweise kann iwevent auch als unprevilegierter Benutzer verwendet werd
 
 ### Statusanzeige GPIO
 
-Zur Anzeige des Systemstatusses wurden zwei LEDs an das GPIO Interface des Raspberry Pis angeschlossen. Eine der Beiden Leds leuchtet sobald der Manager gestartet wurde und und geht wieder aus wenn der Manager beendet wird.    
-Die zweite LED zeigt, wie beim Manager, den Zustand des Wifi Crawlers an. Zusätzlich blinkt die LED kurz wenn ein User sich ins WLAN eingeloggt oder es verlassen hat.
+Zur Anzeige des Systemstatusses wurden **zwei LEDs** an das GPIO Interface des Raspberry Pis angeschlossen. Eine der Beiden Leds leuchtet sobald der **Manager gestartet** wurde und und geht wieder aus wenn der Manager beendet wird.    
+Die zweite LED zeigt, wie beim Manager, den Zustand des Wifi Crawlers an. Zusätzlich **blinkt die LED kurz wenn ein User sich ins WLAN eingeloggt** oder es verlassen hat.
 
-Um zu vermeiden das die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich über simple Dateisystemberechtigungen auch unpriveligierten  Nutzern die Verwedung der GPIOs zu erlauben.
+Um zu vermeiden das die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich über simple Dateisystemberechtigungen auch **unpriveligierten  Nutzern** die Verwedung der GPIOs zu erlauben.
+
+Die **Zugriffe auf die GPIO Schnittstelle** und eine objektorientierte Repräsentation einer LED wurden zur besseren Portabilität in **eigenen Bibliotheksfunktionen** gekapselt.
+
+**source sysfs:** drei/lib/led/gpio.py    
+**source led:** drei/lib/led/led.py
+
+### Logging
+
+Um Fehlverhalten der Software erkennen zu können wurde in jedem Modul der Software ein gemeinsamer Logger verwendet. Alle Meldungen werden in einem **zentralen Logfile** abgelegt um eine einfache Durchsicht zu ermöglichen.
+
+Neben Informationen zu **Datum und Uhrzeit** der Meldung wurde auch ein Mechanismuss eingebaut der das **aufrufende Python File** zusammen mit der Logmeldung ausgibt. So kann man sehr Schnell die Stelle identifizieren in der ein Fehler gemeldet wird.
+
+**source:** drei/lib/logger/Logger.py
 
 
 ### Manager
@@ -115,3 +128,13 @@ Um zu vermeiden das die einzelnen Dienste mit Rootrechten laufen müssen, wurde 
 #### SoundController
 
 #### DMXController
+
+## Integrationstest
+
+Alle Komponenten spielen wie Erwartet zusammen. Der Integrationstest kann als erfolgreich gewertet werden.
+
+## Test unter Last
+
+Um das Verhalten des Systems unter Last zu testen wurde in der Weboberfläche eine Möglichkeit eingebaut 4096 Farbänderungen so schnell wie möglich über die Websocketschnittstelle an das Raspberry Pi zu senden.
+Während die Anfragen geschickt werden kann man auf 3 von 4 CPU Kernen deutliche Last im Bereich von 80% - 100% sehen. Alle Anfragen werden in einer Queue gepuffert und Stück für Stück abgearbeitet. Dann ist nurnoch ein Kern mit knapp 100% ausgelasetet.   
+Dank des Bufferings werden keine Anfragen verworfen.

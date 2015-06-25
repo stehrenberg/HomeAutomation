@@ -1,7 +1,8 @@
 __author__ = 'Luis'
 
-from RGBColor import RGBColor
 import random
+
+from lib.periphery.dmx import RGBColor
 
 
 _hex_base = 16

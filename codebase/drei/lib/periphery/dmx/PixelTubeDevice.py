@@ -1,7 +1,6 @@
 __author__ = 'Luis'
 
-
-from DMXDevice import DMXDevice
+from lib.periphery.dmx import DMXDevice
 
 
 class PixelTubeDevice(DMXDevice):

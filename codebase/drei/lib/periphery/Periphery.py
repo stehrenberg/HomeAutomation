@@ -1,10 +1,7 @@
 __author__ = 'luis'
 
-
-import DMXHandler
-import PixelTubeDevice
-import SoundController
-import ColorFactory
+from lib.periphery.dmx import DMXHandler, PixelTubeDevice, ColorFactory
+from lib.periphery.sound import SoundController
 from lib.logger.Logger import Logger
 
 

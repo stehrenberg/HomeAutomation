@@ -1,8 +1,7 @@
 __author__ = 'Luis'
 
-
-from DMXConnection import MIN_VAL
-from DMXConnection import MAX_VAL
+from lib.periphery.dmx.DMXConnection import MIN_VAL
+from lib.periphery.dmx.DMXConnection import MAX_VAL
 
 
 class RGBColor(object):

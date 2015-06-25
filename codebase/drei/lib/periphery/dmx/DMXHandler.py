@@ -1,11 +1,9 @@
 __author__ = 'Luis'
 
-
-import DMXConnection
-import ColorFactory
-from PixelTubeDevice import PixelTubeDevice
-from LEDBarDevice import LEDBarDevice
-from DMXDevice import DMXDevice
+from lib.periphery.dmx import DMXConnection, ColorFactory
+from lib.periphery.dmx.PixelTubeDevice import PixelTubeDevice
+from lib.periphery.dmx.LEDBarDevice import LEDBarDevice
+from lib.periphery.dmx.DMXDevice import DMXDevice
 from lib.logger.Logger import Logger
 
 

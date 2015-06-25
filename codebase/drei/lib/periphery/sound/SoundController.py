@@ -1,8 +1,10 @@
 __author__ = 'Luis'
 
 import platform
+
 import Const
 from lib.logger.Logger import Logger
+
 
 # real implementation on raspberry pi
 if platform.machine() == Const.PI_PLATFORM:

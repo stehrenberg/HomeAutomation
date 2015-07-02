@@ -15,7 +15,7 @@ class Logger:
 
     def __init__(self):
         # Define log file, logging level and format of logging messages
-        logging.basicConfig(filename='example.log', level=logging.DEBUG,
+        logging.basicConfig(filename='logging.log', level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s: %(message)s')
 
     def log(self, level, message):

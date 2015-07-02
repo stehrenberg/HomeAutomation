@@ -5,6 +5,7 @@ geometry: margin=1in
 abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
 ---
 
+\pagebreak
 
 ## Anforderungen
 
@@ -37,6 +38,7 @@ Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtze
 * Laustprecher / Kopfhörer
 * LEDs zur Visualisierung des Systemstatuses
 
+\pagebreak
 
 ## Software Design
 
@@ -109,6 +111,8 @@ Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus
 
 
 ### Datenbank: SQlite
+
+![Entity-Releationship Modell](er_diagram.png)
 
 
 ### Webserver: Flask

@@ -88,9 +88,7 @@ class DMXHandler:
 
         self.connection.set_channel(channel + DMXDevice.RED_CHANNEL,   color.get_red())
         self.connection.set_channel(channel + DMXDevice.GREEN_CHANNEL, color.get_green())
-        self.connection.set_channel(channel + DMXDevice.BLUE_CHANNEL,  color.get_blue())
-
-        self.connection.render(self.get_available_pixels() * DMXDevice.NR_CHANNELS)
+        self.connection.set_channel(channel + DMXDevice.BLUE_CHANNEL,  color.get_blue(), True)
 
     def set_overall_color(self, color):
         # for device in self.dmx_devices:

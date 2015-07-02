@@ -82,7 +82,7 @@ class DMXConnection(object):
         if auto_render:
             self.render()
 
-    def clear(self, channel=0, nr_channels=MAX_CHANNELS):
+    def clear(self, channel=0):
         """Clear all channels.
             Set channel to clear only the specified channel."""
 
@@ -92,22 +92,17 @@ class DMXConnection(object):
         else:
             self.dmx_frame[channel] = MIN_VAL
 
-        self.render(nr_channels)
+        self.render()
 
-    def render(self, nr_channels=MAX_CHANNELS):
+    def render(self):
         """Set all the pixel that were set before."""
-
-        if nr_channels > MAX_CHANNELS:
-            nr_channels = MAX_CHANNELS
-
-        nr_channels += 1
 
         #  updates the dmx output from the USB DMX Pro with the values from self.dmx_frame
         packet = list()
         packet.append(chr(START_VAL))
         packet.append(chr(LABELS['TX_DMX_PACKET']))
-        packet.append(chr(nr_channels & 0xFF))
-        packet.append(chr((nr_channels >> 8) & 0xFF))
+        packet.append(chr(len(self.dmx_frame) & 0xFF))
+        packet.append(chr((len(self.dmx_frame) >> 8) & 0xFF))
 
         for j in xrange(len(self.dmx_frame)):
             packet.append(chr(self.dmx_frame[j]))

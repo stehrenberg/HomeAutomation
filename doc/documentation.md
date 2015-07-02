@@ -196,3 +196,61 @@ Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für 
 ### SoundController
 
 ### DMXController
+
+#Tests
+
+## Unittests in Python mit PyUnit
+
+Generelles Setup:
+
+Einbinden der Unittest-Library:
+
+		import unittest
+
+Erstellen einer Testklasse durch Ableiten von unittest.TestCase:
+
+		class TestClass(unittest.TestCase):
+
+Falls gewünscht, kann eine testklassenweite setUp-Methode definiert werden, die zu Beginn der Ausführung der Testklasse _einmal_ ausgeführt wird - wird über Annotation `@classmethod` realisiert:
+
+	    @classmethod
+    	def setUpClass(cls):
+    		// here be code
+    		
+Falls benötigt, kann eine tearDown-Methode spezifiziert werden, die nach jeder Test-Methode der Klasse ausgeführt wird:
+    
+    	def tearDown(self):
+    	
+Bei den Unittests zum SQLiteWrapper werden zu Beginn diverse Testuser angelegt und als Objektvariablen definiert, um sie in den Tests später komfortabel nutzen zu können.
+In der tearDown() wird sicher gestellt, dass die DB nach der Ausführung einer Testmethode leer ist.
+
+Generell sieht eine Testmethode in PyUnit beispielsweise so aus:
+
+		def test_simple_user_adding(self):
+        	self.assertTrue(self.db_wrapper.add_user(self.testuser))
+        	
+Man kann auch andere assert-Methoden nutzen, den Klassiker         `self.assertEqual(first, second, msg=None)` beispielsweise, der zwei Objekte `first` und `second` mit `==` vergleicht.
+
+## Datenbank-Wrapper
+Innerhalb unseres Projekts wurden vor allem für den Datenbank-Wrapper SQLiteWrapper.py Unittests zur Absicherung und Dokumentation der einzelnen Interface-Methoden geschrieben, die regelmäßig zur Ausführung gebracht wurden.
+
+
+## generelle Systemtests
+###Webinterface
+Das Webinterface zur Benutzerverwaltung wurde durch ausführliche Oberflächentests getestet, indem User anhand der MAC-Adresse ihres Geräts hinzugefügt wurden, geändert wurden und gelöscht wurden. Lief alles durch.
+
+###Peripherie
+Die Peripherie-Hardware, bestehend aus Soundausgabe/LED-Bar/Pixeltube, wurde im gleichen Zuge getestet.
+Der einfache Positivtest lief erwartungsgemäß gut, das Mobilgerät eines Nutzers wurde vom System sofort bei Einschalten des WLANS am Mobilgerät erkannt, bevor das Smartphone selbst das WLAN des Pi erkannt hat. Die Verzögerung zwischen Systemreaktion und WLAN-Erkennung war nicht wahrnehmbar.
+
+Beim gleichzeitigen Anmelden zweier User werden beide Lichtslots geschaltet, der Sound des ersten Users wird dann abgebrochen und der Sound des zweiten Users abgespielt.
+
+###Crawler
+_insert graffel über tests here_
+
+
+
+###Lasttests
+
+Es wurden auch Lasttests ausgeführt, bei denen durch schnellen Wechsel der Farbauswahl für den jeweiligen User getestet wurde, wie das System auf eine große Nachrichtenanzahl reagiert.
+

@@ -51,6 +51,7 @@ Zwischen Client und Webserver besteht eine bidirektionale Websocketverbindung, d
 Zusätzlich verwendet das **Verwaltungsinterface eine REST-Schnittstelle**, um User hinzufügen und abändern zu können.
 Zugriffe auf die **Datenbank wurden ebenfalls über eine Library gekapselt**.
 
+\pagebreak
 
 ### Wifi Crawler
 
@@ -89,8 +90,9 @@ Um zu erkennen, welcher User sich verbunden hat, kommt das Tool **iwevent** zum 
 	07:33:44.994303   wlan1    Registered node:8C:3A:E3:17:DF:6C
 	07:33:48.866077   wlan1    Expired node:8C:3A:E3:17:DF:6C
 	
-Glücklicherweise kann iwevent auch als unprevilegierter Benutzer verwendet werden, somit ist es nicht nötig dieses Teil der Anwendung mit Root Rechten laufen zu lassen.
+Glücklicherweise kann iwevent auch als **unprevilegierter Benutzer** verwendet werden, somit ist es nicht nötig dieses Teil der Anwendung mit Root Rechten laufen zu lassen.
 
+\pagebreak
 
 ### Statusanzeige GPIO
 
@@ -121,7 +123,8 @@ URL des Endpunkts				HTTP-Methode	Beschreibung
 /api/users 						POST 			Legt den als Parameter übergebenen Benutzer an
 /api/users/\<string:user_id\>	PUT 			Aktualisiert den Benutzer mit der
 												User-Id **\<string:user_id\>**
-/api/users/\<string:user_id\>	DELETE			Löscht den Benutzer mit der User-Id **\<string:user_id\>**
+/api/users/\<string:user_id\>	DELETE			Löscht den Benutzer mit der User-Id
+												**\<string:user_id\>**
 ---------------------------   	------------	----------------
 
 Der zur Verfügung gestellte Websocket-Endpunkt wurde mit der Flask-Erweiterung **flask.ext.socketio** implementiert. Sobald ein Client die Verbindung zu diesem Websocket aufbaut, wird ein Event namens **Connected** ausgelöst. Der Client kann daraufhin folgende zwei Events an den Server senden.

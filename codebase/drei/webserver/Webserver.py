@@ -30,7 +30,9 @@ class Webserver(multiprocessing.Process):
         Starts the webserver in a own thread.
         """
         self.logger.log(Logger.INFO, "Running on http://127.0.0.1:8080")
+        self.logger.log(Logger.INFO, "Webinterface available at http://127.0.0.1:8080/static/drei.html")
         print("Webserver: Running on http://127.0.0.1:8080")
+        print("Webserver: Webinterface available at http://127.0.0.1:8080/static/drei.html")
 
         start_new_thread(self.notify, ())
 

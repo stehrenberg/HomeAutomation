@@ -109,10 +109,13 @@ Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurd
 
 ### Webserver: Flask
 
-Der Webserver wurde mit Hilfe von Flask implementiert. Er ist für die Bereitstellung des Webinterfaces, der REST-Schnittstellen und Websockets verantwortlich.
+Der Webserver wurde mit Hilfe von Flask implementiert. Er ist für die Bereitstellung des Webinterfaces, der REST-Schnittstellen und Websockets verantwortlich. Der Webserver ist standardmäßig unter der Adresse **http://localhost:8080** verfügbar.
 
-Die Bereitstellung der Dateien des Webinterfaces wird durch den in Flask intergrierten Webserver übernommen. Dieser stellt alle Dateien unter **/static** zur Verfügung. Details zum Webinterface können dem nachfolgenden Punkt entnommen werden.
-Die REST-Schnittstellen werden mit Hilfe der Standardmethoden von Flask enthaltenen Mitteln umgesetzt. Nachfolgende REST-Endpunkte existieren:
+Zur Kommunikation mit dem Manager wurden zwei Pipes eingerichtet. Eine Pipe dient zur Nachrichtenübermittlung an den Manager und eine zum Nachrichtenempfang vom Manager. Erstere dient zur Umstellung der über den Websocket empfangenen Lichtfarbe. Diese wird vom Webserver über den Websocket empfangen und an den Manager weitergeleitet, der daraufhin das Licht in der entsprechenden Farbe anschaltet. Die Pipe zum Nachrichtenempfang vom Manager wird genutzt, um Änderungen an den aktiven Benutzern zu empfangen. Als Datenquelle verwendet der Webserver direkt die SQLite Datenbank mit Hilfe des **SQLiteWrapper**s, welcher bereits zuvor vorgestellt wurde.
+
+Die Bereitstellung der Dateien des Webinterfaces wird durch den in Flask intergrierten Webserver übernommen. Dieser stellt alle Dateien unter **static** zur Verfügung. Details zum Webinterface können dem nachfolgenden Punkt entnommen werden.
+
+Die REST-Schnittstelle wurde mit Hilfe der Standardfunktionalität von Flask umgesetzt. Nachfolgende REST-Endpunkte existieren:
 |  URL des Endpunkts |   HTTP-Methode | Beschreibung  |
 |---|---|---|
 | /api/users  | GET  | Liefert eine Liste aller Benutzer zurück  |
@@ -121,8 +124,24 @@ Die REST-Schnittstellen werden mit Hilfe der Standardmethoden von Flask enthalte
 | /api/users/<string:user_id>  | PUT | Aktualisiert den Benutzer mit der User-Id **<string:user_id>** mit den als Parameter übergebenen Daten |
 | /api/users/<string:user_id>  | DELETE | Löscht den Benutzer mit der User-Id **<string:user_id>** |
 
+Der zur Verfügung gestellte Websocket-Endpunkt wurde mit der Flask-Erweiterung **flask.ext.socketio** implementiert. Sobald ein Client die Verbindung zu diesem Websocket aufbaut, wird ein Event namens **Connected** ausgelöst. Der Client kann daraufhin folgende zwei Events an den Server senden.
+|  Event |  Beschreibung  |
+|---|---|---|
+| GetActiveUsersEvent  | Liefert eine Liste aller aktiven Benutzer zurück  |
+| LatencyColorEvent  | Nimmt eine Farbe entgegen und setzt reicht diese an den Manager weiter, damit dieser ein Licht mit der entsprechenden Farbe anschaltet.  |
+Des weiteren sendet der Server bei  jeder Änderung der Liste mit aktiven Usern ein Event namens **ActiveUsersNotification**, welches zusätzlich eine Liste der aktiven User enthält. Sobald sich also ein Benutzer in das WiFi einloggt oder das WiFi verlässt, wird dieses Event vom Server an alle Clients gebroadcasted.
+
 
 ### Webinterface: AngularJS
+
+Das Webinterface wird über den Webserver bereitgestellt und kann unter **http://localhost:8080/static/drei.html** abgerufen werden. Es handelt sich dabei um eine mit AngularJS entwickelte JavaScript-App, welche die zuvor vorgestellten REST- und Websocket-Endpunkte nutzt.
+
+Die Entwicklung des Webinterfaces geschieht mit der von **yo-angular** bereitsgestellten Build-Umgebung in einem Verzeichnis außerhalb des Python-Entwicklungspfads. Nachdem ein Entwicklungspunkt erreicht wurde, welcher auf dem Webserver bereitgestellt werden soll, so muss zunächst das Verzeichnis **static** im Python-Entwicklungspfad geleert werden. Daraufhin wird im Pfad der Webapp mit **grunt build** der Build gestartet, welcher die Webapp wiederum in das **static** Verzeichnis baut. Daraufhin kann das aktualisierte Webinterface vom Server abgerufen werden.
+
+Die Webapp enthält mehrere Services. Der **DataService** ist verantwortlich für die Kommunikation mit der REST-Schnittstelle des Servers. Dafür werden für die benötigten Endpunkte Methoden zur Verfügung gestellt. Dort auftretende Fehler werden durch den **ErrorHandler** behandelt, welcher Fehler in einem Fehlerdialog darstellt. Zusätzlich steht ein **WebsocketService** zur Verfügung, welcher für die Websocket-Kommunikation mit dem Server verantwortlich ist. Dieser bietet für die vom Server unterstützten Events entsprechende Methoden. Sobald Events empfangen werden, werden diese vom **WebsocketService** in die App gebroadcasted und an entsprechender Stelle in den Controllern behandelt.
+
+Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für das Dashboard verantwortlich und lauscht auf den Broadcast des **WebsocketService**s, um die Liste der aktiven Nutzer aktuell zu halten. Bei der Initialisierung wird zudem ein **GetActiveUsersEvent** an den Server geschickt, damit nicht erst auf eine Änderung gewartet werden muss, um die aktiven Benutzer anzeigen zu können. Der **UsersCtrl** ist verantwortlich für die Ansicht zur Benutzerverwaltung. Er kommuniziert mit Hilfe des **DataServices** mit dem Webserver und empfängt, updated und löscht mit diesem System-User. Ein weiterer Controller ist der **LatencyCtrl**, dieser ist verantwortlich für die Testseite, auf der ein Latenz- und ein Last-Test durchgeführt werden können. Die 
+
 
 ### Peripheriesteuerung
 

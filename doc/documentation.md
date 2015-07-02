@@ -1,12 +1,9 @@
-#Projektdokumentation: Drei
-
-Advanced Embedded Software Project    
-Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
-
-
-## Motivation
-
-Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
+---
+title: Projektdokumentation Drei
+author: Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
+geometry: margin=1in
+abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
+---
 
 
 ## Anforderungen
@@ -116,20 +113,29 @@ Zur Kommunikation mit dem Manager wurden zwei Pipes eingerichtet. Eine Pipe dien
 Die Bereitstellung der Dateien des Webinterfaces wird durch den in Flask intergrierten Webserver übernommen. Dieser stellt alle Dateien unter **static** zur Verfügung. Details zum Webinterface können dem nachfolgenden Punkt entnommen werden.
 
 Die REST-Schnittstelle wurde mit Hilfe der Standardfunktionalität von Flask umgesetzt. Nachfolgende REST-Endpunkte existieren:
-|  URL des Endpunkts |   HTTP-Methode | Beschreibung  |
-|---|---|---|
-| /api/users  | GET  | Liefert eine Liste aller Benutzer zurück  |
-| /api/sounds | GET  | Liefert eine Liste aller verfügbaren Sounds zurück |
-| /api/users  | POST | Legt den als Parameter übergebenen Benutzer an |
-| /api/users/<string:user_id>  | PUT | Aktualisiert den Benutzer mit der User-Id **<string:user_id>** mit den als Parameter übergebenen Daten |
-| /api/users/<string:user_id>  | DELETE | Löscht den Benutzer mit der User-Id **<string:user_id>** |
+
+URL des Endpunkts				HTTP-Methode	Beschreibung
+---------------------------   	------------	----------------
+/api/users						GET 			Gibt eine Liste aller Benutzer zurück
+/api/Sounds						GET 			Liefert eine Liste aller verfügbaren Sounds zurück
+/api/users 						POST 			Legt den als Parameter übergebenen Benutzer an
+/api/users/\<string:user_id\>	PUT 			Aktualisiert den Benutzer mit der
+												User-Id **\<string:user_id\>**
+/api/users/\<string:user_id\>	DELETE			Löscht den Benutzer mit der User-Id **\<string:user_id\>**
+---------------------------   	------------	----------------
 
 Der zur Verfügung gestellte Websocket-Endpunkt wurde mit der Flask-Erweiterung **flask.ext.socketio** implementiert. Sobald ein Client die Verbindung zu diesem Websocket aufbaut, wird ein Event namens **Connected** ausgelöst. Der Client kann daraufhin folgende zwei Events an den Server senden.
-|  Event |  Beschreibung  |
-|---|---|---|
-| GetActiveUsersEvent  | Liefert eine Liste aller aktiven Benutzer zurück  |
-| LatencyColorEvent  | Nimmt eine Farbe entgegen und setzt reicht diese an den Manager weiter, damit dieser ein Licht mit der entsprechenden Farbe anschaltet.  |
-Des weiteren sendet der Server bei  jeder Änderung der Liste mit aktiven Usern ein Event namens **ActiveUsersNotification**, welches zusätzlich eine Liste der aktiven User enthält. Sobald sich also ein Benutzer in das WiFi einloggt oder das WiFi verlässt, wird dieses Event vom Server an alle Clients gebroadcasted.
+
+Event 				Beschreibung
+----------			----------------
+GetActiveUsersEvent	Liefert eine Liste aller aktiven Benutzer zurück
+LatencyColorEvent	Nimmt eine Farbe entgegen und setzt reicht diese an den Manager weiter,
+					damit dieser ein Licht mit der entsprechenden Farbe anschaltet. Des
+					weiteren sendet der Server bei jeder Änderung der Liste mit aktiven
+					Usern ein Event namens **ActiveUsersNotification**, welches zusätzlich
+					eine Liste der aktiven User enthält. Sobald sich also ein Benutzer
+					in das WiFi einloggt oder das WiFi verlässt, wird dieses Event vom
+					Server an alle Clients gebroadcasted.
 
 
 ### Webinterface: AngularJS

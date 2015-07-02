@@ -109,6 +109,19 @@ Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurd
 
 ### Webserver: Flask
 
+Der Webserver wurde mit Hilfe von Flask implementiert. Er ist für die Bereitstellung des Webinterfaces, der REST-Schnittstellen und Websockets verantwortlich.
+
+Die Bereitstellung der Dateien des Webinterfaces wird durch den in Flask intergrierten Webserver übernommen. Dieser stellt alle Dateien unter **/static** zur Verfügung. Details zum Webinterface können dem nachfolgenden Punkt entnommen werden.
+Die REST-Schnittstellen werden mit Hilfe der Standardmethoden von Flask enthaltenen Mitteln umgesetzt. Nachfolgende REST-Endpunkte existieren:
+|  URL des Endpunkts |   HTTP-Methode | Beschreibung  |
+|---|---|---|
+| /api/users  | GET  | Liefert eine Liste aller Benutzer zurück  |
+| /api/sounds | GET  | Liefert eine Liste aller verfügbaren Sounds zurück |
+| /api/users  | POST | Legt den als Parameter übergebenen Benutzer an |
+| /api/users/<string:user_id>  | PUT | Aktualisiert den Benutzer mit der User-Id **<string:user_id>** mit den als Parameter übergebenen Daten |
+| /api/users/<string:user_id>  | DELETE | Löscht den Benutzer mit der User-Id **<string:user_id>** |
+
+
 ### Webinterface: AngularJS
 
 ### Peripheriesteuerung

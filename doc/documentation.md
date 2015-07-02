@@ -7,6 +7,8 @@ abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultä
 
 \pagebreak
 
+# Allgemein
+
 ## Anforderungen
 
 * Automatische Präsenzerkennung (ohne Interaktion von Fachschaftsmitglied)
@@ -40,7 +42,7 @@ Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtze
 
 \pagebreak
 
-## Software Design
+# Software Design
 
 Um möglichst effiziente Softwareentwicklungszyklen zu realisieren, wurde großer Wert auf eine maximal modulare Entwicklung der einzelnen Komponenten gelegt.
 Die folgende Grafik veranschaulicht den Architekturentwurf:
@@ -55,9 +57,9 @@ Zugriffe auf die **Datenbank wurden ebenfalls über eine Library gekapselt**.
 
 \pagebreak
 
-### Wifi Crawler
+## Wifi Crawler
 
-#### Hotspot
+### Hotspot
 Die Hotspotfunktionalität wird mit dem Tool **hostapd** und einem zweiten WLAN Stick realisiert. Zusätzlich wurde ein DHCP Server auf dem RaspbberyPi installiert, der den Clients eigene IP Adressen gibt.
 
 	# Installation der benötigten Tools
@@ -83,7 +85,7 @@ Mit der oben angegebenen Konfiguration stellt das RaspberryPi einen Hotspot mit 
 	
 Im Produktivsystem müsste noch eine **Netzwerkbrücke** zwischen dem Wifi- und dem Ethernetinterface erstellt werden, damit Geräte, die mit dem Raspberry Hotspot verbunden sind, auch weiterhin Internetzugriff haben.
 	
-#### Crawler
+### Crawler
 
 Um zu erkennen, welcher User sich verbunden hat, kommt das Tool **iwevent** zum Einsatz. Dieses Tool zeigt alle Ereignisse, die im Hotspot passieren auf der Kommandozeile an. Diese Ausgaben werden von einem Python Programm **geparsed** und an den Manager weiter gegeben. Beispielhafte Ausgabe von iwevent:
 
@@ -96,7 +98,7 @@ Glücklicherweise kann iwevent auch als **unprevilegierter Benutzer** verwendet 
 
 \pagebreak
 
-### Statusanzeige GPIO
+## Statusanzeige GPIO
 
 Zur Anzeige des Systemstatuses wurden zwei LEDs an das GPIO Interface des Raspberry Pis angeschlossen. Eine der beiden Leds zeigt den Start des Managers an. Sie erlischt beim Beenden des Managers.
 Die zweite LED visualisiert den Zustand des Wifi Crawlers. Zusätzlich blinkt die LED kurz, wenn ein User sich ins WLAN eingeloggt oder es verlassen hat.
@@ -104,6 +106,7 @@ Die zweite LED visualisiert den Zustand des Wifi Crawlers. Zusätzlich blinkt di
 Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich, über simple Dateisystemberechtigungen auch unprivilegierten  Nutzern die Verwendung der GPIOs zu erlauben.
 
 
+## Manager
 ### Logging
 Um Überblick über das System zu bekommen und etwaiges Fehlverhalten leichter aufdecken zu können, werden an einer zentralen Stelle aus diversen Komponenten Statusmeldungen in ein Logfile geschrieben. Die Log-Nachrichten bestehen dabei aus Datum, Uhrzeit, Art der Nachricht, Dateiname der aufrufenden Systemkomponente, Codezeile, Nachricht.
 Nachfolgend ein exemplarischer Auszug des Logfiles:
@@ -121,12 +124,12 @@ Nachfolgend ein exemplarischer Auszug des Logfiles:
 	2015-05-28 11:36:08,273 INFO: Manager.py (52) user 00:80:41:ae:fd:7e added
 	2015-05-28 11:36:08,274 INFO: Periphery.py (39) light 0 turned on
 	2015-05-28 11:36:08,277 INFO: Periphery.py (58) sound at Knight-Rider-Theme-Song.mp3 played
-	2015-05-28 11:36:08,278 INFO: SoundController.py (32) Loading file lib/periphery/soundFiles/Knight-Rider-Theme-Song.mp3
+	2015-05-28 11:36:08,278 INFO: SoundController.py (32) Loading file Knight-Rider-Theme-Song.mp3
 	2015-05-28 11:36:09,372 INFO: Crawler.py (22) New peer connected: 00:80:41:ae:fd:7d
 	2015-05-28 11:36:09,373 INFO: Manager.py (52) user 00:80:41:ae:fd:7d added
 	2015-05-28 11:36:09,374 INFO: Periphery.py (39) light 1 turned on
 	2015-05-28 11:36:09,376 INFO: Periphery.py (58) sound at Windows Error.wav played
-	2015-05-28 11:36:09,377 INFO: SoundController.py (32) Loading file lib/periphery/soundFiles/Windows Error.wav
+	2015-05-28 11:36:09,377 INFO: SoundController.py (32) Loading file Windows Error.wav
 
 
 ### Manager
@@ -135,12 +138,13 @@ Der Manager ist in erster Linie für die Abarbeitung der vom Crawler durch die e
 Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus dem Webserver durch die entsprechende Queue gesendet werden. Dies betrifft zum einen den Latenz-Test und zum anderen den Last-Test, welche direkt aus dem Browser aus gesteuert werden. Die dort gesetzten Werte werden direkt an die Peripherie weiter gegeben, um die Farbe des dafür vorgesehenen Lichts zu ändern.
 
 
-### Datenbank: SQlite
+## Datenbank: SQlite
 
 ![Entity-Releationship Modell](er_diagram.png)
 
+\pagebreak
 
-### Webserver: Flask
+## Webserver: Flask
 
 Der Webserver wurde mit Hilfe von Flask implementiert. Er ist für die Bereitstellung des Webinterfaces, der REST-Schnittstellen und Websockets verantwortlich. Der Webserver ist standardmäßig unter der Adresse **http://localhost:8080** verfügbar.
 
@@ -174,8 +178,9 @@ LatencyColorEvent	Nimmt eine Farbe entgegen und setzt reicht diese an den Manage
 					in das WiFi einloggt oder das WiFi verlässt, wird dieses Event vom
 					Server an alle Clients gebroadcasted.
 
+\pagebreak
 
-### Webinterface: AngularJS
+## Webinterface: AngularJS
 
 Das Webinterface wird über den Webserver bereitgestellt und kann unter **http://localhost:8080/static/drei.html** abgerufen werden. Es handelt sich dabei um eine mit AngularJS entwickelte JavaScript-App, welche die zuvor vorgestellten REST- und Websocket-Endpunkte nutzt.
 
@@ -186,8 +191,8 @@ Die Webapp enthält mehrere Services. Der **DataService** ist verantwortlich fü
 Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für das Dashboard verantwortlich und lauscht auf den Broadcast des **WebsocketService**s, um die Liste der aktiven Nutzer aktuell zu halten. Bei der Initialisierung wird zudem ein **GetActiveUsersEvent** an den Server geschickt, damit nicht erst auf eine Änderung gewartet werden muss, um die aktiven Benutzer anzeigen zu können. Der **UsersCtrl** ist verantwortlich für die Ansicht zur Benutzerverwaltung. Er kommuniziert mit Hilfe des **DataServices** mit dem Webserver und empfängt, updated und löscht mit diesem System-User. Ein weiterer Controller ist der **LatencyCtrl**, dieser ist verantwortlich für die Testseite, auf der ein Latenz- und ein Last-Test durchgeführt werden können. Bei ersterem handelt es sich um einen Test der Zeit, die benötigt wird für die Kommunikation von Webserver bis hin zur Peripherie. Dabei kann man auf einem Schieberegler zwischen fünf verschiedenen Farben wählen, was die Farbe des dafür vorgesehenen Lichts ändert. Beim Last-Test werden automatisch 4048 Farbänderungen, in etwa wie beim Latenz-Test, gesendet, allerdings hier in kürzester Zeit. So wird das Verhalten des Systems und der Auswirkungen auf die Kommunikationsgeschwindigkeit unter Volllast getestet. Der entsprechende Controller kommuniziert mit dem **WebsocketService** um die entsprechenden Befehle an den Server zu übermitteln. Zusätzlich existieren noch ein **CreateCtrl** und ein **UpdateCtrl**, welche für das Anlegen bzw. Aktualisieren eines Users verantwortlich sind. Hierfür nutzen sie den **DataService**. Der **ErrorCtrl** dient zur Darstellung eines Fehlers.
 
 
-### Peripheriesteuerung
+## Peripheriesteuerung
 
-#### SoundController
+### SoundController
 
-#### DMXController
+### DMXController

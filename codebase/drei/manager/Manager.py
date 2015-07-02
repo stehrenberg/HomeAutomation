@@ -55,7 +55,9 @@ class Manager(multiprocessing.Process):
                             # Signalise changes in user list for webserver
                             altered = True
                             # Add new user to user list
-                            current_users = np.append(current_users, changes[1])
+                            old_users = np.append(current_users, changes[1])
+                            # Remove duplicates
+                            current_users = np.unique(current_users)
                             # Get light and sound information for user
                             light_id = user.light_id
                             light_color = user.light_color

@@ -41,18 +41,16 @@ class Periphery:
 
         color = ColorFactory.create_from_hex(color_str)
 
-        self.light.set_pixel_color(pixel=pixel*4+1, color=color)
-        self.light.set_pixel_color(pixel=pixel*4+2, color=color)
-        self.light.set_pixel_color(pixel=pixel*4+3, color=color)
+        self.light.set_pixel_color(pixel=pixel*3+1, color=color)
+        self.light.set_pixel_color(pixel=pixel*3+2, color=color)
 
     # Turn off light number index
     def light_off(self, pixel):
         pixel -= 1
         self.logger.log(Logger.INFO, "light " + str(pixel) + " turned off")
 
-        self.light.set_pixel_color(pixel=pixel*4+1)
-        self.light.set_pixel_color(pixel=pixel*4+2)
-        self.light.set_pixel_color(pixel=pixel*4+3)
+        self.light.set_pixel_color(pixel=pixel*3+1)
+        self.light.set_pixel_color(pixel=pixel*3+2)
 
     def set_status_light(self, color_str):
         color = ColorFactory.create_from_hex(color_str)

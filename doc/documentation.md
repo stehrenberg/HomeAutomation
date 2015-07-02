@@ -104,6 +104,31 @@ Die zweite LED visualisiert den Zustand des Wifi Crawlers. Zusätzlich blinkt di
 Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich, über simple Dateisystemberechtigungen auch unprivilegierten  Nutzern die Verwendung der GPIOs zu erlauben.
 
 
+### Logging
+Um Überblick über das System zu bekommen und etwaiges Fehlverhalten leichter aufdecken zu können, werden an einer zentralen Stelle aus diversen Komponenten Statusmeldungen in ein Logfile geschrieben. Die Log-Nachrichten bestehen dabei aus Datum, Uhrzeit, Art der Nachricht, Dateiname der aufrufenden Systemkomponente, Codezeile, Nachricht.
+Nachfolgend ein exemplarischer Auszug des Logfiles:
+
+	2015-05-28 11:36:05,172 INFO: Drei.py (17) Starting Drei
+	2015-05-28 11:36:05,172 INFO: InitTables.py (24) Creating table Sounds...
+	2015-05-28 11:36:05,173 INFO: InitTables.py (30) Creating table Users...
+	2015-05-28 11:36:05,173 INFO: InitTables.py (40) Tables successfully created.
+	2015-05-28 11:36:05,265 INFO: Crawler.py (35) Running
+	2015-05-28 11:36:05,346 INFO: Manager.py (21) Running
+	2015-05-28 11:36:05,348 INFO: SoundController.py (29) Started
+	2015-05-28 11:36:05,349 INFO: Periphery.py (24) LightController is connected
+	2015-05-28 11:36:05,351 INFO: Webserver.py (31) Webserver: Running on http://127.0.0.1:8080
+	2015-05-28 11:36:07,268 INFO: Crawler.py (22) New peer connected: 00:80:41:ae:fd:7e
+	2015-05-28 11:36:08,273 INFO: Manager.py (52) user 00:80:41:ae:fd:7e added
+	2015-05-28 11:36:08,274 INFO: Periphery.py (39) light 0 turned on
+	2015-05-28 11:36:08,277 INFO: Periphery.py (58) sound at Knight-Rider-Theme-Song.mp3 played
+	2015-05-28 11:36:08,278 INFO: SoundController.py (32) Loading file lib/periphery/soundFiles/Knight-Rider-Theme-Song.mp3
+	2015-05-28 11:36:09,372 INFO: Crawler.py (22) New peer connected: 00:80:41:ae:fd:7d
+	2015-05-28 11:36:09,373 INFO: Manager.py (52) user 00:80:41:ae:fd:7d added
+	2015-05-28 11:36:09,374 INFO: Periphery.py (39) light 1 turned on
+	2015-05-28 11:36:09,376 INFO: Periphery.py (58) sound at Windows Error.wav played
+	2015-05-28 11:36:09,377 INFO: SoundController.py (32) Loading file lib/periphery/soundFiles/Windows Error.wav
+
+
 ### Manager
 
 Der Manager ist in erster Linie für die Abarbeitung der vom Crawler durch die entsprechende Queue gemledeten Ereignisse, d.h. das An- bzw. Abmelden von Usern, zuständig. Hierbei werden bei jeder Änderung die aktuellen Benutzer aus der Datenbank ausgelesen. Anschließend wird, falls es sich um eine Anmeldung handelt, das entsprechende Licht in der vom Benutzer spezifizierten Farbe eingeschaltet und dessen ausgewählter Sound abgespielt. Meldet sich ein Benutzer ab, so wird das dementsprechende Licht gelöscht. Hierzu werden entsprechende Funktionen der Peripherie aufgerufen.

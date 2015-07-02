@@ -57,7 +57,7 @@ class Manager(multiprocessing.Process):
                             # Add new user to user list
                             old_users = np.append(current_users, changes[1])
                             # Remove duplicates
-                            current_users = np.unique(current_users)
+                            current_users = np.unique(old_users)
                             # Get light and sound information for user
                             light_id = user.light_id
                             light_color = user.light_color

@@ -49,7 +49,7 @@ Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtze
 Um möglichst effiziente Softwareentwicklungszyklen zu gewährleisten, wurde großer Wert auf eine maximal modulare Entwicklung der einzelnen Komponenten gelegt.
 Die folgende Grafik veranschaulicht den Architekturentwurf:
 
-![System Overview](overview.png)
+![System Überblick](overview.png)
 
 Der **Webserver**, der **Manager** und der **Wifi Crawler** kommunizieren mittels bi- und unidirektionaler **Queues**.
 Die **Peripherie-Steuerung wurde als Library** ausgelegt und wird direkt vom Manager verwendet.
@@ -83,7 +83,7 @@ Die Hotspotfunktionalität wird mit dem Tool **hostapd** und einem zweiten WLAN 
 	wpa_pairwise=TKIP
 	rsn_pairwise=CCMP
 	
-Mit der oben angegebenen Konfiguration stellt das RaspberryPi einen Hotspot mit der SSID "Horst" und dem WPA2 Passphrase "goto_fail" zur Verfügung.
+Mit der oben angegebenen Konfiguration stellt das RaspberryPi einen Hotspot mit der SSID "Horst" und der WPA2 Passphrase "goto_fail" zur Verfügung.
 	
 Im Produktivsystem müsste noch eine **Netzwerkbrücke** zwischen dem Wifi- und dem Ethernetinterface erstellt werden, damit Geräte, die mit dem Raspberry Hotspot verbunden sind, auch weiterhin Internetzugriff haben.
 	
@@ -109,7 +109,7 @@ Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurd
 
 
 ## Logging
-Um Überblick über das System zu bekommen und etwaiges Fehlverhalten leichter aufdecken zu können, werden an einer zentralen Stelle aus diversen Komponenten Statusmeldungen in ein Logfile geschrieben. Die Log-Nachrichten bestehen dabei aus Datum, Uhrzeit, Art der Nachricht, Dateiname der aufrufenden Systemkomponente, Codezeile, Nachricht.
+Um Überblick über das System zu bekommen und etwaiges Fehlverhalten leichter aufdecken zu können, werden alle Statusmeldungen der diversen Komponenten an einer zentralen Stelle gesammelt und in eine Logdatei geschrieben. Die Log-Nachrichten bestehen dabei aus Datum, Uhrzeit, Art der Nachricht, Dateiname der aufrufenden Systemkomponente, Codezeile, Nachricht.
 Nachfolgend ein exemplarischer Auszug des Logfiles:
 
 	2015-05-28 11:36:05,172 INFO: Drei.py (17) Starting Drei
@@ -130,7 +130,7 @@ Nachfolgend ein exemplarischer Auszug des Logfiles:
 
 ## Manager
 
-Der Manager ist in erster Linie für die Abarbeitung der vom Crawler durch die entsprechende Queue gemledeten Ereignisse, d.h. das An- bzw. Abmelden von Usern, zuständig. Hierbei werden bei jeder Änderung die aktuellen Benutzer aus der Datenbank ausgelesen. Anschließend wird, falls es sich um eine Anmeldung handelt, das entsprechende Licht in der vom Benutzer spezifizierten Farbe eingeschaltet und dessen ausgewählter Sound abgespielt. Meldet sich ein Benutzer ab, so wird das dementsprechende Licht gelöscht. Hierzu werden entsprechende Funktionen der Peripherie aufgerufen.
+Der Manager ist in erster Linie für die Abarbeitung der vom Crawler durch die entsprechende Queue gemledeten Ereignisse, d.h. das An- bzw. Abmelden von Usern, zuständig. Hierbei werden bei jeder Änderung die aktuellen Benutzer aus der Datenbank ausgelesen. Anschließend wird, falls es sich um eine Anmeldung handelt, das entsprechende Licht in der vom Benutzer spezifizierten Farbe eingeschaltet und dessen ausgewählter Sound abgespielt. Meldet sich ein Benutzer ab, so wird das dementsprechende Licht aus gemacht. Hierzu werden die entsprechende Funktionen der Peripherie Bibliothek aufgerufen.
 Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus dem Webserver durch die entsprechende Queue gesendet werden. Dies betrifft zum einen den Latenz-Test und zum anderen den Last-Test, welche direkt aus dem Browser aus gesteuert werden. Die dort gesetzten Werte werden direkt an die Peripherie weiter gegeben, um die Farbe des dafür vorgesehenen Lichts zu ändern.
 
 \pagebreak

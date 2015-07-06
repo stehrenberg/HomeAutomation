@@ -279,3 +279,114 @@ Um die Funtion des Crawlers zu Testen wurde mit einem Testtelefon eine Verbindun
 ### Lasttest
 
 Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anzahl paraleller Websocket Anfragen** an den Webserver ausgelöst. Diese sollten einfach nur die Farbe eines Pixels der Pixeltube ändern. Nachdem alle Anfragen vom Webinterface gesendet wurden, **dauert es ein wenig** bis diese auch tatsälich auf der Pixeltube angezeigt werden. **Allerdings geht keine einzige Anfrage verlohren**. Da wir zwischen den einzelnen Komponenten Queues zur Kommunikation verwenden, welche einen **internen Puffer** haben und somit keine Anfragen wegschmeißen, ist es egal ob eine Komponente nicht mit der Verarbeitung hinter her kommt. Allerdings werden Statusänderungen von Fachschafftsmitglieder auch erst ausgeführt wenn alle Anfragen des Lasttests verarbeitet sind **(First-In-First-Out Prinzip)**.
+
+\pagebreak
+
+# Anhänge
+
+## Sprint Protokolle
+
+#### 19.03.2015
+* Konzeption Architektur
+* Verteilung Aufgaben
+* Recherche/Einrichtung Aufgabenverwaltung (Kanbanery)
+
+#### 26.03.2015
+* Daily Scrum:
+	* Simon: Socketrecherche abgeschlossen, Webserver liefert statische Ressourcen aus, APP läuft clientseitig und verbindet sich mit Sockets
+	* Max: Hotspot funktioniert
+	* Stephanie: SQLite eignet sich optimal zum Einsatz im Projekt
+	* Luis: Erste Recherche zu Sound/Lampen abgeschlossen
+	* Markus: Möglichkeiten zu IPK recherchiert, Sockets und Pipes kommen in Frage -> Named Pipes ideal
+
+* Verteilung neuer Aufgaben:
+	* Kein Einsatz von Maven-ähnlichem Programm zur Verwaltung von Dependencies
+	* DB Anforderungen geklärt
+
+#### 09.04.2015
+* Daily Scrum:
+	* Max: NIX
+	* Luis: Lampen läuft, Sound läuft
+	* Simon: bisschen REST angeschaut, IPC helfen
+	* Stephanie: SQLite ausgecheckt
+	* Markus: IPC
+
+* TODO:
+	* Max: Bau den Crawlers
+	* Luis: Lampe testen, pybuilder anschaun
+	* Simon: Rest weiter machen
+	* Stephanie: DB weitermachen
+	* Markus: IPC (JSON parser)
+
+* Planung sprints:
+	1. Bis 23.04.15 08:15: MockUp Crawler, Manager (evtl mit anbindung controler), DB, rudimentäres Webinterface (Liste von User anzeigen, neuer User hinzufügen)
+	2. Crawler, Webinterface (Onlinestatus)
+	3. Webinterface (User löschen, ändern)
+
+#### 16.04.2015
+* Daily Scrum
+	* Max: Access Point ausgecheckt, Crawler gebaut
+	* Stephanie: DB: user adden gemacht, SVN kommt bald
+	* Luis: Farben etc in Klasse, Ansteuerung incl hexadezimal etc., Anbindung Mockup Manager kommt
+	* Simon: Webinterface weiter gemacht, Dependencies
+	* Markus: Manager fertig, Dependencies
+
+* TODO:
+	* Luis+Markus: Controller Steuerung Peripherie (Manager)
+	* Steph: DB fertig, ins SVN
+	* Max: Hybrid-Crawler (Mockup+Normal) + Kommunikation Manager
+	* Simon: Webinterface weiter machen
+	* Simon+Markus: Dependencies aufm Raspi auschecken
+	* Markus: Manager umbauen
+
+#### 23.04.2015
+Erster sprint erfolgreich abgeschlossen, alle geplanten Arbeiten abgeschlossen, DB noch nicht 100%ig fertig, webinterface quasi schon fertig
+
+* TODO:
+	* Max: LEDs für Komponenten einbauen (status) -> Library
+	* Steph: DB: Skript einbinden -> Tabellen anlegen, Rechte management
+	* Simon+Markus: Raspi pybuilder
+	* Luis: Objektorientierung in periphery
+	* Simon: Manager in webserver anbinden
+	* Max: möglichkeiten webserver -> lokal starten?! (Flask)
+
+* Planung sprints:
+	2. Bis 07.05.15 8:15: des was da oben steht
+	3. ???
+
+#### 07.05.2015
+1. Systemtest: läuft bei uns
+Erfolgreiches Beenden des 2. Sprints
+3. Sprint: Fertig stellen (Wireless Accesspoint, Sound Wiedergabe, Anzeige Sounds Webservice, Rechte abchecken) bis: 21.05.15
+
+#### 28.05.2015
+* TODO:
+	* Logging/error handler
+	* Tests (wo sinnvoll/möglich)
+	* Kommentare
+
+* Erledigt:
+	* logging (Markus)
+	* Kommentare in Webservices (Simon)
+	* Webservices refactored (Simon)
+	* Light IDs angepasst (Max)
+	* MAC-Adressen case-insensitive (Markus)
+
+#### 11.06.2015
+Erledigt:
+
+* Sound Suche in eigenes Modul abgekapselt (Simon)
+* Status Licht hinzugefügt (Luis)
+* Manager-Webserver Queue eingeführt für dynamische Steuerung aus Browser (-> Status Licht) (Markus)
+* Logging für DMX hinzugefügt (Luis)
+* Kommentare hinzugefügt (Simon, Markus)
+* Fehlerdialog in web-ui hinzugefügt (Simon)
+* Bug in SQLiteWrapper behoben (Simon)
+* Http Fehler codes hinzugefügt (Simon)
+* Url korrigiert (Simon)
+* web-ui aktualisiert (Simon)
+
+#### 25.06.2015
+* Max: Doku erweitert
+* Markus: Weitere sounds hinzugefügt
+* Simon: Lasttest hinzugefügt

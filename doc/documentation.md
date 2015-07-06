@@ -4,7 +4,7 @@ subtitle: Embedded Software Development, Prof. Dr. Jochen Hertle
 author: Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
 geometry: margin=1in
 date: 09.07.2015
-abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten und verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale neben der Tür visualisiert werden. So können die Studenten ihre Zeit effektiver planen und die Noten werden automatisch besser.
+abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Leider passiert es häufiger, dass die überarbeiteten und verkaterten Studenten umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist. Deswegen soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale neben der Tür visualisiert werden. So können die Studenten ihre Zeit effektiver planen und die Noten werden automatisch besser.
 ---
 
 \pagebreak
@@ -350,7 +350,7 @@ Erster Sprint erfolgreich abgeschlossen, alle geplanten Arbeiten abgeschlossen, 
 	* Simon: Manager in webserver anbinden
 	* Max: möglichkeiten webserver -> lokal starten?! (Flask)
 
-* Planung sprints:
+* Planung Sprints:
 	2. Bis 07.05.15 8:15: TODOs
 	3. ???
 

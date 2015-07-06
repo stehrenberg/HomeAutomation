@@ -287,17 +287,17 @@ Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anza
 ## Sprint Protokolle
 
 #### 19.03.2015
-* Konzeption Architektur
+* Architekturkonzept
 * Verteilung Aufgaben
 * Recherche/Einrichtung Aufgabenverwaltung (Kanbanery)
 
 #### 26.03.2015
 * Daily Scrum:
-	* Simon: Socketrecherche abgeschlossen, Webserver liefert statische Ressourcen aus, APP läuft clientseitig und verbindet sich mit Sockets
+	* Simon: Socketrecherche abgeschlossen, Webserver liefert statische Ressourcen aus, App läuft clientseitig und verbindet sich mit Sockets
 	* Max: Hotspot funktioniert
 	* Stephanie: SQLite eignet sich optimal zum Einsatz im Projekt
 	* Luis: Erste Recherche zu Sound/Lampen abgeschlossen
-	* Markus: Möglichkeiten zu IPK recherchiert, Sockets und Pipes kommen in Frage -> Named Pipes ideal
+	* Markus: Möglichkeiten zu IPC recherchiert, Sockets und Pipes kommen in Frage -> Named Pipes ideal
 
 * Verteilung neuer Aufgaben:
 	* Kein Einsatz von Maven-ähnlichem Programm zur Verwaltung von Dependencies
@@ -314,20 +314,20 @@ Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anza
 * TODO:
 	* Max: Bau den Crawlers
 	* Luis: Lampe testen, pybuilder anschaun
-	* Simon: Rest weiter machen
+	* Simon: REST weiter machen
 	* Stephanie: DB weitermachen
 	* Markus: IPC (JSON parser)
 
-* Planung sprints:
-	1. Bis 23.04.15 08:15: MockUp Crawler, Manager (evtl mit anbindung controler), DB, rudimentäres Webinterface (Liste von User anzeigen, neuer User hinzufügen)
+* Planung Sprints:
+	1. Bis 23.04.15 08:15: MockUp Crawler, Manager, DB, rudimentäres Webinterface (Liste von User anzeigen, neuer User hinzufügen)
 	2. Crawler, Webinterface (Onlinestatus)
 	3. Webinterface (User löschen, ändern)
 
 #### 16.04.2015
 * Daily Scrum
 	* Max: Access Point ausgecheckt, Crawler gebaut
-	* Stephanie: DB: user adden gemacht, SVN kommt bald
-	* Luis: Farben etc in Klasse, Ansteuerung incl hexadezimal etc., Anbindung Mockup Manager kommt
+	* Stephanie: User in DB einfügen, SVN kommt bald
+	* Luis: Farben etc in Klasse, Ansteuerung inkl. hexadezimal etc., Anbindung Mockup Manager kommt
 	* Simon: Webinterface weiter gemacht, Dependencies
 	* Markus: Manager fertig, Dependencies
 
@@ -340,18 +340,18 @@ Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anza
 	* Markus: Manager umbauen
 
 #### 23.04.2015
-Erster sprint erfolgreich abgeschlossen, alle geplanten Arbeiten abgeschlossen, DB noch nicht 100%ig fertig, webinterface quasi schon fertig
+Erster Sprint erfolgreich abgeschlossen, alle geplanten Arbeiten abgeschlossen, DB noch nicht 100%ig fertig, Webinterface quasi schon fertig
 
 * TODO:
 	* Max: LEDs für Komponenten einbauen (status) -> Library
-	* Steph: DB: Skript einbinden -> Tabellen anlegen, Rechte management
+	* Steph: DB: Skript einbinden -> Tabellen anlegen, Rechtemanagement
 	* Simon+Markus: Raspi pybuilder
 	* Luis: Objektorientierung in periphery
 	* Simon: Manager in webserver anbinden
 	* Max: möglichkeiten webserver -> lokal starten?! (Flask)
 
 * Planung sprints:
-	2. Bis 07.05.15 8:15: des was da oben steht
+	2. Bis 07.05.15 8:15: TODOs
 	3. ???
 
 #### 07.05.2015
@@ -366,7 +366,7 @@ Erfolgreiches Beenden des 2. Sprints
 	* Kommentare
 
 * Erledigt:
-	* logging (Markus)
+	* Logging (Markus)
 	* Kommentare in Webservices (Simon)
 	* Webservices refactored (Simon)
 	* Light IDs angepasst (Max)

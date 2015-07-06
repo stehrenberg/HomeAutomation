@@ -1,7 +1,9 @@
 ---
 title: Projektdokumentation Drei
+subtitle: Embedded Software Development, Prof. Dr. Jochen Hertle
 author: Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
 geometry: margin=1in
+date: 09.07.2015
 abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
 ---
 
@@ -22,7 +24,7 @@ abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultä
 
 ## Idee
 
-Da eigentlich jedes Mitglied der Fachschaft ein Smartphone hat, soll die Präsenzerkennung über die Wifi Schnitstelle realisiert werden. Dazu wird ein dedizierter Hotspot, der nur die Fachschaftsräume abdeckt, installiert. Um zu vermeiden, dass auf den Smartphones zusätzliche Software installiert werden muss, soll anhand der MAC-Adresse erkannt werden, ob das Telefon in das spezielle Wifi eingebucht ist und somit der Fachschaftler präsent ist.
+Da eigentlich jedes Mitglied der Fachschaft ein Smartphone hat, soll die Präsenzerkennung über die Wifi Schnitstelle realisiert werden. Dazu wird ein dedizierter Hotspot, der nur die Fachschaftsräume abdeckt, installiert. Um zu vermeiden, dass auf den Smartphones zusätzliche Software installiert werden muss, soll anhand der MAC-Adresse erkannt werden, ob das Telefon in das spezielle Wifi eingebucht ist und somit der Fachschaftler präsent ist oder nicht.
 
 Sobald ein Telefon sich ins Wifi einbucht, soll über die in den Fachschaftsräumen installierte Tonanlage die Willkommenmelodie des jeweiligen Telefoninhabers/Fachschaftlers abgespielt werden.
 
@@ -44,7 +46,7 @@ Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtze
 
 # Software Design
 
-Um möglichst effiziente Softwareentwicklungszyklen zu realisieren, wurde großer Wert auf eine maximal modulare Entwicklung der einzelnen Komponenten gelegt.
+Um möglichst effiziente Softwareentwicklungszyklen zu gewährleisten, wurde großer Wert auf eine maximal modulare Entwicklung der einzelnen Komponenten gelegt.
 Die folgende Grafik veranschaulicht den Architekturentwurf:
 
 ![System Overview](overview.png)
@@ -103,7 +105,7 @@ Glücklicherweise kann iwevent auch als **unprevilegierter Benutzer** verwendet 
 Zur Anzeige des Systemstatuses wurden zwei LEDs an das GPIO Interface des Raspberry Pis angeschlossen. Eine der beiden Leds zeigt den Start des Managers an. Sie erlischt beim Beenden des Managers.
 Die zweite LED visualisiert den Zustand des Wifi Crawlers. Zusätzlich blinkt die LED kurz, wenn ein User sich ins WLAN eingeloggt oder es verlassen hat.
 
-Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich, über simple Dateisystemberechtigungen auch unprivilegierten  Nutzern die Verwendung der GPIOs zu erlauben.
+Um zu vermeiden, dass die einzelnen Dienste mit Rootrechten laufen müssen, wurde zur Ansteuerung der GPIOs das **sysfs** Interface verwendet. Dank des Filesystem Mappings ist es möglich, über simple Dateisystemberechtigungen auch unprivilegierten Nutzern die Verwendung der GPIOs zu erlauben.
 
 
 ## Logging

@@ -141,7 +141,7 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(title)$
-\title{$title$$if(subtitle)$\\\vspace*{\fill}{\large $subtitle$}$endif$}
+\title{\vspace{\fill}$title$$if(subtitle)$\\\vspace{0.2em}{\large $subtitle$}$endif$}
 $endif$
 $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
@@ -162,6 +162,7 @@ $endfor$
 \fi
 
 \begin{document}
+\vspace{\fill}
 $if(title)$
 \maketitle
 $endif$
@@ -170,6 +171,7 @@ $if(abstract)$
 $abstract$
 \end{abstract}
 $endif$
+\vspace*{\fill}
 
 $for(include-before)$
 $include-before$

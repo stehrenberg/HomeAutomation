@@ -126,11 +126,6 @@ Nachfolgend ein exemplarischer Auszug des Logfiles:
 	2015-05-28 11:36:08,274 INFO: Periphery.py (39) light 0 turned on
 	2015-05-28 11:36:08,277 INFO: Periphery.py (58) sound at Knight-Rider-Theme-Song.mp3 played
 	2015-05-28 11:36:08,278 INFO: SoundController.py (32) Loading file Knight-Rider-Theme-Song.mp3
-	2015-05-28 11:36:09,372 INFO: Crawler.py (22) New peer connected: 00:80:41:ae:fd:7d
-	2015-05-28 11:36:09,373 INFO: Manager.py (52) user 00:80:41:ae:fd:7d added
-	2015-05-28 11:36:09,374 INFO: Periphery.py (39) light 1 turned on
-	2015-05-28 11:36:09,376 INFO: Periphery.py (58) sound at Windows Error.wav played
-	2015-05-28 11:36:09,377 INFO: SoundController.py (32) Loading file Windows Error.wav
 
 
 ## Manager
@@ -140,8 +135,16 @@ Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus
 
 \pagebreak
 
-## Datenbank: SQlite
+## Datenbank: SQLite
 
+### Allgemein
+
+Zur persistenten Datenhaltung setzten wir in unserem Projekt das Datenbanksystem **SQLite** ein. Wir haben uns bewusst **gegen MySQL** entschieden, da wir nur einen Bruchteil der bereitgestellten Funktionen nutzen würden und somit eine menge Overhead produzieren würden, der auf die Performance des Systems schlagen würde.
+
+Der große Vorteil von SQLite ist, dass man, bis auf eine Pythonlibrary zum vearbeiten der SQL Befehle, **keine zusätzliche Software** installieren muss. Die Daten werden in einer simplen Datei im Filesystem gehalten, somt muss man sich auf keine Gedanken um Ports und IP Adressen machen. Die Zugriffssteuerung auf die Datenbank wird mittels einfacher Dateisystemberechtigungen geregelt.
+
+
+### Datenbankentwurf
 ![Entity-Releationship Modell](er_diagram.png)
 
 \pagebreak
@@ -201,67 +204,73 @@ Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für 
 
 \pagebreak
 
-#Tests
+#Testing
 
-## Unittests in Python mit PyUnit
+## Unittests mit PyUnit
 
-Generelles Setup:
+### Generelles Setup
 
-Einbinden der Unittest-Library:
+1.) Einbinden der Unittest-Library:
 ```python
 import unittest
 ```
 
-Erstellen einer Testklasse durch Ableiten von unittest.TestCase:
+2.) Erstellen einer Testklasse durch Ableiten von unittest.TestCase:
 ```python
 class TestClass(unittest.TestCase):
 ```
 
-Falls gewünscht, kann eine testklassenweite setUp-Methode definiert werden, die zu Beginn der Ausführung der Testklasse _einmal_ ausgeführt wird - wird über Annotation `@classmethod` realisiert:
+3.) Falls gewünscht, kann eine testklassenweite setUp-Methode definiert werden, die zu Beginn der Ausführung der Testklasse _einmal_ aufgerufen wird - wird über Annotation `@classmethod` realisiert:
 ```python
 @classmethod
 def setUpClass(cls):
 	// here be code
 ```
     		
-Falls benötigt, kann eine tearDown-Methode spezifiziert werden, die nach jeder Test-Methode der Klasse ausgeführt wird:
+4.) Falls benötigt, kann eine tearDown-Methode spezifiziert werden, die nach jeder Test-Methode der Klasse ausgeführt wird:
 ```python    
 def tearDown(self):
 ```
-    	
-Bei den Unittests zum SQLiteWrapper werden zu Beginn diverse Testuser angelegt und als Objektvariablen definiert, um sie in den Tests später komfortabel nutzen zu können.
-In der tearDown() wird sicher gestellt, dass die DB nach der Ausführung einer Testmethode leer ist.
+    
 
-Generell sieht eine Testmethode in PyUnit beispielsweise so aus:
+5.) Defintion der Testfälle
 
 ```python
 def test_simple_user_adding(self):
 	self.assertTrue(self.db_wrapper.add_user(self.testuser))
 ```
 
-Man kann auch andere assert-Methoden nutzen, den Klassiker         `self.assertEqual(first, second, msg=None)` beispielsweise, der zwei Objekte `first` und `second` mit `==` vergleicht.
+Man kann auch andere assert-Methoden nutzen, wie beispielsweise den Klassiker `self.assertEqual(first, second, msg=None)`, der zwei Objekte `first` und `second` mit `==` vergleicht.
 
-## Datenbank-Wrapper
-Innerhalb unseres Projekts wurden vor allem für den Datenbank-Wrapper SQLiteWrapper.py Unittests zur Absicherung und Dokumentation der einzelnen Interface-Methoden geschrieben, die regelmäßig zur Ausführung gebracht wurden.
+### Datenbank-Wrapper
+Innerhalb unseres Projekts wurden vor allem für den Datenbank-Wrapper SQLiteWrapper.py Unittests zur Absicherung und Dokumentation der einzelnen Interface-Methoden geschrieben.
+Zu Beginn werden diverse Testuser angelegt und als Objektvariablen definiert, um sie in den Tests später komfortabel nutzen zu können.
+In der tearDown() wird sicher gestellt, dass die DB nach der Ausführung einer Testmethode leer ist.
 
 \pagebreak
 
-## Generelle Systemtests
+## Systemtest
 ###Webinterface
-Das Webinterface zur Benutzerverwaltung wurde durch ausführliche Oberflächentests getestet, indem User anhand der MAC-Adresse ihres Geräts hinzugefügt wurden, geändert wurden und gelöscht wurden. Lief alles durch.
+Die Funktion des Webinterfaces wurde durch ausführliche Oberflächentests verifiziert. Diese wurden manuell von unserem Team durchgeführt.
+
+Testcase						i.o.			Bemerkung
+---------------------------   	------------	--------------------------------------------------------
+Benutzer hinzufügen				\checkmark
+Benutzer ändern					\checkmark		Farbe, Musik wurden geaendert
+Benutzer entfernen				\checkmark
+Echtzeit Onlineanzeige			\checkmark		Minimal merkbare Verzögerung bis Status aktualisiert
+---------------------------   	------------	--------------------------------------------------------
+
 
 ### Peripherie
-Die Peripherie-Hardware, bestehend aus Soundausgabe/LED-Bar/Pixeltube, wurde im gleichen Zuge getestet.
+Die Peripherieansteuerung, bestehend aus Soundausgabe, LED-Bar und Pixeltube, wurde im gleichen Zuge getestet.
 Der einfache Positivtest lief erwartungsgemäß gut, das Mobilgerät eines Nutzers wurde vom System sofort bei Einschalten des WLANS am Mobilgerät erkannt, bevor das Smartphone selbst das WLAN des Pi erkannt hat. Die Verzögerung zwischen Systemreaktion und WLAN-Erkennung war nicht wahrnehmbar.
 
 Beim gleichzeitigen Anmelden zweier User werden beide Lichtslots geschaltet, der Sound des ersten Users wird dann abgebrochen und der Sound des zweiten Users abgespielt.
 
 ### Crawler
-_insert graffel über tests here_
+Um die Funtion des Crawlers zu Testen wurde mit einem Testtelefon eine Verbindung mit dem Hotspot des RaspberryPIs hergestellt. Danach wurde ausgewertet ob der Crawler das neue Telefon erkennt und ob die MAC Adresse korrekt ermittelt wird. Beides war mit 2 verschiedenen Testgeräten der Fall. Zusätzlich wurde auch getest ob beim Trennen der Verbindung alles richtig erkannt wird. Auch das hat anstandslos funktioniert. Der Crawler kann somit als funktionierend betrachtet werden. Diese Tests wurden auch manuell von einem Teammitglied durchgeführt.
 
+### Lasttest
 
-
-### Lasttests
-
-Es wurden auch Lasttests ausgeführt, bei denen durch schnellen Wechsel der Farbauswahl für den jeweiligen User getestet wurde, wie das System auf eine große Nachrichtenanzahl reagiert.
-
+Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anzahl paraleller Websocket Anfragen** an den Webserver ausgelöst. Diese sollten einfach nur die Farbe eines Pixels der Pixeltube ändern. Nachdem alle Anfragen vom Webinterface gesendet wurden, **dauert es ein wenig** bis diese auch tatsälich auf der Pixeltube angezeigt werden. **Allerdings geht keine einzige Anfrage verlohren**. Da wir zwischen den einzelnen Komponenten Queues zur Kommunikation verwenden, welche einen **internen Puffer** haben und somit keine Anfragen wegschmeißen, ist es egal ob eine Komponente nicht mit der Verarbeitung hinter her kommt. Allerdings werden Statusänderungen von Fachschafftsmitglieder auch erst ausgeführt wenn alle Anfragen des Lasttests verarbeitet sind **(First-In-First-Out Prinzip)**.

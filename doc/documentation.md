@@ -4,7 +4,7 @@ subtitle: Embedded Software Development, Prof. Dr. Jochen Hertle
 author: Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
 geometry: margin=1in
 date: 09.07.2015
-abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten, verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So ist eine effektivere Zeitplanung möglich und die Noten werden automatisch besser.
+abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten und verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So können die Studenten ihre Zeit effektiver planen und die Noten werden besser.
 ---
 
 \pagebreak
@@ -33,7 +33,7 @@ Zusätzlich wird neben der Fachschaftstür ein Leuchtsignal (PixelTube, ein Pixe
 Durch eine Websocketverbindung auf der Fachschaftswebseite kann nahezu in Echtzeit die Präsenz der Mitglieder von überall eingesehen werden.
 
 
-## Hardware Komponenten
+## Hardware
 
 * Raspberry Pi 2
 * WLAN Stick für Hotspotfunktionalität
@@ -141,7 +141,7 @@ Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus
 
 Zur persistenten Datenhaltung setzten wir in unserem Projekt das Datenbanksystem **SQLite** ein. Wir haben uns bewusst **gegen MySQL** entschieden, da wir nur einen Bruchteil der bereitgestellten Funktionen nutzen würden und somit eine menge Overhead produzieren würden, der auf die Performance des Systems schlagen würde.
 
-Der große Vorteil von SQLite ist, dass man, bis auf eine Pythonlibrary zum vearbeiten der SQL Befehle, **keine zusätzliche Software** installieren muss. Die Daten werden in einer simplen Datei im Filesystem gehalten, somt muss man sich auf keine Gedanken um Ports und IP Adressen machen. Die Zugriffssteuerung auf die Datenbank wird mittels einfacher Dateisystemberechtigungen geregelt.
+Der große Vorteil von SQLite ist, dass man, bis auf eine Pythonlibrary zum Vearbeiten der SQL Befehle, **keine zusätzliche Software** installieren muss. Die Daten werden in einer simplen Datei im Filesystem gehalten, somt muss man sich keine Gedanken um Ports und IP Adressen machen. Die Zugriffssteuerung auf die Datenbank wird mittels einfacher Dateisystemberechtigungen geregelt.
 
 
 ### Datenbankentwurf
@@ -195,8 +195,13 @@ Die Webapp enthält mehrere Services. Der **DataService** ist verantwortlich fü
 
 Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für das Dashboard verantwortlich und lauscht auf den Broadcast des **WebsocketService**s, um die Liste der aktiven Nutzer aktuell zu halten. Bei der Initialisierung wird zudem ein **GetActiveUsersEvent** an den Server geschickt, damit nicht erst auf eine Änderung gewartet werden muss, um die aktiven Benutzer anzeigen zu können. Der **UsersCtrl** ist verantwortlich für die Ansicht zur Benutzerverwaltung. Er kommuniziert mit Hilfe des **DataServices** mit dem Webserver und empfängt, updated und löscht mit diesem System-User. Ein weiterer Controller ist der **LatencyCtrl**, dieser ist verantwortlich für die Testseite, auf der ein Latenz- und ein Last-Test durchgeführt werden können. Bei ersterem handelt es sich um einen Test der Zeit, die benötigt wird für die Kommunikation von Webserver bis hin zur Peripherie. Dabei kann man auf einem Schieberegler zwischen fünf verschiedenen Farben wählen, was die Farbe des dafür vorgesehenen Lichts ändert. Beim Last-Test werden automatisch 4048 Farbänderungen, in etwa wie beim Latenz-Test, gesendet, allerdings hier in kürzester Zeit. So wird das Verhalten des Systems und der Auswirkungen auf die Kommunikationsgeschwindigkeit unter Volllast getestet. Der entsprechende Controller kommuniziert mit dem **WebsocketService** um die entsprechenden Befehle an den Server zu übermitteln. Zusätzlich existieren noch ein **CreateCtrl** und ein **UpdateCtrl**, welche für das Anlegen bzw. Aktualisieren eines Users verantwortlich sind. Hierfür nutzen sie den **DataService**. Der **ErrorCtrl** dient zur Darstellung eines Fehlers.
 
+\pagebreak
 
 ## Peripheriesteuerung
+
+Wie bereits mehrfach erwähnt wurde die Ansterung der Pheripherie als **Bibliothek** ausgelegt um den Zugriff auf die direkte Hardware zu abstrahieren. Zu den zur Verfügung gestellten Funktionen zählt die Ausgabe über die Audioschnittstelle und das Ansteuern der Pixeltube via DMX Bus. Zusätzlich werden einige **Hilfsfunktionen** mit dieser Bibliothek bereitgestellt, wie beispielweise das Umrechnen von Hex-Farb-Strings in RGB Werte.
+
+Um auch innerhalb der Bibliothek klare Sturkturen einzuhalten wurde die Ansteuerung der Lampen in die Klasse DMXController und die Ansterung der Audioausgabe in die Klasse SoundController ausgelagert.
 
 ### SoundController
 

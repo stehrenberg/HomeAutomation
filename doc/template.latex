@@ -168,7 +168,7 @@ $if(title)$
 $endif$
 $if(abstract)$
 \begin{abstract}
-$abstract$
+\centering $abstract$
 \end{abstract}
 $endif$
 \vspace*{\fill}

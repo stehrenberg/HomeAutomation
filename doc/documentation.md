@@ -4,7 +4,7 @@ subtitle: Embedded Software Development, Prof. Dr. Jochen Hertle
 author: Stephanie Ehrenberg, Markus Hornung, Simon Jahreiß, Luis Morales, Maximilian Pachl
 geometry: margin=1in
 date: 09.07.2015
-abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten und verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale visualisiert werden. So können die Studenten ihre Zeit effektiver planen und die Noten werden besser.
+abstract: Viele Studenten haben ein Anliegen an die Fachschaft unserer Faktultät. Damit die überarbeiteten und verkaterten Studenten nicht umsonst in die Fachschaft laufen und feststellen müssen, dass niemand da ist, soll die Präsenz der Fachschaftsmitglieder in Echtzeit auf einer Webseite und durch Leuchtsignale neben der Tür visualisiert werden. So können die Studenten ihre Zeit effektiver planen und die Noten werden automatisch besser.
 ---
 
 \pagebreak

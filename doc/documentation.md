@@ -280,13 +280,25 @@ Zusätzlich wurden mehrere Controller umgesetzt. Der **DashboardCtrl** ist für 
 
 ## Peripheriesteuerung
 
-Wie bereits mehrfach erwähnt wurde die Ansterung der Pheripherie als **Bibliothek** ausgelegt um den Zugriff auf die direkte Hardware zu abstrahieren. Zu den zur Verfügung gestellten Funktionen zählt die Ausgabe über die Audioschnittstelle und das Ansteuern der Pixeltube via DMX Bus. Zusätzlich werden einige **Hilfsfunktionen** mit dieser Bibliothek bereitgestellt, wie beispielweise das Umrechnen von Hex-Farb-Strings in RGB Werte.
+Wie bereits mehrfach erwähnt wurde die Ansteuerung der Peripherie als **Bibliothek** ausgelegt um den Zugriff auf die direkte Hardware zu abstrahieren. Zu den zur Verfügung gestellten Funktionen zählt die Ausgabe über die Audioschnittstelle und das Ansteuern der Pixeltube via DMX Bus. Zusätzlich werden einige **Hilfsfunktionen** mit dieser Bibliothek bereitgestellt, wie beispielweise das Umrechnen von Hex-Farb-Strings in RGB Werte.
 
-Um auch innerhalb der Bibliothek klare Sturkturen einzuhalten wurde die Ansteuerung der Lampen in die Klasse DMXController und die Ansterung der Audioausgabe in die Klasse SoundController ausgelagert.
+Um auch innerhalb der Bibliothek klare Sturkturen einzuhalten wurde die Ansteuerung der Lampen in die Klasse DMXHandler und die Ansteuerung der Audioausgabe in die Klasse SoundController ausgelagert.
 
 ### SoundController
 
-### DMXController
+Der **SoundController** nutzt die Bibiothek pygame zur Wiedergabe. Der Vorteil dieser Bibliothek ist das Abspielen von verschiedenen Musik-Formaten (bspw. .wav, .mp3, ...).
+
+### DMXHandler
+
+Die Kontrolle von DMX-Geräten erfolgt durch den **DMXHandler**. Er hält eine Liste von der Oberklasse **DMXDevice** abgeleiteter Klassen, sodass neue DMX Geräte schnell hinzugefügt werden können. Der **DMXHandler** verwaltet die Geräte und setzt mit Hilfe der **DMXConnection** in den entsprechenden Geräten die Farbwerte. **DMXConnection** sorgt für die Verbindung zum *ENTTEC DMX USB Pro* DMX Interface.
+
+![DMX Verwaltung](DMXClasses.png)
+
+### Farbverwaltung
+
+Die Farbverwaltung für die DMX Geräte wird mit Hilfe der Klasse **RGBColor** und der Factory **ColorFactory** realisiert.
+
+![Farbverwaltung](ColorFactory.png)
 
 \pagebreak
 

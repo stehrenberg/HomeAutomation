@@ -152,6 +152,7 @@ Ferner haben wir gerade für die anfängliche Projektphase die Klasse MockDatabs
 ### Datenbankentwurf
 ![Entity-Releationship Modell](er_diagram.png)
 
+\pagebreak
 
 ###Das SQLiteWrapper.py Modul
 
@@ -159,42 +160,47 @@ Ferner haben wir gerade für die anfängliche Projektphase die Klasse MockDatabs
 
 Beim Start unserer Anwendung wird im Runfile Drei.py die Datenbank mit ihren beiden Tabellen `Users` und `Sounds` angelegt:
 
-	# Initializing database with tables (if necessary)
-    InitTables.main()
+```python
+# Initializing database with tables (if necessary)
+InitTables.main()
+```
     
 
 Die Initialisierung der Datenbank geschieht dabei konkret über das Skript InitTables.py:
+```python
+import sqlite3 as sql
 
-	import sqlite3 as sql
+def main():
+	db_connect = None
+	db = 'test.db'
 
-	def main():
-    	db_connect = None
-    	db = 'test.db'
-	
-	    with sql.connect(db) as db_connect:
-        	# foreign keys are disabled by default for backwards compatibility
-    	    db_connect.execute("""PRAGMA foreign_keys = ON;""")
-	        cursor = db_connect.cursor()
-        	cursor.execute("""PRAGMA foreign_keys;""")
-    	    logger.log(Logger.INFO, "Creating table Sounds...")
-	        cursor.execute("""CREATE TABLE IF NOT EXISTS Sounds(
-            	sound_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            	title TEXT,
-            	filepath TEXT UNIQUE
-        	    );""")
-    	    logger.log(Logger.INFO, "Creating table Users...")
-	        cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
-            	mac_address TEXT PRIMARY KEY NOT NULL,
-        	    username TEXT,
-    	        light_color TEXT,
-	            sound INTEGER REFERENCES Sounds(sound_ID)
-            	);""")
-        	cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Sounds' OR name='Users';")
-        	created_tables = flatten(cursor.fetchall())
-    	    if len(created_tables) == 2:
-	            logger.log(Logger.INFO, "Tables successfully created.")
+    with sql.connect(db) as db_connect:
+    	# foreign keys are disabled by default for backwards compatibility
+	    db_connect.execute("""PRAGMA foreign_keys = ON;""")
+        cursor = db_connect.cursor()
+    	cursor.execute("""PRAGMA foreign_keys;""")
+	    logger.log(Logger.INFO, "Creating table Sounds...")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS Sounds(
+        	sound_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        	title TEXT,
+        	filepath TEXT UNIQUE
+    	    );""")
+	    logger.log(Logger.INFO, "Creating table Users...")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
+        	mac_address TEXT PRIMARY KEY NOT NULL,
+    	    username TEXT,
+	        light_color TEXT,
+            sound INTEGER REFERENCES Sounds(sound_ID)
+        	);""")
+    	cursor.execute("""SELECT name FROM sqlite_master WHERE type='table' AND
+    		name='Sounds' OR name='Users';""")
+    	created_tables = flatten(cursor.fetchall())
+	    if len(created_tables) == 2:
+            logger.log(Logger.INFO, "Tables successfully created.")
+```
 
 Der Wrapper selbst wird im Manager.py genutzt. Die Einbindung geschieht dabei über die Headerzeile `from lib.database.SQLiteWrapper import SQLiteWrapper`
+
 ####Funktionen
 
 Der Wrapper implementiert die folgenden Funktionen, die im Interface `Database.py` definiert sind:
@@ -376,6 +382,20 @@ Um zu simulieren wie sich das System unter Last verhält wurd eine **große Anza
 \pagebreak
 
 # Anhänge
+
+## Arbeitsaufteilung
+
+Nachfolgend finden Sie eine Auflistung der Modulverantwortlichen, sowie den Bearbeitungstatus der einzelnen Module:
+
+Modul									Verantwortlicher 		Erledigt
+------------------------------------- 	--------------------	--------------
+Manager 								Markus Hornung			\checkmark
+Datenbankanbindung						Stephanie Ehrenberg		\checkmark
+Webinterfaces / Webserver				Simon Jahreiss			\checkmark
+DMX Interface / Soundansteuerung		Luis Morales			\checkmark
+Hotspot / Crawler + GPIO 				Maximilian Pachl		\checkmark
+--------------------------------------	--------------------	--------------
+
 
 ## Sprint Protokolle
 

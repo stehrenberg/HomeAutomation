@@ -32,7 +32,7 @@ class DMXHandler:
         return self.nr_pixels
 
     def is_valid(self, check_device):
-        """Test if the device is valid for this DMXHandler, i.e. it doesn't use the same port as another device-"""
+        """Test if the device is valid for this DMXHandler, i.e. it doesn't use the same port as another device"""
 
         start_address = check_device.get_dmx_address()
         end_address = start_address + check_device.get_nr_pixels() - 1
@@ -48,7 +48,8 @@ class DMXHandler:
 
     def get_channel(self, pixel):
         """Return the channel of that pixel.
-            Return None if the channel does not exist."""
+        Return None if the channel does not exist.
+        """
 
         # TODO Works just with a sorted list of devices ascending by there dmx_address
         for device in self.dmx_devices:
@@ -60,7 +61,9 @@ class DMXHandler:
         return None
 
     def add_device(self, device):
-        """Add the device to the handler. Checks if there is no conflict with other devices."""
+        """Add the device to the handler.
+        Checks if there is no conflict with other devices.
+        """
 
         if isinstance(device, DMXDevice):
             if self.is_valid(device):
@@ -91,14 +94,14 @@ class DMXHandler:
         self.connection.set_channel(channel + DMXDevice.BLUE_CHANNEL,  color.get_blue(), True)
 
     def set_overall_color(self, color):
-        # for device in self.dmx_devices:
-        #     for pixel in range(device.get_nr_pixels):
-        #         self.set_pixel_color(pixel=pixel, color=color)
+        """Set the color of every device."""
 
         for pixel in range(self.get_available_pixels()):
             self.set_pixel_color(pixel, color)
 
     def test(self):
+        """Test if all connected devices works correctly by setting the main colors."""
+
         from time import sleep
 
         color_list = [ColorFactory.RED,
@@ -112,7 +115,7 @@ class DMXHandler:
                 self.set_pixel_color(i)
 
     def clear(self):
-        """Reset the color of all devices."""
+        """Reset the color on all devices."""
 
         self.set_overall_color(ColorFactory.BLACK)
 

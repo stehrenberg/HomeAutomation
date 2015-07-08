@@ -62,7 +62,9 @@ class DMXConnection(object):
 
     def set_channel(self, channel, val, auto_render=False):
         """Set the channel to a specified value.
-            You can select if the should"""
+            You can select if the channel should be rendered directly.
+            The default is False.
+        """
 
         #  takes channel and value arguments to set a channel level in the local
         #  dmx frame, to be rendered the next time the render() method is called
@@ -118,6 +120,7 @@ class DMXConnection(object):
 
 
 def search_port(device_string, nr_of_ports):
+    """Search the port where the DMX interface is plugged in."""
 
     connection = None
 

@@ -6,6 +6,7 @@ from lib.logger.Logger import Logger
 
 
 class Periphery:
+    """Periphery controls the sound and the light controller."""
 
     STATUS_LED = 15
 
@@ -34,8 +35,11 @@ class Periphery:
     def __del__(self):
         self.light.clear()
 
-    # Turn on light number index
     def light_on(self, pixel, color_str):
+        """Turn on the light on the given index.
+        The color string has to be a hexadecimal representation of a rgb color.
+        """
+
         pixel -= 1
         self.logger.log(Logger.INFO, "light " + str(pixel) + " turned on")
 
@@ -46,6 +50,8 @@ class Periphery:
 
     # Turn off light number index
     def light_off(self, pixel):
+        """Turns off the light on the given index."""
+
         pixel -= 1
         self.logger.log(Logger.INFO, "light " + str(pixel) + " turned off")
 
@@ -53,11 +59,16 @@ class Periphery:
         self.light.set_pixel_color(pixel=pixel*3+2)
 
     def set_status_light(self, color_str):
+        """Set the status light to the given color string.
+        The color string has to be a hexadecimal representation of a rgb color.
+        """
+
         color = ColorFactory.create_from_hex(color_str)
         self.light.set_pixel_color(self.STATUS_LED, color=color)
 
-    # Play sound at given directory
     def play_sound(self, file):
+        """Play the sound on the given path."""
+
         self.logger.log(Logger.INFO, "sound at " + file + " played")
 
         self.sound.play(song_title='resources/sounds/' + file)

@@ -135,17 +135,98 @@ Eine weitere Aufgabe des Managers ist die Abarbeitung der Ereignisse, welche aus
 
 \pagebreak
 
-## Datenbank: SQLite
 
-### Allgemein
+## Das Datenbank-Modul mit SQLite3
 
-Zur persistenten Datenhaltung setzten wir in unserem Projekt das Datenbanksystem **SQLite** ein. Wir haben uns bewusst **gegen MySQL** entschieden, da wir nur einen Bruchteil der bereitgestellten Funktionen nutzen würden und somit eine menge Overhead produzieren würden, der auf die Performance des Systems schlagen würde.
+Im Bereich der Softwareentwicklung auf dem Raspberry Pi findet man häufig SQLite-Datenbanken eingesetzt. Dies hat vor allem Performance-Gründe, da eine SQLite-DB nur durch eine Datei repräsentiert wird, in die geschrieben wird - es wird kein MySQL-Server o.ä. benötigt, der zusätzliche Ressourcen verbrauchen würde.
 
-Der große Vorteil von SQLite ist, dass man, bis auf eine Pythonlibrary zum Vearbeiten der SQL Befehle, **keine zusätzliche Software** installieren muss. Die Daten werden in einer simplen Datei im Filesystem gehalten, somt muss man sich keine Gedanken um Ports und IP Adressen machen. Die Zugriffssteuerung auf die Datenbank wird mittels einfacher Dateisystemberechtigungen geregelt.
+In unserer Anwendung haben wir uns ebenfalls für die Verwendung einer SQLite-Datenbank entschieden - zum einen aufgrund der bereits erwähnten Performance-Vorteile, zum anderen, weil wir für unsere Datenhaltung mit gerade einmal zwei Tabellen und rudimentären DB-Operationen auskommen - der Betrieb eines kompletten MySQL-Servers hätte daher unnötiger Overhead dargestellt.
+Ein weiterer Vorteil von SQLite ist, dass eine Python-Library sqlite3 existiert, die über einen Import einfach eingebunden werden kann - es muss **keine zusätzliche Software** installiert werden.
+Die Zugriffsverwaltung der DB geschieht hierbei über simple Dateisystemberechtigungen des zugrunde liegenden Betriebssystems. Dabei haben die .db-Files standardmäßig die Rechtezuweisung rwxr--r--`.
 
+###Genereller Aufbau
+Zum komfortableren Zugriff auf die Datenbank haben wir das Wrapper-Modul `SQLiteWrapper.py` geschrieben, welches der Anwendung u.a. Funktionen zum Hinzufügen, Updaten und Löschen eines Users bereitstellt und somit die SQL-Statements wegkapselt.
+Dem vorgeschaltet ist ein Interface `Database.py`, das die wichtigsten Funktionen definiert. Die Interface-Methoden sind 
+Ferner haben wir gerade für die anfängliche Projektphase die Klasse MockDatabse.py` geschrieben, um die Modularisierung zu erhöhen und die Entwicklung der DB-Schnittstelle unabhängig vom restlichen System vorantreiben zu können.
 
 ### Datenbankentwurf
 ![Entity-Releationship Modell](er_diagram.png)
+
+
+###Das SQLiteWrapper.py Modul
+
+####Initialisierung des Moduls und der Datenbank
+
+Beim Start unserer Anwendung wird im Runfile Drei.py die Datenbank mit ihren beiden Tabellen `Users` und `Sounds` angelegt:
+
+	# Initializing database with tables (if necessary)
+    InitTables.main()
+    
+
+Die Initialisierung der Datenbank geschieht dabei konkret über das Skript InitTables.py:
+
+	import sqlite3 as sql
+
+	def main():
+    	db_connect = None
+    	db = 'test.db'
+	
+	    with sql.connect(db) as db_connect:
+        	# foreign keys are disabled by default for backwards compatibility
+    	    db_connect.execute("""PRAGMA foreign_keys = ON;""")
+	        cursor = db_connect.cursor()
+        	cursor.execute("""PRAGMA foreign_keys;""")
+    	    logger.log(Logger.INFO, "Creating table Sounds...")
+	        cursor.execute("""CREATE TABLE IF NOT EXISTS Sounds(
+            	sound_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            	title TEXT,
+            	filepath TEXT UNIQUE
+        	    );""")
+    	    logger.log(Logger.INFO, "Creating table Users...")
+	        cursor.execute("""CREATE TABLE IF NOT EXISTS Users(
+            	mac_address TEXT PRIMARY KEY NOT NULL,
+        	    username TEXT,
+    	        light_color TEXT,
+	            sound INTEGER REFERENCES Sounds(sound_ID)
+            	);""")
+        	cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Sounds' OR name='Users';")
+        	created_tables = flatten(cursor.fetchall())
+    	    if len(created_tables) == 2:
+	            logger.log(Logger.INFO, "Tables successfully created.")
+
+Der Wrapper selbst wird im Manager.py genutzt. Die Einbindung geschieht dabei über die Headerzeile `from lib.database.SQLiteWrapper import SQLiteWrapper`
+####Funktionen
+
+Der Wrapper stellt folgende Funktionen zur Verfügung:
+
+	- add_user(user)
+	- get_user(mac_address)
+	- retrieve_users()
+	- update_user(user_mac, user)
+	- delete_user(user_mac)
+	- list_sounds()
+
+#####add_user(user)
+Erhält als Parameter ein User-Objekt als DTO. Hierbei ist zu beachten, dass das User-Object zwar ein Attribut light_ID besitzt, dieses aber zunächst `None` ist. Die Light-ID wird erst beim Eintrag des Users in die Datenbank generiert und ist effektiv die ROWID des Tabelleneintrags.
+
+######get_user(mac_address)
+Liefert zur gegebenen Mac-Adresse ein Userobjekt mit den Userdaten aus der Datenbank. Ist der User nicht vorhanden (kurzum - die Mac-Adresse kann in der DB nicht gefunden werden), wird `null` bzw `None` zurückgegeben.
+
+#####retrieve_users()
+Gibt eine Liste aller in der Datenbank eingetragenen User zurück. Ist die Datenbank leer (weil noch keine User eingetragen wurden), liefert retrieve_users() eine leere Liste [].
+Diese Funktion macht dabei intern nichts anderes, als eine Liste aller eingetragenen Mac-Adressen aus der DB abzufragen, für jede Adresse `get_user()`aufzurufen und die jeweiligen User-Objekte zu einer Liste zusammenzubauen.
+
+#####update_user(user_mac, user)
+Aktualisiert den User-Eintrag in der DB zu einer gegebenen Mac-Adresse. 
+Es können nur die Lichtfarbe und der ausgewählte Sound bei einem bestehenden Nutzereintrag geändert werden, Name und Mac-Adresse sind unveränderlich.
+Existiert zu dem ausgewählten Sound noch kein Eintrag in der DB, wird ein neuer Eintrag in der Tabelle für die Sounds generiert.
+Die Funktion gibt `True`zurück, wenn ein Update ausgeführt wurde, und `False`, wenn nichts geändert wurde.
+
+#####delete_user(user_mac)
+Löscht den User-Eintrag in der DB zu einer gegebenen Mac-Adresse und liefert  `True` / `False` zurück, um anzuzeigen, ob der Löschvorgang erfolgreich war oder nicht - existiert die angegebene Mac-Adresse nicht, wird auch nichts gelöscht und folglich `False` zurückgegeben.
+
+#####list_sounds()
+Gibt eine Liste aller in der DB eingetragenen Sounds zurück. Sind keine Sounds eingetragen, ist die gelieferte Liste leer.
 
 \pagebreak
 

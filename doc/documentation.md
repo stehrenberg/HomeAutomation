@@ -146,7 +146,7 @@ Die Zugriffsverwaltung der DB geschieht hierbei über simple Dateisystemberechti
 
 ###Genereller Aufbau
 Zum komfortableren Zugriff auf die Datenbank haben wir das Wrapper-Modul `SQLiteWrapper.py` geschrieben, welches der Anwendung u.a. Funktionen zum Hinzufügen, Updaten und Löschen eines Users bereitstellt und somit die SQL-Statements wegkapselt.
-Dem vorgeschaltet ist ein Interface `Database.py`, das die wichtigsten Funktionen definiert. Die Interface-Methoden sind 
+Dem vorgeschaltet ist ein Interface `Database.py, das die wichtigsten Funktionen definiert. Die Interface-Methoden sind 
 Ferner haben wir gerade für die anfängliche Projektphase die Klasse MockDatabse.py` geschrieben, um die Modularisierung zu erhöhen und die Entwicklung der DB-Schnittstelle unabhängig vom restlichen System vorantreiben zu können.
 
 ### Datenbankentwurf
@@ -197,7 +197,7 @@ Die Initialisierung der Datenbank geschieht dabei konkret über das Skript InitT
 Der Wrapper selbst wird im Manager.py genutzt. Die Einbindung geschieht dabei über die Headerzeile `from lib.database.SQLiteWrapper import SQLiteWrapper`
 ####Funktionen
 
-Der Wrapper stellt folgende Funktionen zur Verfügung:
+Der Wrapper implementiert die folgenden Funktionen, die im Interface `Database.py` definiert sind:
 
 	- add_user(user)
 	- get_user(mac_address)

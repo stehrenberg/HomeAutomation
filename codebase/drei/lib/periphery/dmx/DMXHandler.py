@@ -16,6 +16,8 @@ class DMXHandler:
     def __init__(self):
         """Create an empty handler and connect to the DMX interface."""
 
+        self.logger = Logger()
+
         self.dmx_devices = list()
         self.nr_pixels = 0
 
@@ -87,11 +89,11 @@ class DMXHandler:
         channel = self.get_channel(pixel)
 
         if channel is None:
-            raise DMXConnection.InvalidChannelException('Channel {0} does not exist.'.format(channel))
-
-        self.connection.set_channel(channel + DMXDevice.RED_CHANNEL,   color.get_red())
-        self.connection.set_channel(channel + DMXDevice.GREEN_CHANNEL, color.get_green())
-        self.connection.set_channel(channel + DMXDevice.BLUE_CHANNEL,  color.get_blue(), True)
+            self.logger.log(Logger.WARNING, "Invalid channel %d" % channel)
+        else:
+            self.connection.set_channel(channel + DMXDevice.RED_CHANNEL,   color.get_red())
+            self.connection.set_channel(channel + DMXDevice.GREEN_CHANNEL, color.get_green())
+            self.connection.set_channel(channel + DMXDevice.BLUE_CHANNEL,  color.get_blue(), True)
 
     def set_overall_color(self, color):
         """Set the color of every device."""

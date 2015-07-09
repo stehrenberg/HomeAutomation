@@ -66,9 +66,9 @@ class Periphery:
         color = ColorFactory.create_from_hex(color_str)
         self.light.set_pixel_color(self.STATUS_LED, color=color)
 
-    def play_sound(self, file):
+    def play_sound(self, file_path):
         """Play the sound on the given path."""
 
-        self.logger.log(Logger.INFO, "sound at " + file + " played")
+        self.logger.log(Logger.INFO, "sound at " + file_path + " played")
 
-        self.sound.play(song_title='resources/sounds/' + file)
+        self.sound.play(song_title='resources/sounds/' + file_path)
